@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="all_type">
+        <item>在建</item>
+        <item>超期</item>
+        <item>拟建</item>
+        <item>储备</item>
+    </string-array>
+
+    <string-array name="year_plan">
+        <item>2016</item>
+        <item>2017</item>
+        <item>2018</item>
+    </string-array>
+
+    <string-array name="project_state">
+        <item>设计</item>
+        <item>预审</item>
+        <item>立案</item>
+        <item>竣工</item>
+        <item>归档</item>
+    </string-array>
+
+
+</resources>

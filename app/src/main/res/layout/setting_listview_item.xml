@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/setting_item_height">
+
+    <TextView
+        android:id="@+id/setting_listView_key"
+        android:textColor="@color/main_listView_item_project_time"
+        android:textSize="@dimen/main_listView_item_project_time"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="@dimen/setting_item_height" />
+
+    <TextView
+        android:id="@+id/setting_listView_value"
+        android:textColor="@color/main_listView_item_project_status"
+        android:textSize="@dimen/main_listView_item_project_time"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="@dimen/setting_item_height" />
+
+</RelativeLayout>

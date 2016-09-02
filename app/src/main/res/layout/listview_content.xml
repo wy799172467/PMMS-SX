@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/main_listView_item_paddingTop"
+    android:paddingBottom="@dimen/main_listView_item_paddingBottom"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/listView_image"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        android:src="@mipmap/ic_launcher"
+        android:contentDescription="@string/status_icon" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="3">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/project_time"
+                android:textSize="@dimen/main_listView_item_project_time"
+                android:textColor="@color/main_listView_item_project_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/copyright_1"/>
+
+            <ImageView
+                android:id="@+id/overTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_overdue"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/overTime" />
+            <TextView
+                android:id="@+id/project_content"
+                android:textColor="@color/main_listView_item_project_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/project_status"
+            android:layout_marginTop="@dimen/main_listView_item_project_padding"
+            android:textSize="@dimen/main_listView_item_project_status"
+            android:textColor="@color/main_listView_item_project_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/copyright_2"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/image_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/icon_enter"
+            android:contentDescription="@string/enter" />
+
+    </LinearLayout>
+
+</LinearLayout>

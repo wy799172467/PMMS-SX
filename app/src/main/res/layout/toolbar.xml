@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/ToolBar_color"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/mainText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorActionBar_text"
+        android:textSize="@dimen/main_actionbar_show"
+        android:text="@string/main_actionbar_text"
+        android:layout_centerInParent="true" />
+
+    <ImageView
+        android:id="@+id/mainImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_user"
+        android:layout_alignBottom="@id/mainText"
+        android:paddingEnd="@dimen/setting_icon_right"
+        android:layout_alignParentEnd="true"
+        android:contentDescription="@string/setting" />
+
+    <!--<Button-->
+        <!--android:id="@+id/mainButton"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/main_actionbar_button"-->
+        <!--android:layout_alignBottom="@id/mainText"-->
+        <!--android:layout_alignParentLeft="true"/>-->
+
+</RelativeLayout>

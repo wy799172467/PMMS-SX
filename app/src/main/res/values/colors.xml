@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="ToolBar_color">#2b2f3f</color>
+    <color name="colorActionBar_text">#FFFFFF</color>
+    <color name="splash_bg_color">#FF206DB7</color>
+    <color name="baby_white">#ff98d0f3</color>
+    <color name="black">#000000</color>
+    <color name="gray">#a6a4a4</color>
+    <color name="red">#fa0000</color>
+    <color name="setting_bg">#F5F5F5</color>
+    <color name="main_listView_item_project_time">#333333</color>
+    <color name="main_listView_item_project_status">#666666</color>
+    <color name="listView_line">#d8d8d8</color>
+</resources>
