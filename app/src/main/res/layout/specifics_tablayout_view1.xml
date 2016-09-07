@@ -8,7 +8,7 @@
         android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/main_listView_item_project_padding"
+        android:paddingTop="@dimen/main_listView_item_project_padding"
         android:paddingStart="@dimen/setting_listView_padding"
         android:paddingEnd="@dimen/setting_listView_padding"
         android:background="@color/colorActionBar_text"

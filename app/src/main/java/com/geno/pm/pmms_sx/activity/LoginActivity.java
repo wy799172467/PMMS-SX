@@ -1,6 +1,6 @@
 package com.geno.pm.pmms_sx.activity;
 
-import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,9 +17,23 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.geno.pm.pmms_sx.Bean.Filter_Project;
+import com.geno.pm.pmms_sx.Bean.Filter_Status;
+import com.geno.pm.pmms_sx.Bean.Filter_Year;
+import com.geno.pm.pmms_sx.Bean.LogStatus;
 import com.geno.pm.pmms_sx.Bean.Login;
 import com.geno.pm.pmms_sx.R;
-import com.geno.pm.pmms_sx.http.HttpQuery;
+import com.geno.pm.pmms_sx.util.MD5;
+import com.geno.pm.pmms_sx.util.Util;
+import com.google.gson.Gson;
+
+import java.io.IOException;
+import java.util.List;
+
+import retrofit2.adapter.rxjava.HttpException;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class LoginActivity extends AppCompatActivity implements OnClickListener,
         OnCheckedChangeListener {
@@ -86,23 +100,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
 
         showWaiting();
 
-        HttpQuery.doLogin(username, password, new HttpQuery.LoginCallback() {
-
-            @SuppressLint("WorldReadableFiles")
-            @Override
-            public void onLoginSuccess(Login login) {
-                hideWaiting();
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                intent.putExtra("Data", login.getData());
-                startActivity(intent);
-            }
-
-            @Override
-            public void onLoginFail(String message) {
-                hideWaiting();
-                Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
-            }
-        });
+        doLogin(username, password);
     }
 
     private void showWaiting() {
@@ -126,6 +124,76 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (isChecked) {
             mRememberMe.setChecked(true);
+        }
+    }
+
+    public void doLogin(final String username, final String password) {
+
+        String md5Password = MD5.stringMD5(password).toLowerCase();
+        rx.Observable<Login> observable = Util.getInstance().login(username, md5Password);
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Login>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (e instanceof HttpException) {
+                            String errorBody;
+                            try {
+                                errorBody = ((HttpException) e).response().errorBody().string();
+                                Gson gson = new Gson();
+                                Login login = gson.fromJson(errorBody, Login.class);
+                                LogStatus logStatus = login.getStatus();
+//                                String code=logStatus.getCode();
+                                String message = logStatus.getMessage();
+                                hideWaiting();
+                                Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+                            } catch (IOException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onNext(Login login) {
+                        //获取登录成功时的返回信息
+                        hideWaiting();
+
+                        setData(login);
+
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                        intent.putExtra("Data", login.getData());
+                        startActivity(intent);
+                    }
+                });
+    }
+
+    //存储数据
+    private void setData(Login login) {
+        SharedPreferences userData = getSharedPreferences("UserData", Context.MODE_PRIVATE); //私有数据
+        userData.edit().putString("name", login.getData().getName()).
+                putString("userAccount", login.getData().getUserAccount()).
+                putString("Department", login.getData().getDepartment()).apply();
+
+        SharedPreferences filter_year = getSharedPreferences("filter_year", Context.MODE_PRIVATE); //私有数据
+        List<Filter_Year> years = login.getFilter().getYear();
+        for (int i = 0; i < years.size(); i++) {
+            filter_year.edit().putString(years.get(i).getKey(), years.get(i).getValue()).apply();
+        }
+
+        SharedPreferences filter_status = getSharedPreferences("filter_status", Context.MODE_PRIVATE); //私有数据
+        List<Filter_Status> status = login.getFilter().getStatus();
+        for (int i = 0; i < status.size(); i++) {
+            filter_status.edit().putString(status.get(i).getKey(), status.get(i).getValue()).apply();
+        }
+
+        SharedPreferences filter_project = getSharedPreferences("filter_type", Context.MODE_PRIVATE); //私有数据
+        List<Filter_Project> projects = login.getFilter().getProject_type();
+        for (int i = 0; i < projects.size(); i++) {
+            filter_project.edit().putString(projects.get(i).getKey(), projects.get(i).getValue()).apply();
         }
     }
 }

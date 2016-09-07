@@ -11,9 +11,9 @@
         android:id="@+id/pb_loading"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:layout_alignLeft="@+id/btnLogin"
+        android:layout_alignStart="@+id/btnLogin"
         android:layout_alignTop="@+id/btnLogin"
-        android:layout_marginLeft="45dp"
+        android:layout_marginStart="45dp"
         android:layout_marginTop="11dp"
         android:minHeight="40dp"
         android:minWidth="40dp"
@@ -49,15 +49,15 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/ckBox_auto"
         android:layout_alignBottom="@+id/ckBox_auto"
-        android:layout_alignRight="@+id/etUser"
+        android:layout_alignEnd="@+id/etUser"
         android:text="@string/remember_me" />
 
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/etUser"
-        android:layout_alignRight="@+id/etPassword"
+        android:layout_alignStart="@+id/etUser"
+        android:layout_alignEnd="@+id/etPassword"
         android:layout_below="@+id/etPassword"
         android:layout_marginTop="40dp"
         android:text="@string/login"
@@ -67,7 +67,7 @@
         android:id="@+id/ckBox_auto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/etPassword"
+        android:layout_alignStart="@+id/etPassword"
         android:layout_below="@+id/etPassword"
         android:text="@string/auto_login" />
 
@@ -80,7 +80,7 @@
         android:ems="10"
         android:hint="@string/password"
         android:inputType="textPassword"
-        android:paddingLeft="5dp" />
+        android:paddingLeft="@dimen/login_padding" />
 
     <EditText
         android:id="@+id/etUser"
@@ -91,7 +91,7 @@
         android:ems="10"
         android:hint="@string/username"
         android:imeOptions="actionNext"
-        android:paddingLeft="5dp"
+        android:paddingLeft="@dimen/login_padding"
         android:singleLine="true" />
 
     <ImageView
@@ -100,6 +100,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/etUser"
         android:layout_alignParentLeft="true"
-        android:layout_marginBottom="40dp" />
+        android:layout_marginBottom="40dp"
+        android:contentDescription="@string/login" />
 
 </RelativeLayout>

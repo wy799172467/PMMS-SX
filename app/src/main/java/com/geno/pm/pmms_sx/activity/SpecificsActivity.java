@@ -1,5 +1,6 @@
 package com.geno.pm.pmms_sx.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -13,7 +14,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
 
-import com.geno.pm.pmms_sx.Bean.Project;
+import com.geno.pm.pmms_sx.Bean.Project_Detail;
 import com.geno.pm.pmms_sx.R;
 import com.geno.pm.pmms_sx.adapter.MyPagerAdapter;
 import com.geno.pm.pmms_sx.adapter.MyRecyclerViewAdapter;
@@ -23,10 +24,16 @@ import com.geno.pm.pmms_sx.util.Util;
 import java.util.ArrayList;
 import java.util.List;
 
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
 public class SpecificsActivity extends AppCompatActivity {
 
-    private Project project;
-    private View view1, view2;
+    private String mProjectNo;
+    private String mProjectName;
+    private View mView1, mView2;
     private List<View> mViewList = new ArrayList<>();//页卡视图集合
     private List<String> mTitleList = new ArrayList<>();//页卡标题集合
 
@@ -37,50 +44,78 @@ public class SpecificsActivity extends AppCompatActivity {
 
         //获取数据
         Intent intent = getIntent();
-        project = intent.getParcelableExtra("Data");
+        mProjectNo = intent.getStringExtra("ProjectNo");
+        mProjectName=intent.getStringExtra("ProjectName");
+        getProjectDetail();//通过服务获取相信信息
 
         initToolbar();//初始化导航栏
 
         //初始化页卡
         initTabLayout();
 
-        initView1();//初始化View1
-
         initView2();//初始化View2
     }
 
     //初始化View1
-    private void initView1() {
-        RecyclerView recyclerView = (RecyclerView) view1.findViewById(R.id.recycler_view);
+    private void initView1(Project_Detail mProjectDetail) {
+        RecyclerView recyclerView = (RecyclerView) mView1.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(SpecificsActivity.this));//设置线性布局
-        MyRecyclerViewAdapter myAdapter = new MyRecyclerViewAdapter(project);
+        MyRecyclerViewAdapter myAdapter = new MyRecyclerViewAdapter(mProjectDetail);
         recyclerView.setAdapter(myAdapter);
     }
 
-    //初始化View2
-    private void initView2() {
-        WebView webView = (WebView) view2.findViewById(R.id.webView);
-        webView.loadUrl(ApiService.PROJECT_STATUS);
+
+    //获取ProjectDetail信息
+    private void getProjectDetail() {
+        Observable<Project_Detail> projectDetail = Util.getInstance().getProjectDetail(mProjectNo);
+        projectDetail.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).
+                subscribe(new Subscriber<Project_Detail>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Project_Detail project_detail) {
+                        initView1(project_detail);//初始化View1
+                    }
+                });
     }
 
+    //初始化View2
+    @SuppressLint("SetJavaScriptEnabled")
+    private void initView2() {
+        String url=ApiService.PROJECT_PROGRESS+mProjectNo;
+        WebView webView = (WebView) mView2.findViewById(R.id.webView);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.loadUrl(url);
+    }
+
+    @SuppressLint("InflateParams")
     private void initTabLayout() {
         TabLayout mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
         ViewPager mViewPager = (ViewPager) findViewById(R.id.view_pager);
         LayoutInflater mInflater = LayoutInflater.from(SpecificsActivity.this);
-        view1 = mInflater.inflate(R.layout.specifics_tablayout_view1, null);
-        view2 = mInflater.inflate(R.layout.specifics_tablayout_view2, null);
+        mView1 = mInflater.inflate(R.layout.specifics_tablayout_view1, null);
+        mView2 = mInflater.inflate(R.layout.specifics_tablayout_view2, null);
         //添加页卡视图
-        mViewList.add(view1);
-        mViewList.add(view2);
+        mViewList.add(mView1);
+        mViewList.add(mView2);
         //添加页卡标题
         mTitleList.add("基本信息");
         mTitleList.add("项目流程");
         mTabLayout.setTabMode(TabLayout.MODE_FIXED);//设置tab模式，当前为系统默认模式
-        mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(0)));//添加tab选项卡
-        mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(1)));
+//        mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(0)));//添加tab选项卡
+//        mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(1)));
         MyPagerAdapter mAdapter = new MyPagerAdapter(mViewList, mTitleList);
         mViewPager.setAdapter(mAdapter);//给ViewPager设置适配器
         mTabLayout.setupWithViewPager(mViewPager);//将TabLayout和ViewPager关联起来。
+        //noinspection deprecation
         mTabLayout.setTabsFromPagerAdapter(mAdapter);//给Tabs设置适配器
     }
 
@@ -93,7 +128,7 @@ public class SpecificsActivity extends AppCompatActivity {
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
         TextView textview = (TextView) findViewById(R.id.title_text);
-        textview.setText(project.getProjectName());
+        textview.setText(mProjectName);
         mToolbar.setNavigationIcon(R.drawable.icon_back);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

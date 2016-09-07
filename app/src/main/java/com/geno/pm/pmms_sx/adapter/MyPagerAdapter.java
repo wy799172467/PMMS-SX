@@ -12,9 +12,9 @@ public class MyPagerAdapter extends PagerAdapter {
     private List<View> mViewList;
     private List<String> mTitleList;
 
-    public MyPagerAdapter(List<View> ViewList,List<String> TitleList) {
+    public MyPagerAdapter(List<View> ViewList, List<String> TitleList) {
         mViewList = ViewList;
-        mTitleList=TitleList;
+        mTitleList = TitleList;
     }
 
     @Override

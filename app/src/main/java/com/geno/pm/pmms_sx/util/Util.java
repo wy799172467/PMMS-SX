@@ -1,7 +1,6 @@
 package com.geno.pm.pmms_sx.util;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.view.View;
@@ -10,9 +9,13 @@ import android.view.WindowManager;
 
 import com.geno.pm.pmms_sx.http.ApiService;
 
-import retrofit.GsonConverterFactory;
-import retrofit.Retrofit;
-import retrofit.RxJavaCallAdapterFactory;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+/**
+ *
+ */
 public final class Util {
 
     private static ApiService sInstance = null;
@@ -34,6 +37,7 @@ public final class Util {
         return sInstance;
     }
 
+    /*设置Toolbar透明*/
     public static void setToolBar(Activity activity){
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {//5.0 全透明实现
             Window window = activity.getWindow();

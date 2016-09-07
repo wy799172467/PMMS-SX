@@ -17,5 +17,6 @@
     <string name="setting">我的设置</string>
     <string name="status_icon">状态图片</string>
     <string name="overTime">超期</string>
+    <string name="filter_image">过滤图片</string>
 
 </resources>

@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/colorActionBar_text"
+    android:orientation="vertical"
     tools:context=".activity.MainActivity">
 
     <android.support.v7.widget.Toolbar
@@ -12,40 +12,78 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/ToolBar_color"
-        android:fitsSystemWindows="true"
-        >
-    </android.support.v7.widget.Toolbar>
+        android:fitsSystemWindows="true" />
 
     <LinearLayout
-        android:id="@+id/Navigation"
-        android:orientation="horizontal"
-        android:background="@color/colorAccent"
+        android:id="@+id/filter_linear"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="@dimen/setting_item_height"
+        android:background="@color/filter_bg"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/main_listView_item_project_padding"
+        android:paddingBottom="@dimen/main_listView_item_project_padding"
+        android:baselineAligned="false">
 
-        <Spinner
-            android:id="@+id/all_type"
+        <LinearLayout
+            android:id="@+id/main_linearLayout1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
-        </Spinner>
-        <Spinner
-            android:id="@+id/year_plan"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="@dimen/setting_listView_padding"
+            android:layout_gravity="center_vertical"
+            android:background="@color/filter_line"/>
+
+        <LinearLayout
+            android:id="@+id/main_linearLayout2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
-        </Spinner>
-        <Spinner
-            android:id="@+id/project_state"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="@dimen/setting_listView_padding"
+            android:layout_gravity="center_vertical"
+            android:background="@color/filter_line"/>
+
+        <LinearLayout
+            android:id="@+id/main_linearLayout3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
-        </Spinner>
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal" />
 
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/listView"
+    <View
+        android:id="@+id/bottom_line"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="1dp"
+        android:background="@color/filter_line"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/listView"
+            android:background="@color/filter_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <LinearLayout
+            android:id="@+id/ll_popup_hide"
+            android:layout_width="match_parent"
+            android:background="@color/main_listView_item_project_time"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+        </LinearLayout>
+
+    </FrameLayout>
 </LinearLayout>

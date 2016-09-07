@@ -15,4 +15,6 @@
     <color name="main_listView_item_project_time">#333333</color>
     <color name="main_listView_item_project_status">#666666</color>
     <color name="listView_line">#d8d8d8</color>
+    <color name="filter_bg">#fbfbfb</color>
+    <color name="filter_line">#cfcdce</color>
 </resources>

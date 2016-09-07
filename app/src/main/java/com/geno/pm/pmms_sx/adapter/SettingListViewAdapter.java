@@ -20,14 +20,14 @@ public class SettingListViewAdapter extends BaseAdapter {
     private Data mData;
 
     public SettingListViewAdapter(Context context, Data data) {
-        mInflater= LayoutInflater.from(context);
-        mData=data;
+        mInflater = LayoutInflater.from(context);
+        mData = data;
         mFields = data.getClass().getDeclaredFields();
     }
 
     @Override
     public int getCount() {
-        return mFields.length-1;//序列化之后会多一个字段,处理方式如下
+        return mFields.length - 1;//序列化之后会多一个字段,处理方式如下
     }
 
     @Override
@@ -48,27 +48,27 @@ public class SettingListViewAdapter extends BaseAdapter {
         String value = null;
         ViewHolder holder;
         try {
-            value = Reflect.fieldReflect(mData,i);
+            value = Reflect.fieldReflect(mData, field);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
-        if(view==null){
-            view=mInflater.inflate(R.layout.setting_listview_item,null);
-            holder=new ViewHolder();
-            holder.key= (TextView) view.findViewById(R.id.setting_listView_key);
-            holder.value= (TextView) view.findViewById(R.id.setting_listView_value);
+        if (view == null) {
+            view = mInflater.inflate(R.layout.setting_listview_item, null);
+            holder = new ViewHolder();
+            holder.key = (TextView) view.findViewById(R.id.setting_listView_key);
+            holder.value = (TextView) view.findViewById(R.id.setting_listView_value);
             view.setTag(holder);
-        }else {
-            holder= (ViewHolder) view.getTag();
+        } else {
+            holder = (ViewHolder) view.getTag();
         }
-        if(!key.equals("CREATOR")){
+        if (!key.equals("CREATOR")) {
             holder.key.setText(key);
             holder.value.setText(value);
         }
         return view;
     }
 
-    public final class ViewHolder{
+    public final class ViewHolder {
         public TextView key;
         public TextView value;
     }
