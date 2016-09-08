@@ -38,7 +38,7 @@ public final class Util {
     }
 
     /*设置Toolbar透明*/
-    public static void setToolBar(Activity activity){
+    public static void setToolBarClear(Activity activity){
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {//5.0 全透明实现
             Window window = activity.getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);

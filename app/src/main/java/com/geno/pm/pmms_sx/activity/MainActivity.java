@@ -24,6 +24,8 @@ import com.geno.pm.pmms_sx.R;
 import com.geno.pm.pmms_sx.adapter.MyListViewAdapter;
 import com.geno.pm.pmms_sx.util.Util;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import java.util.List;
 import java.util.Map;
 
@@ -36,10 +38,21 @@ import rx.schedulers.Schedulers;
 public class MainActivity extends AppCompatActivity {
 
     private LayoutInflater inflater;
-    private static String[] FILTER=new String[]{"全部类型","年度计划","项目状态"};
+    private static final String[] FILTER = new String[]{"全部类型", "年度计划", "项目状态"};
     private static String[] FILTER_YEAR;
     private static String[] FILTER_STATUS;
     private static String[] FILTER_TYPE;
+    private static String YEAR="all";
+    private static String STATUS="all";
+    private static String TYPE="all";
+
+    private SharedPreferences filter_year;
+    private SharedPreferences filter_status;
+    private SharedPreferences filter_type;
+
+    private TextView textView1;
+    private TextView textView2;
+    private TextView textView3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +60,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //获取上个activity的数据
-        getFilterData();
+        filter_year = getSharedPreferences("filter_year", Context.MODE_PRIVATE);
+        filter_status = getSharedPreferences("filter_status", Context.MODE_PRIVATE);
+        filter_type = getSharedPreferences("filter_type", Context.MODE_PRIVATE);
+//        getFilterData();
+        Intent intent = getIntent();
+        FILTER_YEAR=ArrayUtils.add(intent.getStringArrayExtra("YEAR"),"全部年度");
+        FILTER_STATUS=ArrayUtils.add(intent.getStringArrayExtra("STATUS"),"全部状态");
+        FILTER_TYPE=ArrayUtils.add(intent.getStringArrayExtra("TYPE"),"全部类型");
 
-        inflater=LayoutInflater.from(this);
+
+        inflater = LayoutInflater.from(this);
 
         initToolbar();//初始化导航栏
         initFilter();//初始化筛选栏
@@ -58,32 +79,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getFilterData() {
-        SharedPreferences filter_year = getSharedPreferences("filter_year", Context.MODE_PRIVATE);
         Map<String, ?> allContent1 = filter_year.getAll();
-        int i=0;
-        String[] strings1=new String[allContent1.entrySet().size()];
-        for(Map.Entry<String, ?>  entry : allContent1.entrySet()){
-            strings1[i++]=entry.getKey();
+        int i = 0;
+        String[] strings1 = new String[allContent1.entrySet().size()];
+        for (Map.Entry<String, ?> entry : allContent1.entrySet()) {
+            strings1[i++] = entry.getKey();
         }
-        FILTER_YEAR=strings1;
+        FILTER_YEAR = strings1;
 
-        SharedPreferences filter_status = getSharedPreferences("filter_status", Context.MODE_PRIVATE);
         Map<String, ?> allContent2 = filter_status.getAll();
-        int j=0;
-        String[] strings2=new String[allContent2.entrySet().size()];
-        for(Map.Entry<String, ?>  entry : allContent2.entrySet()){
-            strings2[j++]=entry.getKey();
+        int j = 0;
+        String[] strings2 = new String[allContent2.entrySet().size()];
+        for (Map.Entry<String, ?> entry : allContent2.entrySet()) {
+            strings2[j++] = entry.getKey();
         }
-        FILTER_STATUS=strings2;
+        FILTER_STATUS = strings2;
 
-        SharedPreferences filter_project = getSharedPreferences("filter_type", Context.MODE_PRIVATE);
-        Map<String, ?> allContent3 = filter_project.getAll();
-        int m=0;
-        String[] strings3=new String[allContent3.entrySet().size()];
-        for(Map.Entry<String, ?>  entry : allContent3.entrySet()){
-            strings3[m++]=entry.getKey();
+        Map<String, ?> allContent3 = filter_type.getAll();
+        int m = 0;
+        String[] strings3 = new String[allContent3.entrySet().size()];
+        for (Map.Entry<String, ?> entry : allContent3.entrySet()) {
+            strings3[m++] = entry.getKey();
         }
-        FILTER_TYPE=strings3;
+        FILTER_TYPE = strings3;
 
     }
 
@@ -91,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
     private void initToolbar() {
 
         //设置状态栏透明
-        Util.setToolBar(this);
+        Util.setToolBarClear(this);
 
         @SuppressLint("InflateParams")
         ViewGroup customView = (ViewGroup) inflater.inflate(R.layout.toolbar, null);
@@ -112,78 +130,154 @@ public class MainActivity extends AppCompatActivity {
 
     //初始化Filter
     private void initFilter() {
-        final LinearLayout linearLayout1= (LinearLayout) findViewById(R.id.main_linearLayout1);
-        LinearLayout linearLayout2= (LinearLayout) findViewById(R.id.main_linearLayout2);
-        LinearLayout linearLayout3= (LinearLayout) findViewById(R.id.main_linearLayout3);
+        LinearLayout linearLayout1 = (LinearLayout) findViewById(R.id.main_linearLayout1);
+        LinearLayout linearLayout2 = (LinearLayout) findViewById(R.id.main_linearLayout2);
+        LinearLayout linearLayout3 = (LinearLayout) findViewById(R.id.main_linearLayout3);
         @SuppressLint("InflateParams")
         ViewGroup view1 = (ViewGroup) inflater.inflate(R.layout.filter, null);
-        TextView textView1= (TextView) view1.findViewById(R.id.filter_text);
+        textView1 = (TextView) view1.findViewById(R.id.filter_text);
         final ImageView image1 = (ImageView) view1.findViewById(R.id.filter_image);
         textView1.setText(FILTER[0]);
         @SuppressLint("InflateParams")
         ViewGroup view2 = (ViewGroup) inflater.inflate(R.layout.filter, null);
-        TextView textView2= (TextView) view2.findViewById(R.id.filter_text);
+        textView2 = (TextView) view2.findViewById(R.id.filter_text);
         final ImageView image2 = (ImageView) view2.findViewById(R.id.filter_image);
         textView2.setText(FILTER[1]);
         @SuppressLint("InflateParams")
         ViewGroup view3 = (ViewGroup) inflater.inflate(R.layout.filter, null);
-        TextView textView3= (TextView) view3.findViewById(R.id.filter_text);
+        textView3 = (TextView) view3.findViewById(R.id.filter_text);
         final ImageView image3 = (ImageView) view3.findViewById(R.id.filter_image);
         textView3.setText(FILTER[2]);
         linearLayout1.addView(view1);
         linearLayout2.addView(view2);
         linearLayout3.addView(view3);
 
-        setLinkListen(linearLayout1, linearLayout2, linearLayout3, image1, image2, image3);
+        @SuppressLint("InflateParams")
+        View inflate = inflater.inflate(R.layout.filter_list, null);
+        final PopupWindow popupWindow = getPopupWindow(inflate);
+        //设置下拉框的联动监听
+        setLinkListen(linearLayout1, linearLayout2, linearLayout3, image1, image2, image3, popupWindow, inflate);
 
+        //获取筛选条件
+        setFilterItem(image1, image2, image3, inflate, popupWindow);
     }
 
-    //设置联动监听
+    //获取筛选条件
+    private void setFilterItem(final ImageView image1, final ImageView image2, final ImageView image3, View inflate, final PopupWindow popupWindow) {
+        ListView filter_list = (ListView) inflate.findViewById(R.id.filter_list);
+        filter_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String filter = (String) ((TextView) view).getText();
+                if(image1.getDrawable().getConstantState().
+                        equals(getResources().getDrawable(R.drawable.icon_up).getConstantState())){
+                    if(filter.equals("全部类型")){
+                        TYPE="all";
+                        textView1.setText("全部类型");
+                    }else {
+                        TYPE=filter_type.getString(filter, "");
+                        textView1.setText(filter);
+                    }
+                    image1.setImageResource(R.drawable.icon_drop);
+                    getFilterProjects();
+                }else if (image2.getDrawable().getConstantState().
+                        equals(getResources().getDrawable(R.drawable.icon_up).getConstantState())){
+                    if(filter.equals("全部年度")){
+                        YEAR="all";
+                        textView2.setText("年度计划");
+                    }else {
+                        YEAR=filter_year.getString(filter, "");
+                        textView2.setText(filter);
+                    }
+                    image2.setImageResource(R.drawable.icon_drop);
+                    getFilterProjects();
+                }else {
+                    if(filter.equals("全部状态")){
+                        STATUS="all";
+                        textView3.setText("项目状态");
+                    }else {
+                        STATUS=filter_status.getString(filter, "");
+                        textView3.setText(filter);
+                    }
+                    image3.setImageResource(R.drawable.icon_drop);
+                    getFilterProjects();
+                }
+                findViewById(R.id.ll_popup_hide).setVisibility(View.INVISIBLE);
+                findViewById(R.id.listView).setEnabled(true);
+                popupWindow.dismiss();
+            }
+        });
+    }
+
+    //得到筛选的工程项目
+    private void getFilterProjects() {
+        Observable<List<Project>> filterProject = Util.getInstance().
+                getFilterProject(TYPE, YEAR, STATUS);
+        filterProject.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<Project>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<Project> projects) {
+                        initListView(projects);
+                    }
+                });
+    }
+
+    //设置下拉框的联动监听
     private void setLinkListen(LinearLayout linearLayout1,
-                                LinearLayout linearLayout2,
-                                LinearLayout linearLayout3,
-                                final ImageView image1,
-                                final ImageView image2,
-                                final ImageView image3) {
-        @SuppressLint("InflateParams")
-        final View inflate = inflater.inflate(R.layout.filter_list, null);
-        final PopupWindow popupWindow = getPopupWindow(inflate);
+                               LinearLayout linearLayout2,
+                               LinearLayout linearLayout3,
+                               final ImageView image1,
+                               final ImageView image2,
+                               final ImageView image3,
+                               final PopupWindow popupWindow,
+                               final View inflate) {
+
 
         linearLayout1.setOnClickListener(new View.OnClickListener() {
             @SuppressWarnings("deprecation")
             @Override
             public void onClick(View view) {
 
-                if(popupWindow.isShowing()){
-                    if(image1.getDrawable().getConstantState().
-                            equals(getResources().getDrawable(R.drawable.icon_drop).getConstantState())){
-                        setPopData(inflate,FILTER_TYPE);
+                if (popupWindow.isShowing()) {
+                    if (image1.getDrawable().getConstantState().
+                            equals(getResources().getDrawable(R.drawable.icon_drop).getConstantState())) {
+                        setPopData(inflate, FILTER_TYPE);
                         image1.setImageResource(R.drawable.icon_up);
-                        if(image2.getDrawable().getConstantState().equals(getResources().
-                                getDrawable(R.drawable.icon_up).getConstantState())){
+                        if (image2.getDrawable().getConstantState().equals(getResources().
+                                getDrawable(R.drawable.icon_up).getConstantState())) {
                             image2.setImageResource(R.drawable.icon_drop);
-                        }else {
+                        } else {
                             image3.setImageResource(R.drawable.icon_drop);
                         }
-                    }else {
+                    } else {
                         findViewById(R.id.ll_popup_hide).setVisibility(View.INVISIBLE);
                         findViewById(R.id.listView).setEnabled(true);
                         popupWindow.dismiss();
                         image1.setImageResource(R.drawable.icon_drop);
                     }
-                }else {
-                    setPopData(inflate,FILTER_TYPE);
+                } else {
+                    setPopData(inflate, FILTER_TYPE);
                     popupWindow.showAsDropDown(findViewById(R.id.bottom_line));
                     findViewById(R.id.ll_popup_hide).setVisibility(View.VISIBLE);
                     findViewById(R.id.listView).setEnabled(false);
                     findViewById(R.id.ll_popup_hide).getBackground().setAlpha(153);
                     image1.setImageResource(R.drawable.icon_up);
-                //方法二
+                    //方法二
                 /*WindowManager.LayoutParams params=getWindow().getAttributes();
                 params.alpha=0.5f;
                 getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
                 getWindow().setAttributes(params);*/
-                //方法三
+                    //方法三
                 /*ListView listView = (ListView) findViewById(R.id.listView);
                 listView.getBackground().setAlpha(255);
                 listView.setBackgroundColor(getResources().getColor(R.color.main_listView_item_project_status));*/
@@ -196,25 +290,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(popupWindow.isShowing()){
-                    if(image2.getDrawable().getConstantState().
-                            equals(getResources().getDrawable(R.drawable.icon_drop).getConstantState())){
-                        setPopData(inflate,FILTER_YEAR);
+                if (popupWindow.isShowing()) {
+                    if (image2.getDrawable().getConstantState().
+                            equals(getResources().getDrawable(R.drawable.icon_drop).getConstantState())) {
+                        setPopData(inflate, FILTER_YEAR);
                         image2.setImageResource(R.drawable.icon_up);
-                        if(image1.getDrawable().getConstantState().equals(getResources().
-                                getDrawable(R.drawable.icon_up).getConstantState())){
+                        if (image1.getDrawable().getConstantState().equals(getResources().
+                                getDrawable(R.drawable.icon_up).getConstantState())) {
                             image1.setImageResource(R.drawable.icon_drop);
-                        }else {
+                        } else {
                             image3.setImageResource(R.drawable.icon_drop);
                         }
-                    }else {
+                    } else {
                         findViewById(R.id.ll_popup_hide).setVisibility(View.INVISIBLE);
                         findViewById(R.id.listView).setEnabled(true);
                         popupWindow.dismiss();
                         image2.setImageResource(R.drawable.icon_drop);
                     }
-                }else {
-                    setPopData(inflate,FILTER_YEAR);
+                } else {
+                    setPopData(inflate, FILTER_YEAR);
                     popupWindow.showAsDropDown(findViewById(R.id.bottom_line));
                     findViewById(R.id.ll_popup_hide).setVisibility(View.VISIBLE);
                     findViewById(R.id.listView).setEnabled(false);
@@ -229,25 +323,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(popupWindow.isShowing()){
-                    if(image3.getDrawable().getConstantState().
-                            equals(getResources().getDrawable(R.drawable.icon_drop).getConstantState())){
-                        setPopData(inflate,FILTER_STATUS);
+                if (popupWindow.isShowing()) {
+                    if (image3.getDrawable().getConstantState().
+                            equals(getResources().getDrawable(R.drawable.icon_drop).getConstantState())) {
+                        setPopData(inflate, FILTER_STATUS);
                         image3.setImageResource(R.drawable.icon_up);
-                        if(image1.getDrawable().getConstantState().equals(getResources().
-                                getDrawable(R.drawable.icon_up).getConstantState())){
+                        if (image1.getDrawable().getConstantState().equals(getResources().
+                                getDrawable(R.drawable.icon_up).getConstantState())) {
                             image1.setImageResource(R.drawable.icon_drop);
-                        }else {
+                        } else {
                             image2.setImageResource(R.drawable.icon_drop);
                         }
-                    }else {
+                    } else {
                         findViewById(R.id.ll_popup_hide).setVisibility(View.INVISIBLE);
                         findViewById(R.id.listView).setEnabled(true);
                         popupWindow.dismiss();
                         image3.setImageResource(R.drawable.icon_drop);
                     }
-                }else {
-                    setPopData(inflate,FILTER_STATUS);
+                } else {
+                    setPopData(inflate, FILTER_STATUS);
                     popupWindow.showAsDropDown(findViewById(R.id.bottom_line));
                     findViewById(R.id.ll_popup_hide).setVisibility(View.VISIBLE);
                     findViewById(R.id.listView).setEnabled(false);
@@ -261,7 +355,7 @@ public class MainActivity extends AppCompatActivity {
     //初始化PopWindow
     @NonNull
     private PopupWindow getPopupWindow(View inflate) {
-        final PopupWindow popupWindow=new PopupWindow(inflate, LinearLayout.LayoutParams.MATCH_PARENT,
+        final PopupWindow popupWindow = new PopupWindow(inflate, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         popupWindow.setTouchable(true);
         popupWindow.setOutsideTouchable(false);
@@ -273,7 +367,7 @@ public class MainActivity extends AppCompatActivity {
     private void setPopData(View inflate, String[] data) {
         ListView popListView = (ListView) inflate
                 .findViewById(R.id.filter_list);
-        ArrayAdapter adapter=new ArrayAdapter<>(this,
+        ArrayAdapter adapter = new ArrayAdapter<>(this,
                 R.layout.filter_list_item, data);
         adapter.notifyDataSetChanged();
         popListView.setAdapter(adapter);
@@ -282,6 +376,7 @@ public class MainActivity extends AppCompatActivity {
     private void initListView(final List<Project> projects) {
         ListView listView = (ListView) findViewById(R.id.listView);
         MyListViewAdapter myListViewAdapter = new MyListViewAdapter(MainActivity.this, projects);
+        myListViewAdapter.notifyDataSetChanged();
         listView.setAdapter(myListViewAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -289,12 +384,11 @@ public class MainActivity extends AppCompatActivity {
                 Project project = projects.get(i);
                 Intent intent = new Intent(MainActivity.this, SpecificsActivity.class);
                 intent.putExtra("ProjectNo", project.getProjectNo());
-                intent.putExtra("ProjectName",project.getProjectName());
+                intent.putExtra("ProjectName", project.getProjectName());
                 startActivity(intent);
             }
         });
     }
-
 
 
     public void getAllProject() {

@@ -94,7 +94,7 @@ public class SettingActivity extends AppCompatActivity {
     //设置导航栏
     private void initToolbar() {
         //设置状态栏透明
-        Util.setToolBar(this);
+        Util.setToolBarClear(this);
 
         Toolbar mToolbar = (Toolbar) findViewById(R.id.specifics_toolbar);
         mToolbar.setTitle("");

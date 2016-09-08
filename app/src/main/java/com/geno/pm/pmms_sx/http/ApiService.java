@@ -30,6 +30,11 @@ public interface ApiService {
     @GET(BASE_URL + "get_all_project")
     Observable<List<Project>> getAllProject();
 
+    @GET(BASE_URL + "get_all_project/{Type}/{Year}/{Status}")
+    Observable<List<Project>> getFilterProject(@Path("Type") String Type,
+                                              @Path("Year") String Year,
+                                              @Path("Status") String Status);
+
     @GET(BASE_URL + "get_project_details/{ProjectNo}")
     Observable<Project_Detail> getProjectDetail(@Path("ProjectNo") String ProjectNo);
 }

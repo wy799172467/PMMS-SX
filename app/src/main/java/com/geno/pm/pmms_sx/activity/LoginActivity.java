@@ -47,6 +47,9 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
 
     private String mUserId;
     private String mPassword;
+    private String[] YEAR;
+    private String[] STATUS;
+    private String[] TYPE;
 
     private SharedPreferences mDefaultPrefs;
 
@@ -83,6 +86,8 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
                 mAutoLogin.setChecked(true);
             }
         }
+
+        Util.setToolBarClear(LoginActivity.this);
     }
 
     private void verifyUser(final String username, final String password) {
@@ -166,6 +171,9 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
 
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 //                        intent.putExtra("Data", login.getData());
+                        intent.putExtra("YEAR",YEAR);
+                        intent.putExtra("STATUS",STATUS);
+                        intent.putExtra("TYPE",TYPE);
                         startActivity(intent);
                     }
                 });
@@ -180,20 +188,30 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
 
         SharedPreferences filter_year = getSharedPreferences("filter_year", Context.MODE_PRIVATE); //私有数据
         List<Filter_Year> years = login.getFilter().getYear();
+        String[] year=new String[years.size()];
         for (int i = 0; i < years.size(); i++) {
             filter_year.edit().putString(years.get(i).getKey(), years.get(i).getValue()).apply();
+            year[i]=years.get(i).getKey();
         }
 
         SharedPreferences filter_status = getSharedPreferences("filter_status", Context.MODE_PRIVATE); //私有数据
         List<Filter_Status> status = login.getFilter().getStatus();
+        String[] sta=new String[status.size()];
         for (int i = 0; i < status.size(); i++) {
-            filter_status.edit().putString(status.get(i).getKey(), status.get(i).getValue()).apply();
+            filter_status.edit().putString(status.get(i).getKey(), ""+status.get(i).getValue()).apply();
+            sta[i]=status.get(i).getKey();
         }
 
         SharedPreferences filter_project = getSharedPreferences("filter_type", Context.MODE_PRIVATE); //私有数据
         List<Filter_Project> projects = login.getFilter().getProject_type();
+        String[] project=new String[projects.size()];
         for (int i = 0; i < projects.size(); i++) {
             filter_project.edit().putString(projects.get(i).getKey(), projects.get(i).getValue()).apply();
+            project[i]=projects.get(i).getKey();
         }
+
+        YEAR=year;
+        STATUS=sta;
+        TYPE=project;
     }
 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FF313131"
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical">
@@ -19,7 +19,7 @@
         android:minWidth="40dp"
         android:visibility="gone" />
 
-    <LinearLayout
+    <!--<LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -41,15 +41,14 @@
             android:layout_height="wrap_content"
             android:text="@string/copyright_2"
             android:textSize="12sp" />
-    </LinearLayout>
+    </LinearLayout>-->
 
     <CheckBox
         android:id="@+id/ckBox_remember"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/ckBox_auto"
-        android:layout_alignBottom="@+id/ckBox_auto"
-        android:layout_alignEnd="@+id/etUser"
+        android:layout_below="@+id/etPassword"
+        android:layout_centerHorizontal="true"
         android:text="@string/remember_me" />
 
     <Button
@@ -60,6 +59,7 @@
         android:layout_alignEnd="@+id/etPassword"
         android:layout_below="@+id/etPassword"
         android:layout_marginTop="40dp"
+        android:background="@color/login_button_bg"
         android:text="@string/login"
         android:textSize="18sp" />
 
@@ -69,6 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/etPassword"
         android:layout_below="@+id/etPassword"
+        android:visibility="gone"
         android:text="@string/auto_login" />
 
     <EditText
@@ -80,7 +81,18 @@
         android:ems="10"
         android:hint="@string/password"
         android:inputType="textPassword"
-        android:paddingLeft="@dimen/login_padding" />
+        android:paddingStart="@dimen/setting_item_height"
+        android:paddingBottom="@dimen/main_actionbar_show"
+        tools:ignore="RtlSymmetry" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/login_password"
+        android:layout_alignStart="@id/etPassword"
+        android:layout_alignBottom="@id/etPassword"
+        android:layout_marginBottom="@dimen/main_actionbar_show"
+        android:contentDescription="@string/password" />
 
     <EditText
         android:id="@+id/etUser"
@@ -91,16 +103,29 @@
         android:ems="10"
         android:hint="@string/username"
         android:imeOptions="actionNext"
-        android:paddingLeft="@dimen/login_padding"
-        android:singleLine="true" />
+        android:paddingStart="@dimen/setting_item_height"
+        android:paddingBottom="@dimen/main_actionbar_show"
+        android:singleLine="true"
+        tools:ignore="RtlSymmetry" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/login_user"
+        android:layout_alignStart="@id/etUser"
+        android:layout_alignBottom="@id/etUser"
+        android:layout_marginBottom="@dimen/main_actionbar_show"
+        android:contentDescription="@string/username" />
 
     <ImageView
         android:id="@+id/image_logo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="76dp"
+        android:layout_height="76dp"
+        android:src="@drawable/app_icon"
         android:layout_above="@+id/etUser"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="40dp"
-        android:contentDescription="@string/login" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="68dp"
+        android:contentDescription="@string/login"
+        tools:ignore="RtlHardcoded" />
 
 </RelativeLayout>
