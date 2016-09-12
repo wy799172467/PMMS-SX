@@ -28,8 +28,8 @@
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabIndicatorColor="@color/red"
-        app:tabSelectedTextColor="@color/red"
+        app:tabIndicatorColor="@color/tab_title"
+        app:tabSelectedTextColor="@color/tab_title"
         app:tabTextColor="@color/black"/>
 
     <!--可滑动的布局内容-->

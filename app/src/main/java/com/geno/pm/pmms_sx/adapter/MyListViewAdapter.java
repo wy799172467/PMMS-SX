@@ -1,6 +1,10 @@
 package com.geno.pm.pmms_sx.adapter;
 
 import android.content.Context;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +14,7 @@ import android.widget.TextView;
 
 import com.geno.pm.pmms_sx.Bean.Project;
 import com.geno.pm.pmms_sx.R;
+import com.geno.pm.pmms_sx.activity.MainActivity;
 
 import java.util.List;
 import java.util.Objects;
@@ -50,7 +55,6 @@ public class MyListViewAdapter extends BaseAdapter {
 //            listViewItem.listView_image=XXX;
             listViewItem = new ListViewItem();
             listViewItem.project_content = (TextView) view.findViewById(R.id.project_content);
-            listViewItem.project_time = (TextView) view.findViewById(R.id.project_time);
             listViewItem.overTime = (ImageView) view.findViewById(R.id.overTime);
             listViewItem.project_status = (TextView) view.findViewById(R.id.project_status);
             listViewItem.image_button = (ImageView) view.findViewById(R.id.image_button);
@@ -59,11 +63,11 @@ public class MyListViewAdapter extends BaseAdapter {
         } else {
             listViewItem = (ListViewItem) view.getTag();
         }
-
+        String project_content="";
         if (project.getYearNo() == null || Objects.equals(project.getYearNo(), "")) {
-            listViewItem.project_time.setText("[XXXX]");
+            project_content=project_content+"[XXXX]";
         } else {
-            listViewItem.project_time.setText("[" + project.getYearNo() + "]");
+            project_content=project_content+"[" + project.getYearNo() + "]";
         }
         listViewItem.project_status.setText(project.getActivityName());
         String projectType = project.getProjectType();
@@ -83,14 +87,18 @@ public class MyListViewAdapter extends BaseAdapter {
         } else {
             listViewItem.overTime.setVisibility(View.VISIBLE);
         }
-        listViewItem.project_content.setText(project.getProjectName());
+        project_content=project_content+project.getProjectName();
+        SpannableString ss = new SpannableString(project_content);//定义hint的值
+        ss.setSpan(new AbsoluteSizeSpan((int) MainActivity.instance.getResources().getDimension(R.dimen.main_listView_item_project_time)), 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(new ForegroundColorSpan(MainActivity.instance.getResources().getColor(R.color.main_listView_item_project_time)),
+                0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        listViewItem.project_content.setText(ss);
         return view;
     }
 
     public final class ListViewItem {
         public ImageView listView_image;
         public TextView project_content;
-        public TextView project_time;
         public ImageView overTime;
         public TextView project_status;
         public ImageView image_button;

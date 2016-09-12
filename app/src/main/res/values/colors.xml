@@ -19,4 +19,7 @@
     <color name="filter_line">#cfcdce</color>
     <color name="login_bg">#888888</color>
     <color name="login_button_bg">#31C3BB</color>
+    <color name="hint_bg">#88989898</color>
+    <color name="tab_title">#24c4bc</color>
+
 </resources>

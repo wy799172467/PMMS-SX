@@ -42,9 +42,9 @@ public class MainActivity extends AppCompatActivity {
     private static String[] FILTER_YEAR;
     private static String[] FILTER_STATUS;
     private static String[] FILTER_TYPE;
-    private static String YEAR="all";
-    private static String STATUS="all";
-    private static String TYPE="all";
+    private static String YEAR = "all";
+    private static String STATUS = "all";
+    private static String TYPE = "all";
 
     private SharedPreferences filter_year;
     private SharedPreferences filter_status;
@@ -54,10 +54,14 @@ public class MainActivity extends AppCompatActivity {
     private TextView textView2;
     private TextView textView3;
 
+    public static MainActivity instance;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        instance = this;//用于别的activity操作本activity
 
         //获取上个activity的数据
         filter_year = getSharedPreferences("filter_year", Context.MODE_PRIVATE);
@@ -65,9 +69,9 @@ public class MainActivity extends AppCompatActivity {
         filter_type = getSharedPreferences("filter_type", Context.MODE_PRIVATE);
 //        getFilterData();
         Intent intent = getIntent();
-        FILTER_YEAR=ArrayUtils.add(intent.getStringArrayExtra("YEAR"),"全部年度");
-        FILTER_STATUS=ArrayUtils.add(intent.getStringArrayExtra("STATUS"),"全部状态");
-        FILTER_TYPE=ArrayUtils.add(intent.getStringArrayExtra("TYPE"),"全部类型");
+        FILTER_YEAR = ArrayUtils.add(intent.getStringArrayExtra("YEAR"), "全部年度");
+        FILTER_STATUS = ArrayUtils.add(intent.getStringArrayExtra("STATUS"), "全部状态");
+        FILTER_TYPE = ArrayUtils.add(intent.getStringArrayExtra("TYPE"), "全部类型");
 
 
         inflater = LayoutInflater.from(this);
@@ -119,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, SettingActivity.class);
                 startActivity(intent);
-                finish();
+//                finish();
             }
         });
 
@@ -154,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
 
         @SuppressLint("InflateParams")
         View inflate = inflater.inflate(R.layout.filter_list, null);
-        final PopupWindow popupWindow = getPopupWindow(inflate);
+        final PopupWindow popupWindow = getPopupWindow(inflate, image1, image2, image3);
         //设置下拉框的联动监听
         setLinkListen(linearLayout1, linearLayout2, linearLayout3, image1, image2, image3, popupWindow, inflate);
 
@@ -169,34 +173,34 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String filter = (String) ((TextView) view).getText();
-                if(image1.getDrawable().getConstantState().
-                        equals(getResources().getDrawable(R.drawable.icon_up).getConstantState())){
-                    if(filter.equals("全部类型")){
-                        TYPE="all";
+                if (image1.getDrawable().getConstantState().
+                        equals(getResources().getDrawable(R.drawable.icon_up).getConstantState())) {
+                    if (filter.equals("全部类型")) {
+                        TYPE = "all";
                         textView1.setText("全部类型");
-                    }else {
-                        TYPE=filter_type.getString(filter, "");
+                    } else {
+                        TYPE = filter_type.getString(filter, "");
                         textView1.setText(filter);
                     }
                     image1.setImageResource(R.drawable.icon_drop);
                     getFilterProjects();
-                }else if (image2.getDrawable().getConstantState().
-                        equals(getResources().getDrawable(R.drawable.icon_up).getConstantState())){
-                    if(filter.equals("全部年度")){
-                        YEAR="all";
+                } else if (image2.getDrawable().getConstantState().
+                        equals(getResources().getDrawable(R.drawable.icon_up).getConstantState())) {
+                    if (filter.equals("全部年度")) {
+                        YEAR = "all";
                         textView2.setText("年度计划");
-                    }else {
-                        YEAR=filter_year.getString(filter, "");
+                    } else {
+                        YEAR = filter_year.getString(filter, "");
                         textView2.setText(filter);
                     }
                     image2.setImageResource(R.drawable.icon_drop);
                     getFilterProjects();
-                }else {
-                    if(filter.equals("全部状态")){
-                        STATUS="all";
+                } else {
+                    if (filter.equals("全部状态")) {
+                        STATUS = "all";
                         textView3.setText("项目状态");
-                    }else {
-                        STATUS=filter_status.getString(filter, "");
+                    } else {
+                        STATUS = filter_status.getString(filter, "");
                         textView3.setText(filter);
                     }
                     image3.setImageResource(R.drawable.icon_drop);
@@ -354,12 +358,49 @@ public class MainActivity extends AppCompatActivity {
 
     //初始化PopWindow
     @NonNull
-    private PopupWindow getPopupWindow(View inflate) {
+    private PopupWindow getPopupWindow(final View inflate,
+                                       final ImageView image1,
+                                       final ImageView image2,
+                                       final ImageView image3) {
         final PopupWindow popupWindow = new PopupWindow(inflate, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         popupWindow.setTouchable(true);
         popupWindow.setOutsideTouchable(false);
         findViewById(R.id.ll_popup_hide).setVisibility(View.INVISIBLE);
+//        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+//            @Override
+//            public void onDismiss() {
+//                if(image1.getDrawable().getConstantState().
+//                        equals(getResources().getDrawable(R.drawable.icon_up).getConstantState())){
+//                    image1.setImageResource(R.drawable.icon_drop);
+//                }else if (image2.getDrawable().getConstantState().
+//                        equals(getResources().getDrawable(R.drawable.icon_up).getConstantState())){
+//                    image2.setImageResource(R.drawable.icon_drop);
+//                }else {
+//                    image3.setImageResource(R.drawable.icon_drop);
+//                }
+//                popupWindow.dismiss();
+//                findViewById(R.id.ll_popup_hide).setVisibility(View.INVISIBLE);
+//                findViewById(R.id.listView).setEnabled(true);
+//            }
+//        });
+        findViewById(R.id.ll_popup_hide).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (image1.getDrawable().getConstantState().
+                        equals(getResources().getDrawable(R.drawable.icon_up).getConstantState())) {
+                    image1.setImageResource(R.drawable.icon_drop);
+                } else if (image2.getDrawable().getConstantState().
+                        equals(getResources().getDrawable(R.drawable.icon_up).getConstantState())) {
+                    image2.setImageResource(R.drawable.icon_drop);
+                } else {
+                    image3.setImageResource(R.drawable.icon_drop);
+                }
+                popupWindow.dismiss();
+                findViewById(R.id.ll_popup_hide).setVisibility(View.INVISIBLE);
+                findViewById(R.id.listView).setEnabled(true);
+            }
+        });
         return popupWindow;
     }
 

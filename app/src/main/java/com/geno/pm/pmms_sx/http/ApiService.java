@@ -15,9 +15,9 @@ import rx.Observable;
 
 public interface ApiService {
 
-    String BASE_URL = "http://192.168.84.112:9075/sxpm-api/";
+    String BASE_URL = "http://58.210.9.134:8077/sxpm-api/";
 
-    String PROJECT_PROGRESS = "http://192.168.84.112:9075/sxpm-api/get_project_details_progress/";
+    String PROJECT_PROGRESS = "http://58.210.9.134:8077/sxpm-api/get_project_details_progress/";
 
     @FormUrlEncoded
     @POST(BASE_URL + "login")

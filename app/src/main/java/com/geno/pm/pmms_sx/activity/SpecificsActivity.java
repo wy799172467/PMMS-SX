@@ -9,9 +9,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.geno.pm.pmms_sx.Bean.Project_Detail;
@@ -21,6 +24,7 @@ import com.geno.pm.pmms_sx.adapter.MyRecyclerViewAdapter;
 import com.geno.pm.pmms_sx.http.ApiService;
 import com.geno.pm.pmms_sx.util.Util;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +49,7 @@ public class SpecificsActivity extends AppCompatActivity {
         //获取数据
         Intent intent = getIntent();
         mProjectNo = intent.getStringExtra("ProjectNo");
-        mProjectName=intent.getStringExtra("ProjectName");
+        mProjectName = intent.getStringExtra("ProjectName");
         getProjectDetail();//通过服务获取相信信息
 
         initToolbar();//初始化导航栏
@@ -58,9 +62,14 @@ public class SpecificsActivity extends AppCompatActivity {
 
     //初始化View1
     private void initView1(Project_Detail mProjectDetail) {
+        //获取屏幕的宽
+        DisplayMetrics metric = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metric);
+        int width = metric.widthPixels;
+
         RecyclerView recyclerView = (RecyclerView) mView1.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(SpecificsActivity.this));//设置线性布局
-        MyRecyclerViewAdapter myAdapter = new MyRecyclerViewAdapter(mProjectDetail);
+        MyRecyclerViewAdapter myAdapter = new MyRecyclerViewAdapter(mProjectDetail, width);
         recyclerView.setAdapter(myAdapter);
     }
 
@@ -90,7 +99,7 @@ public class SpecificsActivity extends AppCompatActivity {
     //初始化View2
     @SuppressLint("SetJavaScriptEnabled")
     private void initView2() {
-        String url=ApiService.PROJECT_PROGRESS+mProjectNo;
+        String url = ApiService.PROJECT_PROGRESS + mProjectNo;
         WebView webView = (WebView) mView2.findViewById(R.id.webView);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(url);
@@ -117,6 +126,31 @@ public class SpecificsActivity extends AppCompatActivity {
         mTabLayout.setupWithViewPager(mViewPager);//将TabLayout和ViewPager关联起来。
         //noinspection deprecation
         mTabLayout.setTabsFromPagerAdapter(mAdapter);//给Tabs设置适配器
+        setIndicator(mTabLayout);//设置tabLayout的indicator的宽度
+    }
+
+    //设置tabLayout的indicator的宽度
+    private void setIndicator(TabLayout mTabLayout) {
+        Class<?> tabLayout = mTabLayout.getClass();
+        try {
+            Field tabStrip = tabLayout.getDeclaredField("mTabStrip");
+            tabStrip.setAccessible(true);
+            LinearLayout ll_tab = (LinearLayout) tabStrip.get(mTabLayout);
+            for (int i = 0; i < ll_tab.getChildCount(); i++) {
+                View child = ll_tab.getChildAt(i);
+                child.setPadding(0, 0, 0, 0);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1);
+                params.setMarginStart(140);
+                params.setMarginEnd(140);
+//                params.width=70;
+                params.gravity = Gravity.CENTER_HORIZONTAL;
+                child.setLayoutParams(params);
+                child.invalidate();
+            }
+
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     //设置导航栏

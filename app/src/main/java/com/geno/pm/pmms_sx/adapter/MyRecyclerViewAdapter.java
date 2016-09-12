@@ -26,10 +26,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter {
     private Field[] mFields;
     private List<SortableField> init;
     private HashMap<String,String> mMap;
+    private int mWidth;
 
-    public MyRecyclerViewAdapter(Project_Detail project_detail) {
+    public MyRecyclerViewAdapter(Project_Detail project_detail, int width) {
         mProjectDetail = project_detail;
         mFields = mProjectDetail.getClass().getDeclaredFields();
+        mWidth=width;
         Parent parent= new Child();
         //noinspection unchecked
         init = parent.init();
@@ -77,6 +79,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter {
 //        mHolder.keyView.setText(key);
         mHolder.keyView.setText(mMap.get(key));
         mHolder.valueView.setText(value);
+//        if(mHolder.valueView.getLineCount()>1){
+//            mHolder.valueView.setHeight(RecyclerView.LayoutParams.WRAP_CONTENT);
+//        }
 
     }
 
@@ -95,6 +100,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter {
             super(itemView);
             keyView = (TextView) itemView.findViewById(R.id.recycler_key);
             valueView = (TextView) itemView.findViewById(R.id.recycler_value);
+            valueView.setWidth(2*mWidth/5);
         }
     }
 }

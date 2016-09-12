@@ -78,6 +78,7 @@ public class SettingActivity extends AppCompatActivity {
                 login.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 login.addCategory(Intent.CATEGORY_HOME);
                 startActivity(login);
+                MainActivity.instance.finish();
                 finish();
             }
         });

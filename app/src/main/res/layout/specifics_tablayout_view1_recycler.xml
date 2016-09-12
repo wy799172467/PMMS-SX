@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -14,13 +15,17 @@
 
     <TextView
         android:id="@+id/recycler_value"
+        android:paddingTop="11dp"
+        android:paddingBottom="11dp"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/setting_item_height"
-        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:gravity="end"
         android:textSize="@dimen/main_listView_item_project_status"
         android:textColor="@color/main_listView_item_project_time"
         android:layout_alignParentEnd="true"
-        android:text="@string/app_name" />
+        android:text="@string/app_name"
+        tools:ignore="RelativeOverlap" />
+    <!--android:layout_height="@dimen/setting_item_height"-->
 
     <View
         android:layout_width="match_parent"

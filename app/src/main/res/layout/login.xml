@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusable="true"
@@ -81,7 +82,7 @@
         android:ems="10"
         android:hint="@string/password"
         android:inputType="textPassword"
-        android:paddingStart="@dimen/setting_item_height"
+        android:paddingStart="@dimen/username_padding"
         android:paddingBottom="@dimen/main_actionbar_show"
         tools:ignore="RtlSymmetry" />
 
@@ -91,7 +92,7 @@
         android:src="@drawable/login_password"
         android:layout_alignStart="@id/etPassword"
         android:layout_alignBottom="@id/etPassword"
-        android:layout_marginBottom="@dimen/main_actionbar_show"
+        android:layout_marginBottom="@dimen/setting_listView_padding"
         android:contentDescription="@string/password" />
 
     <EditText
@@ -103,7 +104,7 @@
         android:ems="10"
         android:hint="@string/username"
         android:imeOptions="actionNext"
-        android:paddingStart="@dimen/setting_item_height"
+        android:paddingStart="@dimen/username_padding"
         android:paddingBottom="@dimen/main_actionbar_show"
         android:singleLine="true"
         tools:ignore="RtlSymmetry" />
@@ -114,7 +115,7 @@
         android:src="@drawable/login_user"
         android:layout_alignStart="@id/etUser"
         android:layout_alignBottom="@id/etUser"
-        android:layout_marginBottom="@dimen/main_actionbar_show"
+        android:layout_marginBottom="@dimen/setting_listView_padding"
         android:contentDescription="@string/username" />
 
     <ImageView

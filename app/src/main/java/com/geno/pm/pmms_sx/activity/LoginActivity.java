@@ -6,6 +6,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.SpannedString;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -65,6 +70,39 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
 
         mUsernameEditText = (EditText) findViewById(R.id.etUser);
         mPasswordEditText = (EditText) findViewById(R.id.etPassword);
+        setHintText(mUsernameEditText, R.string.username);//设置hint
+        setHintText(mPasswordEditText, R.string.password);//设置hint
+
+        //设置布局文件上移
+//        mUsernameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View view, boolean hasFocus) {
+//                RelativeLayout login_layout= (RelativeLayout) findViewById(R.id.login_layout);
+//                FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) login_layout.getLayoutParams();
+//
+//                if(hasFocus){
+//                    lp.topMargin=-30;
+//                    login_layout.requestLayout();
+//                }else {
+//                    lp.topMargin=0;
+//                    login_layout.requestLayout();
+//                }
+//            }
+//        });
+//        mPasswordEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View view, boolean hasFocus) {
+//                RelativeLayout login_layout= (RelativeLayout) findViewById(R.id.login_layout);
+//                FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) login_layout.getLayoutParams();
+//                if(hasFocus){
+//                    lp.topMargin=-30;
+//                    login_layout.requestLayout();
+//                }else {
+//                    lp.topMargin=0;
+//                    login_layout.requestLayout();
+//                }
+//            }
+//        });
         mProgressBar = (ProgressBar) findViewById(R.id.pb_loading);
         mLoginButton = (Button) findViewById(R.id.btnLogin);
         mLoginButton.setOnClickListener(this);
@@ -80,7 +118,9 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
 
             mUsernameEditText.setText(mUserId);
             mPasswordEditText.setText(mPassword);
-            mRememberMe.setChecked(true);
+            if (!mPassword.equals("")) {
+                mRememberMe.setChecked(true);
+            }
 
             if (mDefaultPrefs.getBoolean("auto", false)) {
                 mAutoLogin.setChecked(true);
@@ -90,12 +130,23 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
         Util.setToolBarClear(LoginActivity.this);
     }
 
+    //设置hint
+    private void setHintText(EditText editText, int resources) {
+        SpannableString ss = new SpannableString(getResources().getString(resources));//定义hint的值
+        AbsoluteSizeSpan ass = new AbsoluteSizeSpan(14, true);//设置字体大小 true表示单位是sp
+        ss.setSpan(ass, 0, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);//设置字体大小
+        ss.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.hint_bg)), 0, ss.length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);//设置字体颜色
+        editText.setHint(new SpannedString(ss));
+    }
+
     private void verifyUser(final String username, final String password) {
 
         if (mRememberMe.isChecked()) {
             mDefaultPrefs.edit().putString("user_id", username).putString("password", password).apply();
         } else {
-            mDefaultPrefs.edit().putString("user_id", "").putString("password", "").apply();
+//            mDefaultPrefs.edit().putString("user_id", "").putString("password", "").apply();
+            mDefaultPrefs.edit().putString("password", "").apply();
         }
         if (mAutoLogin.isChecked()) {
             mDefaultPrefs.edit().putBoolean("auto", true).apply();
@@ -171,9 +222,9 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
 
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 //                        intent.putExtra("Data", login.getData());
-                        intent.putExtra("YEAR",YEAR);
-                        intent.putExtra("STATUS",STATUS);
-                        intent.putExtra("TYPE",TYPE);
+                        intent.putExtra("YEAR", YEAR);
+                        intent.putExtra("STATUS", STATUS);
+                        intent.putExtra("TYPE", TYPE);
                         startActivity(intent);
                     }
                 });
@@ -188,30 +239,30 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
 
         SharedPreferences filter_year = getSharedPreferences("filter_year", Context.MODE_PRIVATE); //私有数据
         List<Filter_Year> years = login.getFilter().getYear();
-        String[] year=new String[years.size()];
+        String[] year = new String[years.size()];
         for (int i = 0; i < years.size(); i++) {
             filter_year.edit().putString(years.get(i).getKey(), years.get(i).getValue()).apply();
-            year[i]=years.get(i).getKey();
+            year[i] = years.get(i).getKey();
         }
 
         SharedPreferences filter_status = getSharedPreferences("filter_status", Context.MODE_PRIVATE); //私有数据
         List<Filter_Status> status = login.getFilter().getStatus();
-        String[] sta=new String[status.size()];
+        String[] sta = new String[status.size()];
         for (int i = 0; i < status.size(); i++) {
-            filter_status.edit().putString(status.get(i).getKey(), ""+status.get(i).getValue()).apply();
-            sta[i]=status.get(i).getKey();
+            filter_status.edit().putString(status.get(i).getKey(), "" + status.get(i).getValue()).apply();
+            sta[i] = status.get(i).getKey();
         }
 
         SharedPreferences filter_project = getSharedPreferences("filter_type", Context.MODE_PRIVATE); //私有数据
         List<Filter_Project> projects = login.getFilter().getProject_type();
-        String[] project=new String[projects.size()];
+        String[] project = new String[projects.size()];
         for (int i = 0; i < projects.size(); i++) {
             filter_project.edit().putString(projects.get(i).getKey(), projects.get(i).getValue()).apply();
-            project[i]=projects.get(i).getKey();
+            project[i] = projects.get(i).getKey();
         }
 
-        YEAR=year;
-        STATUS=sta;
-        TYPE=project;
+        YEAR = year;
+        STATUS = sta;
+        TYPE = project;
     }
 }

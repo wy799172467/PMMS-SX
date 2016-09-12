@@ -1,78 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:paddingBottom="@dimen/main_listView_item_paddingBottom"
-    android:paddingTop="@dimen/main_listView_item_paddingTop">
-
-    <ImageView
-        android:id="@+id/listView_image"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="1"
-        android:contentDescription="@string/status_icon"
-        android:src="@mipmap/ic_launcher" />
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="3"
-        android:orientation="vertical">
+        android:id="@+id/main_listView_linear"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/main_listView_item_paddingBottom"
+        android:paddingTop="@dimen/main_listView_item_paddingTop"
+        android:paddingStart="@dimen/login_padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/listView_image"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_weight="3"
+            android:contentDescription="@string/status_icon"
+            android:src="@mipmap/ic_launcher" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/project_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/copyright_1"
-                android:textColor="@color/main_listView_item_project_time"
-                android:textSize="@dimen/main_listView_item_project_time" />
-
-            <ImageView
-                android:id="@+id/overTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="@string/overTime"
-                android:src="@drawable/icon_overdue" />
-
-            <TextView
-                android:id="@+id/project_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/main_listView_item_project_time" />
-
-        </LinearLayout>
-
-
-        <TextView
-            android:id="@+id/project_status"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/main_listView_item_project_padding"
-            android:text="@string/copyright_2"
-            android:textColor="@color/main_listView_item_project_status"
-            android:textSize="@dimen/main_listView_item_project_status" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-
-        <TextView
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="10"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!--<TextView-->
+                    <!--android:id="@+id/project_time"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="@string/copyright_1"-->
+                    <!--android:textColor="@color/main_listView_item_project_time"-->
+                    <!--android:textSize="@dimen/main_listView_item_project_time" />-->
+
+                <TextView
+                    android:id="@+id/project_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/main_listView_item_project_time" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/project_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/main_listView_item_project_padding"
+                android:text="@string/copyright_2"
+                android:textColor="@color/main_listView_item_project_status"
+                android:textSize="@dimen/main_listView_item_project_status" />
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/image_button"
@@ -82,7 +68,17 @@
             android:layout_weight="2"
             android:contentDescription="@string/enter"
             android:src="@drawable/icon_enter" />
-
     </LinearLayout>
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/overTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@id/main_listView_linear"
+        android:contentDescription="@string/overTime"
+        android:src="@drawable/icon_overdue" />
+
+
+</RelativeLayout>
