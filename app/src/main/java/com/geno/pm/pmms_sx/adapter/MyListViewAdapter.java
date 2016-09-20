@@ -89,8 +89,8 @@ public class MyListViewAdapter extends BaseAdapter {
         }
         project_content=project_content+project.getProjectName();
         SpannableString ss = new SpannableString(project_content);//定义hint的值
-        ss.setSpan(new AbsoluteSizeSpan((int) MainActivity.instance.getResources().getDimension(R.dimen.listView_item_size)), 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ss.setSpan(new ForegroundColorSpan(MainActivity.instance.getResources().getColor(R.color.deep_text)),
+        ss.setSpan(new AbsoluteSizeSpan((int) MainActivity.mInstance.getResources().getDimension(R.dimen.listView_item_size)), 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(new ForegroundColorSpan(MainActivity.mInstance.getResources().getColor(R.color.deep_text)),
                 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         listViewItem.project_content.setText(ss);
         return view;

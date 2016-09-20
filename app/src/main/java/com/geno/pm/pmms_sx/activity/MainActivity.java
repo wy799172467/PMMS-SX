@@ -1,9 +1,7 @@
 package com.geno.pm.pmms_sx.activity;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,33 +21,20 @@ import android.widget.TextView;
 import com.geno.pm.pmms_sx.Bean.Project;
 import com.geno.pm.pmms_sx.R;
 import com.geno.pm.pmms_sx.adapter.MyListViewAdapter;
+import com.geno.pm.pmms_sx.manager.MainManager;
 import com.geno.pm.pmms_sx.util.Util;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 import java.util.List;
-import java.util.Map;
-
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 
-public class MainActivity extends AppCompatActivity {
 
-    private LayoutInflater inflater;
-    private static final String[] FILTER = new String[]{"全部类型", "年度计划", "项目状态"};
-    private static String[] FILTER_YEAR;
-    private static String[] FILTER_STATUS;
-    private static String[] FILTER_TYPE;
+public class MainActivity extends AppCompatActivity implements MainManager.ProjectResult{
+
+    private LayoutInflater mInflater;
+
     private static String YEAR = "all";
     private static String STATUS = "all";
     private static String TYPE = "all";
-
-    private SharedPreferences filter_year;
-    private SharedPreferences filter_status;
-    private SharedPreferences filter_type;
 
     private TextView textView1;
     private TextView textView2;
@@ -58,33 +43,30 @@ public class MainActivity extends AppCompatActivity {
     private ListView mListView;
     private ProgressBar mProgressBar;
 
-    public static MainActivity instance;
+    public static MainActivity mInstance;
+
+    private MainManager mMainManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        instance = this;//用于别的activity操作本activity
+        mInstance = this;//用于别的activity操作本activity
 
-        //获取上个activity的数据
-        filter_year = getSharedPreferences("filter_year", Context.MODE_PRIVATE);
-        filter_status = getSharedPreferences("filter_status", Context.MODE_PRIVATE);
-        filter_type = getSharedPreferences("filter_type", Context.MODE_PRIVATE);
-//        getFilterData();
-        Intent intent = getIntent();
-        FILTER_YEAR = ArrayUtils.add(intent.getStringArrayExtra("YEAR"), "全部年度");
-        FILTER_STATUS = ArrayUtils.add(intent.getStringArrayExtra("STATUS"), "全部状态");
-        FILTER_TYPE = ArrayUtils.add(intent.getStringArrayExtra("TYPE"), "全部类型");
+        mMainManager=MainManager.getInstance();
+        mMainManager.init(this);
 
         mProgressBar = (ProgressBar) findViewById(R.id.main_load_progressbar);
         mListView = (ListView) findViewById(R.id.main_project_listView);
 
-        inflater = LayoutInflater.from(this);
+        mInflater = LayoutInflater.from(this);
 
         initToolbar();//初始化导航栏
         initFilter();//初始化筛选栏
-        getAllProject();//获取数据
+
+        showWaiting();
+        mMainManager.getAllProject(this);//获取数据
 
     }
 
@@ -97,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
         mProgressBar.setVisibility(View.GONE);
         mListView.setVisibility(View.VISIBLE);
     }
+
+    /*//遍历SharedPreferences中的数据
     private void getFilterData() {
         Map<String, ?> allContent1 = filter_year.getAll();
         int i = 0;
@@ -122,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         }
         FILTER_TYPE = strings3;
 
-    }
+    }*/
 
     //设置导航栏
     private void initToolbar() {
@@ -131,14 +115,13 @@ public class MainActivity extends AppCompatActivity {
         Util.setToolBarClear(this);
 
         @SuppressLint("InflateParams")
-        ViewGroup customView = (ViewGroup) inflater.inflate(R.layout.main_toolbar, null);
+        ViewGroup customView = (ViewGroup) mInflater.inflate(R.layout.main_toolbar, null);
         ImageView imageView = (ImageView) customView.findViewById(R.id.main_toolbar_image);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, SettingActivity.class);
                 startActivity(intent);
-//                finish();
             }
         });
 
@@ -153,27 +136,27 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout linearLayout2 = (LinearLayout) findViewById(R.id.main_linear2);
         LinearLayout linearLayout3 = (LinearLayout) findViewById(R.id.main_linear3);
         @SuppressLint("InflateParams")
-        ViewGroup view1 = (ViewGroup) inflater.inflate(R.layout.filter, null);
+        ViewGroup view1 = (ViewGroup) mInflater.inflate(R.layout.filter, null);
         textView1 = (TextView) view1.findViewById(R.id.filter_text);
         final ImageView image1 = (ImageView) view1.findViewById(R.id.filter_image);
-        textView1.setText(FILTER[0]);
+        textView1.setText(mMainManager.getFilter()[0]);
         @SuppressLint("InflateParams")
-        ViewGroup view2 = (ViewGroup) inflater.inflate(R.layout.filter, null);
+        ViewGroup view2 = (ViewGroup) mInflater.inflate(R.layout.filter, null);
         textView2 = (TextView) view2.findViewById(R.id.filter_text);
         final ImageView image2 = (ImageView) view2.findViewById(R.id.filter_image);
-        textView2.setText(FILTER[1]);
+        textView2.setText(mMainManager.getFilter()[1]);
         @SuppressLint("InflateParams")
-        ViewGroup view3 = (ViewGroup) inflater.inflate(R.layout.filter, null);
+        ViewGroup view3 = (ViewGroup) mInflater.inflate(R.layout.filter, null);
         textView3 = (TextView) view3.findViewById(R.id.filter_text);
         final ImageView image3 = (ImageView) view3.findViewById(R.id.filter_image);
-        textView3.setText(FILTER[2]);
+        textView3.setText(mMainManager.getFilter()[2]);
         linearLayout1.addView(view1);
         linearLayout2.addView(view2);
         linearLayout3.addView(view3);
 
         @SuppressLint("InflateParams")
-        View inflate = inflater.inflate(R.layout.filter_list, null);
-        final PopupWindow popupWindow = getPopupWindow(inflate, image1, image2, image3);
+        View inflate = mInflater.inflate(R.layout.filter_list, null);
+        final PopupWindow popupWindow = initPopupWindow(inflate, image1, image2, image3);
         //设置下拉框的联动监听
         setLinkListen(linearLayout1, linearLayout2, linearLayout3, image1, image2, image3, popupWindow, inflate);
 
@@ -182,7 +165,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //获取筛选条件
-    private void setFilterItem(final ImageView image1, final ImageView image2, final ImageView image3, View inflate, final PopupWindow popupWindow) {
+    private void setFilterItem(final ImageView image1,
+                               final ImageView image2,
+                               final ImageView image3,
+                               View inflate,
+                               final PopupWindow popupWindow) {
         ListView filter_list = (ListView) inflate.findViewById(R.id.filter_list);
         filter_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -193,65 +180,44 @@ public class MainActivity extends AppCompatActivity {
                         equals(getResources().getDrawable(R.drawable.icon_up).getConstantState())) {
                     if (filter.equals("全部类型")) {
                         TYPE = "all";
-                        textView1.setText("全部类型");
+                        textView1.setText(mMainManager.getFilter()[0]);
                     } else {
-                        TYPE = filter_type.getString(filter, "");
+                        TYPE = mMainManager.getFilterTypeSharePreferences().getString(filter, "");
                         textView1.setText(filter);
                     }
                     image1.setImageResource(R.drawable.icon_drop);
-                    getFilterProjects();
+                    showWaiting();
+                    mMainManager.getFilterProjects(TYPE,YEAR,STATUS,MainActivity.this);
                 } else //noinspection ConstantConditions,deprecation
                     if (image2.getDrawable().getConstantState().
                             equals(getResources().getDrawable(R.drawable.icon_up).getConstantState())) {
                         if (filter.equals("全部年度")) {
                             YEAR = "all";
-                            textView2.setText("年度计划");
+                            textView2.setText(mMainManager.getFilter()[1]);
                         } else {
-                            YEAR = filter_year.getString(filter, "");
+                            YEAR = mMainManager.getFilterYearSharePreferences().getString(filter, "");
                             textView2.setText(filter);
                         }
                         image2.setImageResource(R.drawable.icon_drop);
-                        getFilterProjects();
+                        showWaiting();
+                        mMainManager.getFilterProjects(TYPE,YEAR,STATUS,MainActivity.this);
                     } else {//noinspection ConstantConditions,deprecation
                         if (filter.equals("全部状态")) {
                             STATUS = "all";
-                            textView3.setText("项目状态");
+                            textView3.setText(mMainManager.getFilter()[2]);
                         } else {
-                            STATUS = filter_status.getString(filter, "");
+                            STATUS = mMainManager.getFilterStatusSharePreferences().getString(filter, "");
                             textView3.setText(filter);
                         }
                         image3.setImageResource(R.drawable.icon_drop);
-                        getFilterProjects();
+                        showWaiting();
+                        mMainManager.getFilterProjects(TYPE,YEAR,STATUS,MainActivity.this);
                     }
                 findViewById(R.id.ll_popup_hide).setVisibility(View.INVISIBLE);
                 findViewById(R.id.main_project_listView).setEnabled(true);
                 popupWindow.dismiss();
             }
         });
-    }
-
-    //得到筛选的工程项目
-    private void getFilterProjects() {
-        showWaiting();
-        Observable<List<Project>> filterProject = Util.getInstance().
-                getFilterProject(TYPE, YEAR, STATUS);
-        filterProject.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<Project>>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(List<Project> projects) {
-                        initListView(projects);
-                    }
-                });
     }
 
     //设置下拉框的联动监听
@@ -274,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
                     //noinspection ConstantConditions
                     if (image1.getDrawable().getConstantState().
                             equals(getResources().getDrawable(R.drawable.icon_drop).getConstantState())) {
-                        setPopData(inflate, FILTER_TYPE);
+                        setPopData(inflate, mMainManager.getFILTER_TYPE());
                         image1.setImageResource(R.drawable.icon_up);
                         //noinspection ConstantConditions
                         if (image2.getDrawable().getConstantState().equals(getResources().
@@ -290,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
                         image1.setImageResource(R.drawable.icon_drop);
                     }
                 } else {
-                    setPopData(inflate, FILTER_TYPE);
+                    setPopData(inflate, mMainManager.getFILTER_TYPE());
                     popupWindow.showAsDropDown(findViewById(R.id.bottom_line));
                     findViewById(R.id.ll_popup_hide).setVisibility(View.VISIBLE);
                     findViewById(R.id.main_project_listView).setEnabled(false);
@@ -318,7 +284,7 @@ public class MainActivity extends AppCompatActivity {
                     //noinspection ConstantConditions,ConstantConditions
                     if (image2.getDrawable().getConstantState().
                             equals(getResources().getDrawable(R.drawable.icon_drop).getConstantState())) {
-                        setPopData(inflate, FILTER_YEAR);
+                        setPopData(inflate, mMainManager.getFILTER_YEAR());
                         image2.setImageResource(R.drawable.icon_up);
                         //noinspection ConstantConditions
                         if (image1.getDrawable().getConstantState().equals(getResources().
@@ -334,7 +300,7 @@ public class MainActivity extends AppCompatActivity {
                         image2.setImageResource(R.drawable.icon_drop);
                     }
                 } else {
-                    setPopData(inflate, FILTER_YEAR);
+                    setPopData(inflate, mMainManager.getFILTER_YEAR());
                     popupWindow.showAsDropDown(findViewById(R.id.bottom_line));
                     findViewById(R.id.ll_popup_hide).setVisibility(View.VISIBLE);
                     findViewById(R.id.main_project_listView).setEnabled(false);
@@ -353,7 +319,7 @@ public class MainActivity extends AppCompatActivity {
                     //noinspection ConstantConditions
                     if (image3.getDrawable().getConstantState().
                             equals(getResources().getDrawable(R.drawable.icon_drop).getConstantState())) {
-                        setPopData(inflate, FILTER_STATUS);
+                        setPopData(inflate, mMainManager.getFILTER_STATUS());
                         image3.setImageResource(R.drawable.icon_up);
                         //noinspection ConstantConditions
                         if (image1.getDrawable().getConstantState().equals(getResources().
@@ -369,7 +335,7 @@ public class MainActivity extends AppCompatActivity {
                         image3.setImageResource(R.drawable.icon_drop);
                     }
                 } else {
-                    setPopData(inflate, FILTER_STATUS);
+                    setPopData(inflate, mMainManager.getFILTER_STATUS());
                     popupWindow.showAsDropDown(findViewById(R.id.bottom_line));
                     findViewById(R.id.ll_popup_hide).setVisibility(View.VISIBLE);
                     findViewById(R.id.main_project_listView).setEnabled(false);
@@ -382,10 +348,10 @@ public class MainActivity extends AppCompatActivity {
 
     //初始化PopWindow
     @NonNull
-    private PopupWindow getPopupWindow(final View inflate,
-                                       final ImageView image1,
-                                       final ImageView image2,
-                                       final ImageView image3) {
+    private PopupWindow initPopupWindow(final View inflate,
+                                        final ImageView image1,
+                                        final ImageView image2,
+                                        final ImageView image3) {
         final PopupWindow popupWindow = new PopupWindow(inflate, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         popupWindow.setTouchable(true);
@@ -458,26 +424,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void getAllProject() {
-        showWaiting();
-        Observable<List<Project>> allProject = Util.getInstance().getAllProject();
-        allProject.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<Project>>() {
-                    @Override
-                    public void onCompleted() {
 
-                    }
+    @Override
+    public void onProjectSuccess(List<Project> projects) {
+        initListView(projects);
+    }
 
-                    @Override
-                    public void onError(Throwable e) {
-//                        String message = e.getMessage();
-//                        Log.i("error---------",message);
-                    }
+    @Override
+    public void onProjectFailed() {
 
-                    @Override
-                    public void onNext(List<Project> projects) {
-                        initListView(projects);
-                    }
-                });
     }
 }

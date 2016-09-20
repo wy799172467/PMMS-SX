@@ -2,7 +2,6 @@ package com.geno.pm.pmms_sx.activity;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -26,29 +25,25 @@ import com.geno.pm.pmms_sx.R;
 import com.geno.pm.pmms_sx.adapter.MyPagerAdapter;
 import com.geno.pm.pmms_sx.adapter.MyRecyclerViewAdapter;
 import com.geno.pm.pmms_sx.http.ApiService;
+import com.geno.pm.pmms_sx.manager.SpecificsManager;
 import com.geno.pm.pmms_sx.util.Util;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+public class SpecificsActivity extends AppCompatActivity implements SpecificsManager.ProjectDetailResult{
 
-public class SpecificsActivity extends AppCompatActivity {
-
-    private String mProjectNo;
-    private String mProjectName;
     private View mView1, mView2;
     private List<View> mViewList = new ArrayList<>();//页卡视图集合
     private List<String> mTitleList = new ArrayList<>();//页卡标题集合
+    private String[] mTabTitle=new String[]{"基本信息","项目流程"};
 
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
     private WebView mWebView;
     private ProgressDialog dialog;
+    private SpecificsManager mSpecificsManager;
 
     @SuppressLint("InflateParams")
     @Override
@@ -56,16 +51,13 @@ public class SpecificsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.specifics);
 
-        //获取数据
-        Intent intent = getIntent();
-        mProjectNo = intent.getStringExtra("ProjectNo");
-        mProjectName = intent.getStringExtra("ProjectName");
+        mSpecificsManager=SpecificsManager.getInstance();
+        mSpecificsManager.init(this);
+        initShowView();//初始化需要网络操作的控件
+        showWaiting();
+        mSpecificsManager.getProjectDetail(this);//通过服务获取相信信息
 
         initToolbar();//初始化导航栏
-
-        initShowView();//初始化需要网络操作的控件
-
-        getProjectDetail();//通过服务获取相信信息
 
         //初始化页卡
         initTabLayout();
@@ -107,34 +99,10 @@ public class SpecificsActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(myAdapter);
     }
 
-
-    //获取ProjectDetail信息
-    private void getProjectDetail() {
-        showWaiting();
-        Observable<Project_Detail> projectDetail = Util.getInstance().getProjectDetail(mProjectNo);
-        projectDetail.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).
-                subscribe(new Subscriber<Project_Detail>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(Project_Detail project_detail) {
-                        initView1(project_detail);//初始化View1
-                    }
-                });
-    }
-
     //初始化View2
     @SuppressLint("SetJavaScriptEnabled")
     private void initView2() {
-        String url = ApiService.PROJECT_PROGRESS + mProjectNo;
+        String url = ApiService.PROJECT_PROGRESS + mSpecificsManager.getProjectNo();
         if(mWebView != null)
         {
             mWebView.getSettings().setJavaScriptEnabled(true);
@@ -164,8 +132,8 @@ public class SpecificsActivity extends AppCompatActivity {
         mViewList.add(mView1);
         mViewList.add(mView2);
         //添加页卡标题
-        mTitleList.add("基本信息");
-        mTitleList.add("项目流程");
+        mTitleList.add(mTabTitle[0]);
+        mTitleList.add(mTabTitle[1]);
         mTabLayout.setTabMode(TabLayout.MODE_FIXED);//设置tab模式，当前为系统默认模式
 //        mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(0)));//添加tab选项卡
 //        mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(1)));
@@ -210,7 +178,7 @@ public class SpecificsActivity extends AppCompatActivity {
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
         TextView textview = (TextView) findViewById(R.id.specifics_title_text);
-        textview.setText(mProjectName);
+        textview.setText(mSpecificsManager.getProjectName());
         mToolbar.setNavigationIcon(R.drawable.icon_back);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -218,5 +186,15 @@ public class SpecificsActivity extends AppCompatActivity {
                 SpecificsActivity.this.finish();
             }
         });
+    }
+
+    @Override
+    public void onProjectDetailSuccess(Project_Detail project_detail) {
+        initView1(project_detail);//初始化View1
+    }
+
+    @Override
+    public void onProjectDetailFailed() {
+
     }
 }

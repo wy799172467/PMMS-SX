@@ -1,7 +1,6 @@
 package com.geno.pm.pmms_sx.activity;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.geno.pm.pmms_sx.R;
+import com.geno.pm.pmms_sx.manager.SettingManager;
 import com.geno.pm.pmms_sx.util.Util;
 
 public class SettingActivity extends AppCompatActivity {
@@ -31,7 +31,9 @@ public class SettingActivity extends AppCompatActivity {
         inflater = LayoutInflater.from(SettingActivity.this);
 
         //获取上个activity的数据
-        SharedPreferences userData = getSharedPreferences("UserData", Context.MODE_PRIVATE);
+        SettingManager settingManager=SettingManager.getInstance();
+        settingManager.init(this);
+        SharedPreferences userData = settingManager.getUserData();
 
         initToolbar();//设置导航栏
         initUserInfo(userData);//初始化用户信息
@@ -80,7 +82,7 @@ public class SettingActivity extends AppCompatActivity {
                 login.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 login.addCategory(Intent.CATEGORY_HOME);
                 startActivity(login);
-                MainActivity.instance.finish();
+                MainActivity.mInstance.finish();
                 finish();
             }
         });
