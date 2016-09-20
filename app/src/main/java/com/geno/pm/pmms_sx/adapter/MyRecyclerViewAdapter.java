@@ -58,7 +58,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         @SuppressLint("InflateParams")
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.specifics_tablayout_view1_recycler, null);
+                .inflate(R.layout.specifics_tablayout_recycler_item, null);
         return new ViewHolder(view);
     }
 
@@ -78,7 +78,15 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter {
 
 //        mHolder.keyView.setText(key);
         mHolder.keyView.setText(mMap.get(key));
-        mHolder.valueView.setText(value);
+        if (value != null) {
+            if(value.equals("null")||value.equals("")){
+                mHolder.valueView.setText("暂无数据");
+            }else {
+                mHolder.valueView.setText(value);
+            }
+        }else {
+            mHolder.valueView.setText("暂无数据");
+        }
 //        if(mHolder.valueView.getLineCount()>1){
 //            mHolder.valueView.setHeight(RecyclerView.LayoutParams.WRAP_CONTENT);
 //        }
@@ -98,8 +106,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter {
 
         public ViewHolder(View itemView) {
             super(itemView);
-            keyView = (TextView) itemView.findViewById(R.id.recycler_key);
-            valueView = (TextView) itemView.findViewById(R.id.recycler_value);
+            keyView = (TextView) itemView.findViewById(R.id.specifics_recycler_key);
+            valueView = (TextView) itemView.findViewById(R.id.specifics_recycler_value);
             valueView.setWidth(2*mWidth/5);
         }
     }

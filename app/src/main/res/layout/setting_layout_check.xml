@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_gravity="center"
-    android:paddingStart="@dimen/setting_listView_padding"
-    android:paddingEnd="@dimen/main_listView_item_paddingTop"
+    android:paddingStart="@dimen/listView_start_end_padding"
+    android:paddingEnd="@dimen/listView_item_padding"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/setting_linearLayout_textView"
-        android:textColor="@color/main_listView_item_project_time"
-        android:textSize="@dimen/main_listView_item_project_time"
+        android:id="@+id/setting_check_text"
+        android:textColor="@color/deep_text"
+        android:textSize="14sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/check_project"/>
 
     <ImageView
-        android:id="@+id/setting_linearLayout_imageView"
+        android:id="@+id/setting_check_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/icon_enter"

@@ -4,22 +4,19 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="ToolBar_color">#2b2f3f</color>
-    <color name="colorActionBar_text">#FFFFFF</color>
-    <color name="splash_bg_color">#FF206DB7</color>
-    <color name="baby_white">#ff98d0f3</color>
+    <color name="toolbar_bg">#2b2f3f</color>
+    <color name="white_bg">#FFFFFF</color>
+    <color name="title_color">#FFFFFF</color>
+    <color name="notes_white">#ff98d0f3</color>
     <color name="black">#000000</color>
     <color name="gray">#a6a4a4</color>
     <color name="red">#fa0000</color>
     <color name="setting_bg">#F5F5F5</color>
-    <color name="main_listView_item_project_time">#333333</color>
-    <color name="main_listView_item_project_status">#666666</color>
-    <color name="listView_line">#d8d8d8</color>
-    <color name="filter_bg">#fbfbfb</color>
-    <color name="filter_line">#cfcdce</color>
-    <color name="login_bg">#888888</color>
-    <color name="login_button_bg">#31C3BB</color>
+    <color name="deep_text">#333333</color>
+    <color name="shallow_text">#666666</color>
+    <color name="listView_bg">#fbfbfb</color>
+    <color name="segment_line">#cfcdce</color>
     <color name="hint_bg">#88989898</color>
-    <color name="tab_title">#24c4bc</color>
+    <color name="tab_title_line">#24c4bc</color>
 
 </resources>

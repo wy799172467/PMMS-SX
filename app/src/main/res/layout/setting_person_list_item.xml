@@ -4,17 +4,17 @@
     android:layout_height="@dimen/setting_item_height">
 
     <TextView
-        android:id="@+id/setting_listView_key"
-        android:textColor="@color/main_listView_item_project_time"
-        android:textSize="@dimen/main_listView_item_project_time"
+        android:id="@+id/setting_person_list_key"
+        android:textColor="@color/deep_text"
+        android:textSize="@dimen/listView_item_size"
         android:layout_width="wrap_content"
         android:gravity="center"
         android:layout_height="@dimen/setting_item_height" />
 
     <TextView
-        android:id="@+id/setting_listView_value"
-        android:textColor="@color/main_listView_item_project_status"
-        android:textSize="@dimen/main_listView_item_project_time"
+        android:id="@+id/setting_person_list_value"
+        android:textColor="@color/shallow_text"
+        android:textSize="@dimen/listView_item_size"
         android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
         android:gravity="center"

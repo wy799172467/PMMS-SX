@@ -1,27 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/ToolBar_color"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/toolbar_bg"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/mainText"
+        android:id="@+id/main_toolbar_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorActionBar_text"
-        android:textSize="@dimen/main_actionbar_show"
-        android:text="@string/main_actionbar_text"
-        android:layout_centerInParent="true" />
+        android:textColor="@color/title_color"
+        android:textSize="@dimen/title_size"
+        android:text="@string/main_title"
+        android:layout_centerInParent="true"
+        tools:ignore="RelativeOverlap" />
 
     <ImageView
-        android:id="@+id/mainImage"
+        android:id="@+id/main_toolbar_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/icon_user"
-        android:layout_alignBottom="@id/mainText"
-        android:paddingEnd="@dimen/setting_icon_right"
+        android:src="@drawable/setting_selector"
+        android:layout_alignBottom="@id/main_toolbar_text"
+        android:paddingEnd="10dp"
         android:layout_alignParentEnd="true"
-        android:contentDescription="@string/setting" />
+        android:contentDescription="@string/setting"
+        tools:ignore="RtlSymmetry" />
+    <!--android:background="@color/setting_selector"-->
+    <!--android:clickable="true"-->
 
     <!--<Button-->
         <!--android:id="@+id/mainButton"-->

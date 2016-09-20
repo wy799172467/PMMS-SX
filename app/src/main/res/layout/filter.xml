@@ -6,12 +6,12 @@
 
     <TextView
         android:id="@+id/filter_text"
-        android:textColor="@color/main_listView_item_project_time"
-        android:textSize="@dimen/main_listView_item_project_status"
+        android:textColor="@color/deep_text"
+        android:textSize="@dimen/listView_item_size_small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
-        android:layout_width="@dimen/login_padding"
+        android:layout_width="5dp"
         android:layout_height="wrap_content" />
     <ImageView
         android:id="@+id/filter_image"

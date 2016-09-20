@@ -53,10 +53,10 @@ public class SettingListViewAdapter extends BaseAdapter {
             e.printStackTrace();
         }
         if (view == null) {
-            view = mInflater.inflate(R.layout.setting_listview_item, null);
+            view = mInflater.inflate(R.layout.setting_person_list_item, null);
             holder = new ViewHolder();
-            holder.key = (TextView) view.findViewById(R.id.setting_listView_key);
-            holder.value = (TextView) view.findViewById(R.id.setting_listView_value);
+            holder.key = (TextView) view.findViewById(R.id.setting_person_list_key);
+            holder.value = (TextView) view.findViewById(R.id.setting_person_list_value);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();

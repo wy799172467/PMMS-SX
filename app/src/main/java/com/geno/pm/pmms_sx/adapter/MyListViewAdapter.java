@@ -51,14 +51,14 @@ public class MyListViewAdapter extends BaseAdapter {
         final Project project = mProjects.get(i);
         ListViewItem listViewItem;
         if (view == null) {
-            view = mInflater.inflate(R.layout.listview_content, null);
+            view = mInflater.inflate(R.layout.main_project_list_content, null);
 //            listViewItem.listView_image=XXX;
             listViewItem = new ListViewItem();
             listViewItem.project_content = (TextView) view.findViewById(R.id.project_content);
-            listViewItem.overTime = (ImageView) view.findViewById(R.id.overTime);
+            listViewItem.over_time = (ImageView) view.findViewById(R.id.over_time);
             listViewItem.project_status = (TextView) view.findViewById(R.id.project_status);
-            listViewItem.image_button = (ImageView) view.findViewById(R.id.image_button);
-            listViewItem.listView_image = (ImageView) view.findViewById(R.id.listView_image);
+            listViewItem.bt_enter = (ImageView) view.findViewById(R.id.bt_enter);
+            listViewItem.project_status_image = (ImageView) view.findViewById(R.id.project_status_image);
             view.setTag(listViewItem);
         } else {
             listViewItem = (ListViewItem) view.getTag();
@@ -73,35 +73,35 @@ public class MyListViewAdapter extends BaseAdapter {
         String projectType = project.getProjectType();
         switch (projectType) {
             case "拟建":
-                listViewItem.listView_image.setImageResource(R.drawable.icon_plan);
+                listViewItem.project_status_image.setImageResource(R.drawable.icon_plan);
                 break;
             case "在建":
-                listViewItem.listView_image.setImageResource(R.drawable.icon_construction);
+                listViewItem.project_status_image.setImageResource(R.drawable.icon_construction);
                 break;
             default:
-                listViewItem.listView_image.setImageResource(R.drawable.icon_reserve);
+                listViewItem.project_status_image.setImageResource(R.drawable.icon_reserve);
                 break;
         }
         if (!project.getIsOver()) {
-            listViewItem.overTime.setVisibility(View.GONE);
+            listViewItem.over_time.setVisibility(View.GONE);
         } else {
-            listViewItem.overTime.setVisibility(View.VISIBLE);
+            listViewItem.over_time.setVisibility(View.VISIBLE);
         }
         project_content=project_content+project.getProjectName();
         SpannableString ss = new SpannableString(project_content);//定义hint的值
-        ss.setSpan(new AbsoluteSizeSpan((int) MainActivity.instance.getResources().getDimension(R.dimen.main_listView_item_project_time)), 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ss.setSpan(new ForegroundColorSpan(MainActivity.instance.getResources().getColor(R.color.main_listView_item_project_time)),
+        ss.setSpan(new AbsoluteSizeSpan((int) MainActivity.instance.getResources().getDimension(R.dimen.listView_item_size)), 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(new ForegroundColorSpan(MainActivity.instance.getResources().getColor(R.color.deep_text)),
                 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         listViewItem.project_content.setText(ss);
         return view;
     }
 
     public final class ListViewItem {
-        public ImageView listView_image;
+        public ImageView project_status_image;
         public TextView project_content;
-        public ImageView overTime;
+        public ImageView over_time;
         public TextView project_status;
-        public ImageView image_button;
+        public ImageView bt_enter;
     }
 
 }

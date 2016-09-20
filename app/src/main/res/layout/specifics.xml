@@ -9,17 +9,17 @@
         android:id="@+id/specifics_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/ToolBar_color"
+        android:background="@color/toolbar_bg"
         android:fitsSystemWindows="true" >
 
         <TextView
-        android:id="@+id/title_text"
+        android:id="@+id/specifics_title_text"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:textColor="@android:color/white"
-        android:textSize="20sp"
+        android:textSize="@dimen/title_size"
         android:textStyle="bold" />
     </android.support.v7.widget.Toolbar>
 
@@ -28,8 +28,8 @@
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabIndicatorColor="@color/tab_title"
-        app:tabSelectedTextColor="@color/tab_title"
+        app:tabIndicatorColor="@color/tab_title_line"
+        app:tabSelectedTextColor="@color/tab_title_line"
         app:tabTextColor="@color/black"/>
 
     <!--可滑动的布局内容-->

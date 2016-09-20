@@ -14,11 +14,12 @@
      limitations under the License.
 -->
 
-<TextView android:id="@+id/filter_list_text"
+<TextView
     android:layout_width="match_parent"
     android:layout_height="@dimen/setting_item_height"
-    android:paddingStart="@dimen/setting_listView_padding"
-    android:textColor="@color/main_listView_item_project_time"
-    android:textSize="@dimen/main_listView_item_project_status"
+    android:paddingStart="@dimen/listView_start_end_padding"
+    android:textColor="@color/project_filter_selector"
+    android:textSize="@dimen/listView_item_size_small"
     android:gravity="center_vertical"
     xmlns:android="http://schemas.android.com/apk/res/android" />
+    <!--android:textColor="@color/main_listView_item_project_time"-->

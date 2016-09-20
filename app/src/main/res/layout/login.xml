@@ -60,7 +60,7 @@
         android:layout_alignEnd="@+id/etPassword"
         android:layout_below="@+id/etPassword"
         android:layout_marginTop="40dp"
-        android:background="@color/login_button_bg"
+        android:background="#31C3BB"
         android:text="@string/login"
         android:textSize="18sp" />
 
@@ -82,8 +82,8 @@
         android:ems="10"
         android:hint="@string/password"
         android:inputType="textPassword"
-        android:paddingStart="@dimen/username_padding"
-        android:paddingBottom="@dimen/main_actionbar_show"
+        android:paddingStart="@dimen/input_padding"
+        android:paddingBottom="@dimen/input_size"
         tools:ignore="RtlSymmetry" />
 
     <ImageView
@@ -92,7 +92,7 @@
         android:src="@drawable/login_password"
         android:layout_alignStart="@id/etPassword"
         android:layout_alignBottom="@id/etPassword"
-        android:layout_marginBottom="@dimen/setting_listView_padding"
+        android:layout_marginBottom="@dimen/icon_input_margin"
         android:contentDescription="@string/password" />
 
     <EditText
@@ -104,8 +104,8 @@
         android:ems="10"
         android:hint="@string/username"
         android:imeOptions="actionNext"
-        android:paddingStart="@dimen/username_padding"
-        android:paddingBottom="@dimen/main_actionbar_show"
+        android:paddingStart="@dimen/input_padding"
+        android:paddingBottom="@dimen/input_size"
         android:singleLine="true"
         tools:ignore="RtlSymmetry" />
 
@@ -115,7 +115,7 @@
         android:src="@drawable/login_user"
         android:layout_alignStart="@id/etUser"
         android:layout_alignBottom="@id/etUser"
-        android:layout_marginBottom="@dimen/setting_listView_padding"
+        android:layout_marginBottom="@dimen/icon_input_margin"
         android:contentDescription="@string/username" />
 
     <ImageView

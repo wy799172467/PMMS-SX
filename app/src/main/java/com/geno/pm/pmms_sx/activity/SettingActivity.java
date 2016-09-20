@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -43,25 +44,25 @@ public class SettingActivity extends AppCompatActivity {
         SettingListViewAdapter settingListViewAdapter = new SettingListViewAdapter(SettingActivity.this, data);
         listView.setAdapter(settingListViewAdapter);*/
         @SuppressLint("InflateParams")
-        View view1 = inflater.inflate(R.layout.setting_listview_item, null);
-        TextView key1 = (TextView) view1.findViewById(R.id.setting_listView_key);
-        TextView value1 = (TextView) view1.findViewById(R.id.setting_listView_value);
+        View view1 = inflater.inflate(R.layout.setting_person_list_item, null);
+        TextView key1 = (TextView) view1.findViewById(R.id.setting_person_list_key);
+        TextView value1 = (TextView) view1.findViewById(R.id.setting_person_list_value);
         key1.setText(USER_ACCOUNT);
         value1.setText(userData.getString("userAccount",""));
         LinearLayout linear1= (LinearLayout) findViewById(R.id.userAccount);
         linear1.addView(view1);
         @SuppressLint("InflateParams")
-        View view2 = inflater.inflate(R.layout.setting_listview_item, null);
-        TextView key2 = (TextView) view2.findViewById(R.id.setting_listView_key);
-        TextView value2 = (TextView) view2.findViewById(R.id.setting_listView_value);
+        View view2 = inflater.inflate(R.layout.setting_person_list_item, null);
+        TextView key2 = (TextView) view2.findViewById(R.id.setting_person_list_key);
+        TextView value2 = (TextView) view2.findViewById(R.id.setting_person_list_value);
         key2.setText(NAME);
         value2.setText(userData.getString("name",""));
         LinearLayout linear2= (LinearLayout) findViewById(R.id.name);
         linear2.addView(view2);
         @SuppressLint("InflateParams")
-        View view3 = inflater.inflate(R.layout.setting_listview_item, null);
-        TextView key3 = (TextView) view3.findViewById(R.id.setting_listView_key);
-        TextView value3 = (TextView) view3.findViewById(R.id.setting_listView_value);
+        View view3 = inflater.inflate(R.layout.setting_person_list_item, null);
+        TextView key3 = (TextView) view3.findViewById(R.id.setting_person_list_key);
+        TextView value3 = (TextView) view3.findViewById(R.id.setting_person_list_value);
         key3.setText(DEPARTMENT);
         value3.setText(userData.getString("Department",""));
         LinearLayout linear3= (LinearLayout) findViewById(R.id.Department);
@@ -74,6 +75,7 @@ public class SettingActivity extends AppCompatActivity {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                LoginActivity.IsLogin=false;
                 Intent login = new Intent(SettingActivity.this, LoginActivity.class);
                 login.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 login.addCategory(Intent.CATEGORY_HOME);
@@ -88,7 +90,7 @@ public class SettingActivity extends AppCompatActivity {
     private void initCheck() {
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.setting_project_linearLayout);
         @SuppressLint("InflateParams")
-        View view = inflater.inflate(R.layout.setting_layout_linearlayout, null);
+        View view = inflater.inflate(R.layout.setting_layout_check, null);
         linearLayout.addView(view);
     }
 
@@ -97,13 +99,20 @@ public class SettingActivity extends AppCompatActivity {
         //设置状态栏透明
         Util.setToolBarClear(this);
 
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.specifics_toolbar);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.setting_toolbar);
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
-        TextView textview = (TextView) findViewById(R.id.title_text);
-        textview.setText("我的设置");
-        mToolbar.setNavigationIcon(R.drawable.icon_back);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//        TextView textview = (TextView) findViewById(R.id.title_text);
+//        textview.setText("我的设置");
+//        mToolbar.setNavigationIcon(R.drawable.icon_back);
+//        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                SettingActivity.this.finish();
+//            }
+//        });
+        ImageView imageView= (ImageView) findViewById(R.id.setting_toolbar_image);
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 SettingActivity.this.finish();

@@ -1,19 +1,17 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="main_actionbar_show">20sp</dimen>
-    <dimen name="setting_activity_textView1">10dp</dimen>
-    <dimen name="setting_activity_textView2">15dp</dimen>
-    <dimen name="setting_icon_right">10dp</dimen>
-    <dimen name="main_listView_item_height">80dp</dimen>
-    <dimen name="main_listView_item_paddingTop">15dp</dimen>
-    <dimen name="main_listView_item_paddingBottom">15dp</dimen>
-    <dimen name="main_listView_item_project_time">14sp</dimen>
-    <dimen name="main_listView_item_project_status">12sp</dimen>
-    <dimen name="main_listView_item_project_padding">10dp</dimen>
-    <dimen name="setting_listView_padding">20dp</dimen>
+    <dimen name="progressbar_margin">16dp</dimen>
+    <dimen name="title_size">20sp</dimen>
+    <dimen name="input_size">20sp</dimen>
+    <dimen name="blank_textView_height">15dp</dimen>
+    <dimen name="listView_item_padding">15dp</dimen>
+    <dimen name="listView_item_size">14sp</dimen>
+    <dimen name="listView_item_size_small">12sp</dimen>
+    <dimen name="listView_top_bottom_padding">10dp</dimen>
+    <dimen name="listView_start_end_padding">20dp</dimen>
+    <dimen name="listView_segment_height">20dp</dimen>
+    <dimen name="icon_input_margin">20dp</dimen>
     <dimen name="setting_item_height">40dp</dimen>
-    <dimen name="login_padding">5dp</dimen>
-    <dimen name="username_padding">30dp</dimen>
+    <dimen name="progressbar_size">40dp</dimen>
+    <dimen name="input_padding">30dp</dimen>
 </resources>

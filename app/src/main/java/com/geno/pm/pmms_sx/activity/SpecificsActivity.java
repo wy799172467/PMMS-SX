@@ -1,6 +1,7 @@
 package com.geno.pm.pmms_sx.activity;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -14,8 +15,11 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.geno.pm.pmms_sx.Bean.Project_Detail;
 import com.geno.pm.pmms_sx.R;
@@ -41,6 +45,12 @@ public class SpecificsActivity extends AppCompatActivity {
     private List<View> mViewList = new ArrayList<>();//页卡视图集合
     private List<String> mTitleList = new ArrayList<>();//页卡标题集合
 
+    private RecyclerView mRecyclerView;
+    private ProgressBar mProgressBar;
+    private WebView mWebView;
+    private ProgressDialog dialog;
+
+    @SuppressLint("InflateParams")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,9 +60,12 @@ public class SpecificsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         mProjectNo = intent.getStringExtra("ProjectNo");
         mProjectName = intent.getStringExtra("ProjectName");
-        getProjectDetail();//通过服务获取相信信息
 
         initToolbar();//初始化导航栏
+
+        initShowView();//初始化需要网络操作的控件
+
+        getProjectDetail();//通过服务获取相信信息
 
         //初始化页卡
         initTabLayout();
@@ -60,22 +73,44 @@ public class SpecificsActivity extends AppCompatActivity {
         initView2();//初始化View2
     }
 
+    //初始化需要网络操作的控件
+    @SuppressLint("InflateParams")
+    private void initShowView() {
+        LayoutInflater mInflater = LayoutInflater.from(SpecificsActivity.this);
+        mView1 =  mInflater.inflate(R.layout.specifics_tablayout_recycler, null);
+        mRecyclerView = (RecyclerView) mView1.findViewById(R.id.specifics_recycler);
+        mProgressBar= (ProgressBar) mView1.findViewById(R.id.specifics_load_progressbar);
+        mView2 =  mInflater.inflate(R.layout.specifics_tablayout_webview, null);
+        mWebView = (WebView) mView2.findViewById(R.id.specifics_webView);
+    }
+
+    private void showWaiting() {
+        mProgressBar.setVisibility(View.VISIBLE);
+        mRecyclerView.setVisibility(View.GONE);
+    }
+
+    private void hideWaiting() {
+        mProgressBar.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
+    }
+
     //初始化View1
     private void initView1(Project_Detail mProjectDetail) {
+        hideWaiting();
         //获取屏幕的宽
         DisplayMetrics metric = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metric);
         int width = metric.widthPixels;
 
-        RecyclerView recyclerView = (RecyclerView) mView1.findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(SpecificsActivity.this));//设置线性布局
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(SpecificsActivity.this));//设置线性布局
         MyRecyclerViewAdapter myAdapter = new MyRecyclerViewAdapter(mProjectDetail, width);
-        recyclerView.setAdapter(myAdapter);
+        mRecyclerView.setAdapter(myAdapter);
     }
 
 
     //获取ProjectDetail信息
     private void getProjectDetail() {
+        showWaiting();
         Observable<Project_Detail> projectDetail = Util.getInstance().getProjectDetail(mProjectNo);
         projectDetail.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).
                 subscribe(new Subscriber<Project_Detail>() {
@@ -100,18 +135,31 @@ public class SpecificsActivity extends AppCompatActivity {
     @SuppressLint("SetJavaScriptEnabled")
     private void initView2() {
         String url = ApiService.PROJECT_PROGRESS + mProjectNo;
-        WebView webView = (WebView) mView2.findViewById(R.id.webView);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadUrl(url);
+        if(mWebView != null)
+        {
+            mWebView.getSettings().setJavaScriptEnabled(true);
+            mWebView.setWebViewClient(new WebViewClient()
+            {
+                @Override
+                public void onPageFinished(WebView view,String url)
+                {
+                    dialog.dismiss();
+                }
+            });
+            mWebView.loadUrl(url);
+            dialog = ProgressDialog.show(this,null,"页面加载中，请稍后..");
+            mWebView.reload();
+        }else {
+            Toast.makeText(SpecificsActivity.this,"页面加载失败",Toast.LENGTH_LONG).show();
+        }
     }
 
     @SuppressLint("InflateParams")
     private void initTabLayout() {
         TabLayout mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
         ViewPager mViewPager = (ViewPager) findViewById(R.id.view_pager);
-        LayoutInflater mInflater = LayoutInflater.from(SpecificsActivity.this);
-        mView1 = mInflater.inflate(R.layout.specifics_tablayout_view1, null);
-        mView2 = mInflater.inflate(R.layout.specifics_tablayout_view2, null);
+//        mView1 =  mInflater.inflate(R.layout.specifics_tablayout_recycler, null);
+//        mView2 =  mInflater.inflate(R.layout.specifics_tablayout_webview, null);
         //添加页卡视图
         mViewList.add(mView1);
         mViewList.add(mView2);
@@ -161,7 +209,7 @@ public class SpecificsActivity extends AppCompatActivity {
         Toolbar mToolbar = (Toolbar) findViewById(R.id.specifics_toolbar);
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
-        TextView textview = (TextView) findViewById(R.id.title_text);
+        TextView textview = (TextView) findViewById(R.id.specifics_title_text);
         textview.setText(mProjectName);
         mToolbar.setNavigationIcon(R.drawable.icon_back);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {

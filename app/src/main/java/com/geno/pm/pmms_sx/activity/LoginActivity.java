@@ -58,6 +58,11 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
 
     private SharedPreferences mDefaultPrefs;
 
+    /**
+     * 模拟登陆标志
+     */
+    public static boolean IsLogin = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,6 +140,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
         SpannableString ss = new SpannableString(getResources().getString(resources));//定义hint的值
         AbsoluteSizeSpan ass = new AbsoluteSizeSpan(14, true);//设置字体大小 true表示单位是sp
         ss.setSpan(ass, 0, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);//设置字体大小
+        //noinspection deprecation
         ss.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.hint_bg)), 0, ss.length(),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);//设置字体颜色
         editText.setHint(new SpannedString(ss));
@@ -162,17 +168,29 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
     private void showWaiting() {
         mProgressBar.setVisibility(View.VISIBLE);
         mLoginButton.setText(R.string.doing_login);
+        mLoginButton.setClickable(false);
     }
 
     private void hideWaiting() {
         mProgressBar.setVisibility(View.GONE);
         mLoginButton.setText(R.string.login);
+        mLoginButton.setClickable(true);
     }
 
     @Override
     public void onClick(View v) {
         mUserId = mUsernameEditText.getText().toString();
         mPassword = mPasswordEditText.getText().toString();
+        if ("".equalsIgnoreCase(mUserId) || "".equalsIgnoreCase(mPassword)) {
+            Toast.makeText(LoginActivity.this, R.string.account_null, Toast.LENGTH_SHORT)
+                    .show();
+            return;
+        }
+        if (!Util.isNetworkAvailable(LoginActivity.this)) {
+            Toast.makeText(LoginActivity.this, R.string.no_network, Toast.LENGTH_SHORT)
+                    .show();
+            return;
+        }
         verifyUser(mUserId, mPassword);
     }
 
@@ -185,6 +203,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
 
     public void doLogin(final String username, final String password) {
 
+        @SuppressWarnings("ConstantConditions")
         String md5Password = MD5.stringMD5(password).toLowerCase();
         rx.Observable<Login> observable = Util.getInstance().login(username, md5Password);
         observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
@@ -218,6 +237,8 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
                         //获取登录成功时的返回信息
                         hideWaiting();
 
+                        IsLogin=true;
+
                         setData(login);
 
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -226,6 +247,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
                         intent.putExtra("STATUS", STATUS);
                         intent.putExtra("TYPE", TYPE);
                         startActivity(intent);
+                        finish();
                     }
                 });
     }
