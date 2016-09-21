@@ -2,11 +2,11 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- 没有焦点时的背景图片 -->
-    <item android:drawable="@drawable/icon_back" android:state_enabled="true" android:state_window_focused="false"/>
+    <item android:drawable="@drawable/icon_back" android:state_enabled="true" android:state_window_focused="false" />
     <!-- 触摸模式按下时的背景图片 -->
-    <item android:drawable="@drawable/icon_back_press" android:state_pressed="true"/>
-    <item android:drawable="@drawable/icon_back_press" android:state_enabled="true" android:state_focused="true"/>
-    <item android:drawable="@drawable/icon_back" android:state_enabled="true"/>
+    <item android:drawable="@drawable/icon_back_press" android:state_pressed="true" />
+    <item android:drawable="@drawable/icon_back_press" android:state_enabled="true" android:state_focused="true" />
+    <item android:drawable="@drawable/icon_back" android:state_enabled="true" />
     <!-- 获得焦点时的图片背景 -->
     <!--<item android:drawable="@drawable/handle_focused" android:state_focused="true"/>-->
 

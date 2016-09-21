@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_gravity="center"
-    android:paddingStart="@dimen/listView_start_end_padding"
-    android:paddingEnd="@dimen/listView_item_padding"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:paddingEnd="@dimen/listView_item_padding"
+    android:paddingStart="@dimen/listView_start_end_padding">
 
     <TextView
         android:id="@+id/setting_check_text"
-        android:textColor="@color/deep_text"
-        android:textSize="14sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/check_project"/>
+        android:text="@string/check_project"
+        android:textColor="@color/deep_text"
+        android:textSize="14sp"
+        tools:ignore="RelativeOverlap" />
 
     <ImageView
         android:id="@+id/setting_check_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/icon_enter"
         android:layout_alignParentEnd="true"
-        android:contentDescription="@string/enter" />
+        android:contentDescription="@string/enter"
+        android:src="@drawable/icon_enter" />
 
 </RelativeLayout>

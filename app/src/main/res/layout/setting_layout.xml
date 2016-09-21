@@ -1,51 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:background="@color/white_bg"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white_bg"
+    android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/setting_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/toolbar_bg"
-        android:fitsSystemWindows="true" >
+        android:fitsSystemWindows="true">
 
         <!--<TextView-->
-            <!--android:id="@+id/title_text"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_centerInParent="true"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:textColor="@android:color/white"-->
-            <!--android:textSize="@dimen/main_actionbar_show"-->
-            <!--android:textStyle="bold" />-->
-        <RelativeLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:background="@color/toolbar_bg"
+        <!--android:id="@+id/title_text"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:textColor="@android:color/white"-->
+        <!--android:textSize="@dimen/main_actionbar_show"-->
+        <!--android:textStyle="bold" />-->
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/toolbar_bg">
 
             <TextView
                 android:id="@+id/setting_toolbar_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/title_color"
-                android:textSize="@dimen/title_size"
+                android:layout_centerInParent="true"
                 android:text="@string/setting"
-                android:layout_centerInParent="true" />
+                android:textColor="@color/title_color"
+                android:textSize="@dimen/title_size" />
 
             <ImageView
                 android:id="@+id/setting_toolbar_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/back_selector"
                 android:layout_alignBottom="@id/setting_toolbar_text"
-                android:paddingStart="10dp"
                 android:layout_alignParentStart="true"
                 android:contentDescription="@string/back"
+                android:paddingStart="10dp"
+                android:src="@drawable/back_selector"
                 tools:ignore="RtlSymmetry" />
             <!--android:background="@color/setting_selector"-->
             <!--android:clickable="true"-->
@@ -63,103 +62,100 @@
     </android.support.v7.widget.Toolbar>
 
     <LinearLayout
-        android:orientation="vertical"
-        android:background="@color/setting_bg"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:background="@color/setting_bg"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="10dp"
-            android:background="@color/setting_bg"
-            />
+            android:background="@color/setting_bg" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/segment_line"/>
-        
+            android:background="@color/segment_line" />
+
         <!--<ListView-->
-            <!--android:id="@+id/setting_listView"-->
-            <!--android:background="@color/colorActionBar_text"-->
-            <!--android:paddingStart="@dimen/setting_listView_padding"-->
-            <!--android:paddingEnd="@dimen/setting_listView_padding"-->
-            <!--android:entries="@array/all_type"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"/>-->
+        <!--android:id="@+id/setting_listView"-->
+        <!--android:background="@color/colorActionBar_text"-->
+        <!--android:paddingStart="@dimen/setting_listView_padding"-->
+        <!--android:paddingEnd="@dimen/setting_listView_padding"-->
+        <!--android:entries="@array/all_type"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"/>-->
 
         <LinearLayout
             android:id="@+id/userAccount"
-            android:background="@color/white_bg"
-            android:paddingStart="@dimen/listView_start_end_padding"
-            android:paddingEnd="@dimen/listView_start_end_padding"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:background="@color/white_bg"
+            android:orientation="horizontal"
+            android:paddingEnd="@dimen/listView_start_end_padding"
+            android:paddingStart="@dimen/listView_start_end_padding" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/segment_line"/>
+            android:background="@color/segment_line" />
 
         <LinearLayout
             android:id="@+id/name"
-            android:background="@color/white_bg"
-            android:paddingStart="@dimen/listView_start_end_padding"
-            android:paddingEnd="@dimen/listView_start_end_padding"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:background="@color/white_bg"
+            android:orientation="horizontal"
+            android:paddingEnd="@dimen/listView_start_end_padding"
+            android:paddingStart="@dimen/listView_start_end_padding" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/segment_line"/>
+            android:background="@color/segment_line" />
 
         <LinearLayout
             android:id="@+id/Department"
-            android:background="@color/white_bg"
-            android:paddingStart="@dimen/listView_start_end_padding"
-            android:paddingEnd="@dimen/listView_start_end_padding"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:background="@color/white_bg"
+            android:orientation="horizontal"
+            android:paddingEnd="@dimen/listView_start_end_padding"
+            android:paddingStart="@dimen/listView_start_end_padding" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/segment_line"/>
+            android:background="@color/segment_line" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="@dimen/blank_textView_height"
-            android:background="@color/setting_bg"
-            />
+            android:background="@color/setting_bg" />
 
         <LinearLayout
             android:id="@+id/setting_project_linearLayout"
-            android:background="@color/white_bg"
-            android:orientation="vertical"
-            android:gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/setting_item_height" />
+            android:layout_height="@dimen/setting_item_height"
+            android:background="@color/white_bg"
+            android:gravity="center"
+            android:orientation="vertical" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="@dimen/blank_textView_height"
-            android:background="@color/setting_bg"
-            />
+            android:background="@color/setting_bg" />
 
         <TextView
             android:id="@+id/setting_quit_textView"
-            
-            android:background="@color/white_bg"
-            android:textSize="14sp"
-            android:textColor="@color/quit_selector"
+
             android:layout_width="match_parent"
             android:layout_height="@dimen/setting_item_height"
+            android:background="@color/white_bg"
             android:gravity="center"
-            android:text="@string/quit_login"/>
+            android:text="@string/quit_login"
+            android:textColor="@color/quit_selector"
+            android:textSize="14sp" />
 
     </LinearLayout>
 

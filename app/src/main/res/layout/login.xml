@@ -56,8 +56,8 @@
         android:id="@+id/btnLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/etUser"
         android:layout_alignEnd="@+id/etPassword"
+        android:layout_alignStart="@+id/etUser"
         android:layout_below="@+id/etPassword"
         android:layout_marginTop="40dp"
         android:background="#31C3BB"
@@ -70,8 +70,8 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/etPassword"
         android:layout_below="@+id/etPassword"
-        android:visibility="gone"
-        android:text="@string/auto_login" />
+        android:text="@string/auto_login"
+        android:visibility="gone" />
 
     <EditText
         android:id="@+id/etPassword"
@@ -82,18 +82,18 @@
         android:ems="10"
         android:hint="@string/password"
         android:inputType="textPassword"
-        android:paddingStart="@dimen/input_padding"
         android:paddingBottom="@dimen/input_size"
+        android:paddingStart="@dimen/input_padding"
         tools:ignore="RtlSymmetry" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/login_password"
-        android:layout_alignStart="@id/etPassword"
         android:layout_alignBottom="@id/etPassword"
+        android:layout_alignStart="@id/etPassword"
         android:layout_marginBottom="@dimen/icon_input_margin"
-        android:contentDescription="@string/password" />
+        android:contentDescription="@string/password"
+        android:src="@drawable/login_password" />
 
     <EditText
         android:id="@+id/etUser"
@@ -104,29 +104,29 @@
         android:ems="10"
         android:hint="@string/username"
         android:imeOptions="actionNext"
-        android:paddingStart="@dimen/input_padding"
         android:paddingBottom="@dimen/input_size"
+        android:paddingStart="@dimen/input_padding"
         android:singleLine="true"
         tools:ignore="RtlSymmetry" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/login_user"
-        android:layout_alignStart="@id/etUser"
         android:layout_alignBottom="@id/etUser"
+        android:layout_alignStart="@id/etUser"
         android:layout_marginBottom="@dimen/icon_input_margin"
-        android:contentDescription="@string/username" />
+        android:contentDescription="@string/username"
+        android:src="@drawable/login_user" />
 
     <ImageView
         android:id="@+id/image_logo"
         android:layout_width="76dp"
         android:layout_height="76dp"
-        android:src="@drawable/app_icon"
         android:layout_above="@+id/etUser"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="68dp"
         android:contentDescription="@string/login"
+        android:src="@drawable/app_icon"
         tools:ignore="RtlHardcoded" />
 
 </RelativeLayout>

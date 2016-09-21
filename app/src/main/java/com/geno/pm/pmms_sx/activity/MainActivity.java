@@ -28,8 +28,7 @@ import com.geno.pm.pmms_sx.util.Util;
 import java.util.List;
 
 
-
-public class MainActivity extends AppCompatActivity implements MainManager.ProjectResult{
+public class MainActivity extends AppCompatActivity implements MainManager.ProjectResult {
 
     private LayoutInflater mInflater;
 
@@ -57,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements MainManager.Proje
         mInstance = this;//用于别的activity操作本activity
 
         //初始化数据控制器
-        mMainManager=MainManager.getInstance();
+        mMainManager = MainManager.getInstance();
         mMainManager.init(this);
 
         mProgressBar = (ProgressBar) findViewById(R.id.main_load_progressbar);
@@ -189,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements MainManager.Proje
                     }
                     image1.setImageResource(R.drawable.icon_drop);
                     showWaiting();
-                    mMainManager.getFilterProjects(TYPE,YEAR,STATUS,MainActivity.this);
+                    mMainManager.getFilterProjects(TYPE, YEAR, STATUS, MainActivity.this);
                 } else //noinspection ConstantConditions,deprecation
                     if (image2.getDrawable().getConstantState().
                             equals(getResources().getDrawable(R.drawable.icon_up).getConstantState())) {
@@ -202,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements MainManager.Proje
                         }
                         image2.setImageResource(R.drawable.icon_drop);
                         showWaiting();
-                        mMainManager.getFilterProjects(TYPE,YEAR,STATUS,MainActivity.this);
+                        mMainManager.getFilterProjects(TYPE, YEAR, STATUS, MainActivity.this);
                     } else {//noinspection ConstantConditions,deprecation
                         if (filter.equals("全部状态")) {
                             STATUS = "all";
@@ -213,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements MainManager.Proje
                         }
                         image3.setImageResource(R.drawable.icon_drop);
                         showWaiting();
-                        mMainManager.getFilterProjects(TYPE,YEAR,STATUS,MainActivity.this);
+                        mMainManager.getFilterProjects(TYPE, YEAR, STATUS, MainActivity.this);
                     }
                 findViewById(R.id.ll_popup_hide).setVisibility(View.INVISIBLE);
                 findViewById(R.id.main_project_listView).setEnabled(true);
@@ -431,13 +430,12 @@ public class MainActivity extends AppCompatActivity implements MainManager.Proje
     }
 
 
-
     @Override
     public void onProjectSuccess(List<Project> projects) {
-        if(projects.size()==0) {
+        if (projects.size() == 0) {
             Toast.makeText(this, "暂无数据", Toast.LENGTH_SHORT).show();
         }
-            initListView(projects);
+        initListView(projects);
     }
 
     @Override

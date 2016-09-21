@@ -49,7 +49,7 @@ public class MainManager {
     }
 
     private void initFilterArray() {
-        if(mFILTER_YEAR==null){
+        if (mFILTER_YEAR == null) {
             Intent intent = ((Activity) mContext).getIntent();
             mFILTER_YEAR = ArrayUtils.add(intent.getStringArrayExtra("YEAR"), "全部年度");
             mFILTER_STATUS = ArrayUtils.add(intent.getStringArrayExtra("STATUS"), "全部状态");
@@ -57,15 +57,15 @@ public class MainManager {
         }
     }
 
-    public String[] getFILTER_YEAR(){
+    public String[] getFILTER_YEAR() {
         return mFILTER_YEAR;
     }
 
-    public String[] getFILTER_STATUS(){
+    public String[] getFILTER_STATUS() {
         return mFILTER_STATUS;
     }
 
-    public String[] getFILTER_TYPE(){
+    public String[] getFILTER_TYPE() {
         return mFILTER_TYPE;
     }
 
@@ -88,7 +88,7 @@ public class MainManager {
         return mFilterStatus;
     }
 
-    public String[] getFilter(){
+    public String[] getFilter() {
         return FILTER;
     }
 
@@ -118,7 +118,7 @@ public class MainManager {
 
     //得到筛选的工程项目
     public void getFilterProjects(String TYPE, String YEAR, String STATUS,
-                                   final ProjectResult callback) {
+                                  final ProjectResult callback) {
         Observable<List<Project>> filterProject = Util.getInstance().
                 getFilterProject(TYPE, YEAR, STATUS);
         filterProject.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
@@ -140,8 +140,9 @@ public class MainManager {
                 });
     }
 
-    public interface ProjectResult{
+    public interface ProjectResult {
         void onProjectSuccess(List<Project> projects);
+
         void onProjectFailed();
     }
 }

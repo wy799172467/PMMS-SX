@@ -16,30 +16,31 @@ import rx.schedulers.Schedulers;
 public class SpecificsManager {
 
     @SuppressLint("StaticFieldLeak")
-    private static SpecificsManager sInstance=new SpecificsManager();
+    private static SpecificsManager sInstance = new SpecificsManager();
 
     private String mProjectNo;
     private String mProjectName;
 
-    private SpecificsManager(){}
+    private SpecificsManager() {
+    }
 
 
-    public void init(Context context){
+    public void init(Context context) {
         Intent intent = ((Activity) context).getIntent();
         mProjectNo = intent.getStringExtra("ProjectNo");
         mProjectName = intent.getStringExtra("ProjectName");
     }
 
-    public static SpecificsManager getInstance(){
+    public static SpecificsManager getInstance() {
         return sInstance;
 
     }
 
-    public String getProjectName(){
+    public String getProjectName() {
         return mProjectName;
     }
 
-    public String getProjectNo(){
+    public String getProjectNo() {
         return mProjectNo;
     }
 
@@ -66,8 +67,9 @@ public class SpecificsManager {
                 });
     }
 
-    public interface ProjectDetailResult{
+    public interface ProjectDetailResult {
         void onProjectDetailSuccess(Project_Detail project_detail);
+
         void onProjectDetailFailed();
     }
 }

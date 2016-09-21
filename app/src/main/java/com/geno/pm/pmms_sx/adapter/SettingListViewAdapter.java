@@ -1,5 +1,6 @@
 package com.geno.pm.pmms_sx.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +41,7 @@ public class SettingListViewAdapter extends BaseAdapter {
         return 0;
     }
 
+    @SuppressLint("InflateParams")
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         Field field = mFields[i];
@@ -68,8 +70,8 @@ public class SettingListViewAdapter extends BaseAdapter {
         return view;
     }
 
-    public final class ViewHolder {
-        public TextView key;
-        public TextView value;
+    private final class ViewHolder {
+        TextView key;
+        TextView value;
     }
 }

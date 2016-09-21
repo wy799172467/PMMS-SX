@@ -6,14 +6,15 @@ import com.geno.pm.pmms_sx.Bean.FieldMeta;
 import java.lang.reflect.Field;
 
 public class SortableField {
-    public SortableField(){}
+    public SortableField() {
+    }
 
     public SortableField(FieldMeta meta, Field field) {
         super();
         this.meta = meta;
         this.field = field;
-        this.name=field.getName();
-        this.type=field.getType();
+        this.name = field.getName();
+        this.type = field.getType();
     }
 
 
@@ -33,18 +34,23 @@ public class SortableField {
     public FieldMeta getMeta() {
         return meta;
     }
+
     public void setMeta(FieldMeta meta) {
         this.meta = meta;
     }
+
     public Field getField() {
         return field;
     }
+
     public void setField(Field field) {
         this.field = field;
     }
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }

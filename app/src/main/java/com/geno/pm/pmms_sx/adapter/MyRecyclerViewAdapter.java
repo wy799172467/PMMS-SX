@@ -34,7 +34,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter {
         mWidth=width;
         Parent parent= new Child();
         //noinspection unchecked
-        init = parent.init();
+        init = parent.init();//为javabean中字段排序
         //建立显示映射
         setMap();
     }
@@ -99,12 +99,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     //持有者类
-    public final class ViewHolder extends RecyclerView.ViewHolder {
+    private final class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView keyView;
-        public TextView valueView;
+        TextView keyView;
+        TextView valueView;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             keyView = (TextView) itemView.findViewById(R.id.specifics_recycler_key);
             valueView = (TextView) itemView.findViewById(R.id.specifics_recycler_value);

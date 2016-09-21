@@ -32,12 +32,12 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SpecificsActivity extends AppCompatActivity implements SpecificsManager.ProjectDetailResult{
+public class SpecificsActivity extends AppCompatActivity implements SpecificsManager.ProjectDetailResult {
 
     private View mView1, mView2;
     private List<View> mViewList = new ArrayList<>();//页卡视图集合
     private List<String> mTitleList = new ArrayList<>();//页卡标题集合
-    private final static String[] mTabTitle=new String[]{"基本信息","项目流程"};
+    private final static String[] mTabTitle = new String[]{"基本信息", "项目流程"};
 
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
@@ -51,7 +51,7 @@ public class SpecificsActivity extends AppCompatActivity implements SpecificsMan
         super.onCreate(savedInstanceState);
         setContentView(R.layout.specifics);
 
-        mSpecificsManager=SpecificsManager.getInstance();
+        mSpecificsManager = SpecificsManager.getInstance();
         mSpecificsManager.init(this);
         initShowView();//初始化需要网络操作的控件
         showWaiting();
@@ -69,10 +69,10 @@ public class SpecificsActivity extends AppCompatActivity implements SpecificsMan
     @SuppressLint("InflateParams")
     private void initShowView() {
         LayoutInflater mInflater = LayoutInflater.from(SpecificsActivity.this);
-        mView1 =  mInflater.inflate(R.layout.specifics_tablayout_recycler, null);
+        mView1 = mInflater.inflate(R.layout.specifics_tablayout_recycler, null);
         mRecyclerView = (RecyclerView) mView1.findViewById(R.id.specifics_recycler);
-        mProgressBar= (ProgressBar) mView1.findViewById(R.id.specifics_load_progressbar);
-        mView2 =  mInflater.inflate(R.layout.specifics_tablayout_webview, null);
+        mProgressBar = (ProgressBar) mView1.findViewById(R.id.specifics_load_progressbar);
+        mView2 = mInflater.inflate(R.layout.specifics_tablayout_webview, null);
         mWebView = (WebView) mView2.findViewById(R.id.specifics_webView);
     }
 
@@ -103,22 +103,19 @@ public class SpecificsActivity extends AppCompatActivity implements SpecificsMan
     @SuppressLint("SetJavaScriptEnabled")
     private void initView2() {
         String url = ApiService.PROJECT_PROGRESS + mSpecificsManager.getProjectNo();
-        if(mWebView != null)
-        {
+        if (mWebView != null) {
             mWebView.getSettings().setJavaScriptEnabled(true);
-            mWebView.setWebViewClient(new WebViewClient()
-            {
+            mWebView.setWebViewClient(new WebViewClient() {
                 @Override
-                public void onPageFinished(WebView view,String url)
-                {
+                public void onPageFinished(WebView view, String url) {
                     dialog.dismiss();
                 }
             });
             mWebView.loadUrl(url);
-            dialog = ProgressDialog.show(this,null,"页面加载中，请稍后..");
+            dialog = ProgressDialog.show(this, null, "页面加载中，请稍后..");
             mWebView.reload();
-        }else {
-            Toast.makeText(SpecificsActivity.this,"页面加载失败",Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(SpecificsActivity.this, "页面加载失败", Toast.LENGTH_LONG).show();
         }
     }
 

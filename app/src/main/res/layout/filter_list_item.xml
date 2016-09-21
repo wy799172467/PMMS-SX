@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2006 The Android Open Source Project
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2006 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -14,13 +13,12 @@
      limitations under the License.
 -->
 
-<TextView xmlns:tools="http://schemas.android.com/tools"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/setting_item_height"
+    android:gravity="center_vertical"
     android:paddingStart="@dimen/listView_start_end_padding"
     android:textColor="@color/project_filter_selector"
     android:textSize="@dimen/listView_item_size_small"
-    android:gravity="center_vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    tools:ignore="RtlSymmetry" />
-    <!--android:textColor="@color/main_listView_item_project_time"-->
+    tools:ignore="RtlSymmetry" /><!--android:textColor="@color/main_listView_item_project_time"-->

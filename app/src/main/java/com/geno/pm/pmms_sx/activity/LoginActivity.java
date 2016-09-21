@@ -243,14 +243,13 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
                         //获取登录成功时的返回信息
                         hideWaiting();
 
-                        IsLogin=true;
+                        IsLogin = true;//监听登陆状态
 
-                        setData(login);
+                        setData(login);//存储数据
 
-                        JPushInterface.setDebugMode(true);
-                        JPushInterface.init(LoginActivity.this);
+                        setPush();//设置推送
 
-                        setAliasAndTags(login);
+                        setAliasAndTags(login);//设置推送标签
 
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 //                        intent.putExtra("Data", login.getData());
@@ -263,6 +262,15 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
                 });
     }
 
+    //设置推送
+    private void setPush() {
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(LoginActivity.this);
+        if (JPushInterface.isPushStopped(LoginActivity.this)) {
+            JPushInterface.resumePush(LoginActivity.this);
+        }
+    }
+
     //设置标签别名
     private void setAliasAndTags(Login login) {
         Set<String> label = new HashSet<>(); //添加标签
@@ -271,10 +279,10 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
             @Override
             public void gotResult(int arg0, String s, Set<String> set) {
                 Log.i("JPush", "Jpush status: " + arg0);//状态  为 0 时标示成功
-                if(arg0==0){
-                    Toast.makeText(LoginActivity.this,"推送身份验证成功",Toast.LENGTH_LONG).show();
-                }else {
-                    Toast.makeText(LoginActivity.this,"推送身份验证失败",Toast.LENGTH_LONG).show();
+                if (arg0 == 0) {
+                    Toast.makeText(LoginActivity.this, "推送身份验证成功", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(LoginActivity.this, "推送身份验证失败", Toast.LENGTH_LONG).show();
                 }
             }
         });

@@ -1,5 +1,6 @@
 package com.geno.pm.pmms_sx.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -44,6 +45,7 @@ public class MyListViewAdapter extends BaseAdapter {
         return 0;
     }
 
+    @SuppressLint("InflateParams")
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
 
@@ -63,11 +65,11 @@ public class MyListViewAdapter extends BaseAdapter {
         } else {
             listViewItem = (ListViewItem) view.getTag();
         }
-        String project_content="";
+        String project_content = "";
         if (project.getYearNo() == null || Objects.equals(project.getYearNo(), "")) {
-            project_content=project_content+"[XXXX]";
+            project_content = project_content + "[XXXX]";
         } else {
-            project_content=project_content+"[" + project.getYearNo() + "]";
+            project_content = project_content + "[" + project.getYearNo() + "]";
         }
         listViewItem.project_status.setText(project.getActivityName());
         String projectType = project.getProjectType();
@@ -87,21 +89,22 @@ public class MyListViewAdapter extends BaseAdapter {
         } else {
             listViewItem.over_time.setVisibility(View.VISIBLE);
         }
-        project_content=project_content+project.getProjectName();
+        project_content = project_content + project.getProjectName();
         SpannableString ss = new SpannableString(project_content);//定义hint的值
         ss.setSpan(new AbsoluteSizeSpan((int) MainActivity.mInstance.getResources().getDimension(R.dimen.listView_item_size)), 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        //noinspection deprecation
         ss.setSpan(new ForegroundColorSpan(MainActivity.mInstance.getResources().getColor(R.color.deep_text)),
                 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         listViewItem.project_content.setText(ss);
         return view;
     }
 
-    public final class ListViewItem {
-        public ImageView project_status_image;
-        public TextView project_content;
-        public ImageView over_time;
-        public TextView project_status;
-        public ImageView bt_enter;
+    private final class ListViewItem {
+        ImageView project_status_image;
+        TextView project_content;
+        ImageView over_time;
+        TextView project_status;
+        ImageView bt_enter;
     }
 
 }

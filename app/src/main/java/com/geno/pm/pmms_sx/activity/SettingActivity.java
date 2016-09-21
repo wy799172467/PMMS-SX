@@ -15,12 +15,14 @@ import com.geno.pm.pmms_sx.R;
 import com.geno.pm.pmms_sx.manager.SettingManager;
 import com.geno.pm.pmms_sx.util.Util;
 
+import cn.jpush.android.api.JPushInterface;
+
 public class SettingActivity extends AppCompatActivity {
 
     private LayoutInflater inflater;
-    private static final String NAME="姓名";
-    private static final String USER_ACCOUNT="账号";
-    private static final String DEPARTMENT="部门";
+    private static final String NAME = "姓名";
+    private static final String USER_ACCOUNT = "账号";
+    private static final String DEPARTMENT = "部门";
     private SettingManager settingManager;
 
     @Override
@@ -31,7 +33,7 @@ public class SettingActivity extends AppCompatActivity {
         inflater = LayoutInflater.from(SettingActivity.this);
 
         //获取上个activity的数据
-        settingManager=SettingManager.getInstance();
+        settingManager = SettingManager.getInstance();
         settingManager.init(this);
 
         initToolbar();//设置导航栏
@@ -50,7 +52,7 @@ public class SettingActivity extends AppCompatActivity {
         TextView value1 = (TextView) view1.findViewById(R.id.setting_person_list_value);
         key1.setText(USER_ACCOUNT);
         value1.setText(settingManager.getUserAccount());
-        LinearLayout linear1= (LinearLayout) findViewById(R.id.userAccount);
+        LinearLayout linear1 = (LinearLayout) findViewById(R.id.userAccount);
         linear1.addView(view1);
         @SuppressLint("InflateParams")
         View view2 = inflater.inflate(R.layout.setting_person_list_item, null);
@@ -58,7 +60,7 @@ public class SettingActivity extends AppCompatActivity {
         TextView value2 = (TextView) view2.findViewById(R.id.setting_person_list_value);
         key2.setText(NAME);
         value2.setText(settingManager.getName());
-        LinearLayout linear2= (LinearLayout) findViewById(R.id.name);
+        LinearLayout linear2 = (LinearLayout) findViewById(R.id.name);
         linear2.addView(view2);
         @SuppressLint("InflateParams")
         View view3 = inflater.inflate(R.layout.setting_person_list_item, null);
@@ -66,7 +68,7 @@ public class SettingActivity extends AppCompatActivity {
         TextView value3 = (TextView) view3.findViewById(R.id.setting_person_list_value);
         key3.setText(DEPARTMENT);
         value3.setText(settingManager.getDepartment());
-        LinearLayout linear3= (LinearLayout) findViewById(R.id.Department);
+        LinearLayout linear3 = (LinearLayout) findViewById(R.id.Department);
         linear3.addView(view3);
     }
 
@@ -76,13 +78,14 @@ public class SettingActivity extends AppCompatActivity {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LoginActivity.IsLogin=false;
+                LoginActivity.IsLogin = false;
                 Intent login = new Intent(SettingActivity.this, LoginActivity.class);
                 login.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 login.addCategory(Intent.CATEGORY_HOME);
                 startActivity(login);
                 MainActivity.mInstance.finish();
                 finish();
+                JPushInterface.stopPush(SettingActivity.this);
             }
         });
     }
@@ -112,7 +115,7 @@ public class SettingActivity extends AppCompatActivity {
 //                SettingActivity.this.finish();
 //            }
 //        });
-        ImageView imageView= (ImageView) findViewById(R.id.setting_toolbar_image);
+        ImageView imageView = (ImageView) findViewById(R.id.setting_toolbar_image);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

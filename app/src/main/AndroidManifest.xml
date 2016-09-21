@@ -3,8 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.geno.pm.pmms_sx">
 
-    <permission android:name="com.geno.pm.pmms_sx.permission.JPUSH_MESSAGE"
-                android:protectionLevel="signature" />
+    <permission
+        android:name="com.geno.pm.pmms_sx.permission.JPUSH_MESSAGE"
+        android:protectionLevel="signature" />
+
     <uses-permission android:name="com.geno.pm.pmms_sx.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -33,11 +35,11 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <!--<activity android:name=".activity.MainActivity">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+        <!--<category android:name="android.intent.category.LAUNCHER" />-->
+        <!--</intent-filter>-->
         <!--</activity>-->
         <activity
             android:name=".activity.SplashActivity"
@@ -54,14 +56,17 @@
             android:name=".activity.LoginActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <activity android:name=".activity.MainActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
+            android:name=".activity.MainActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <activity android:name=".activity.SpecificsActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
+            android:name=".activity.SpecificsActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <activity android:name=".activity.SettingActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
+            android:name=".activity.SettingActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <!--极光推送服务-->
         <!-- option since 2.0.5 可配置PushService，DaemonService,PushReceiver,
@@ -69,7 +74,7 @@
         <service
             android:name="cn.jpush.android.service.PushService"
             android:enabled="true"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTER" />
                 <action android:name="cn.jpush.android.intent.REPORT" />
@@ -83,17 +88,17 @@
             android:name="cn.jpush.android.service.DaemonService"
             android:enabled="true"
             android:exported="true">
-            <intent-filter >
+            <intent-filter>
                 <action android:name="cn.jpush.android.intent.DaemonService" />
-                <category android:name="com.geno.pm.pmms_sx"/>
+                <category android:name="com.geno.pm.pmms_sx" />
             </intent-filter>
         </service>
         <receiver
             android:name="cn.jpush.android.service.PushReceiver"
-            android:enabled="true" >
+            android:enabled="true">
             <intent-filter android:priority="1000">
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
-                <category android:name="com.geno.pm.pmms_sx"/>
+                <category android:name="com.geno.pm.pmms_sx" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.USER_PRESENT" />
@@ -103,6 +108,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
@@ -111,9 +117,10 @@
         <activity
             android:name="cn.jpush.android.ui.PushActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="cn.jpush.android.ui.PushActivity" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="com.geno.pm.pmms_sx" />
             </intent-filter>
@@ -122,30 +129,29 @@
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
-            android:exported="false" >
-        </service>
+            android:exported="false"></service>
         <!-- Required SDK核心功能-->
         <receiver android:name="cn.jpush.android.service.AlarmReceiver" />
 
         <!-- 此处com.getui.demo.PushDemoReceiver，需要替换成开发者自己的BroadcastReceiver -->
         <receiver
-        android:name=".receiver.MyReceiver"
-        android:enabled="true">
-        <intent-filter>
-            <!--Required 用户注册SDK的intent-->
-            <action android:name="cn.jpush.android.intent.REGISTRATION" />
-            <!--Required 用户接收SDK消息的intent-->
-            <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
-            <!--Required 用户接收SDK通知栏信息的intent-->
-            <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
-            <!--Required 用户打开自定义通知栏的intent-->
-            <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
-            <!--Optional 用户接受Rich Push Javascript 回调函数的intent-->
-            <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" />
-            <!-- 接收网络变化 连接/断开 since 1.6.3 -->
-            <action android:name="cn.jpush.android.intent.CONNECTION" />
-            <category android:name="com.geno.pm.pmms_sx" />
-        </intent-filter>
+            android:name=".receiver.MyReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <!--Required 用户注册SDK的intent-->
+                <action android:name="cn.jpush.android.intent.REGISTRATION" />
+                <!--Required 用户接收SDK消息的intent-->
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+                <!--Required 用户接收SDK通知栏信息的intent-->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+                <!--Required 用户打开自定义通知栏的intent-->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+                <!--Optional 用户接受Rich Push Javascript 回调函数的intent-->
+                <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" />
+                <!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <action android:name="cn.jpush.android.intent.CONNECTION" />
+                <category android:name="com.geno.pm.pmms_sx" />
+            </intent-filter>
         </receiver>
 
         <!-- Required. For publish channel feature -->
@@ -154,9 +160,13 @@
         <!-- 发到 Google Play 的APK可以设置为 google-play; -->
         <!-- 发到其他市场的 APK 可以设置为 xxx-market。 -->
         <!-- 目前这个渠道统计功能的报表还未开放。-->
-        <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
+        <meta-data
+            android:name="JPUSH_CHANNEL"
+            android:value="developer-default" />
         <!-- Required. AppKey copied from Portal -->
-        <meta-data android:name="JPUSH_APPKEY" android:value="d80147776f06b1a98c96060a"/>
+        <meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="d80147776f06b1a98c96060a" />
     </application>
 
 </manifest>
