@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <ProgressBar
         android:id="@+id/specifics_load_progressbar"
-        android:layout_marginTop="@dimen/progressbar_margin"
-        android:layout_gravity="center_horizontal"
         android:layout_width="@dimen/progressbar_size"
         android:layout_height="@dimen/progressbar_size"
-        android:visibility="gone"/>
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/progressbar_margin"
+        android:visibility="gone" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/specifics_recycler"
-        android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="@dimen/listView_top_bottom_padding"
-        android:paddingStart="@dimen/listView_start_end_padding"
-        android:paddingEnd="@dimen/listView_start_end_padding"
         android:background="@color/white_bg"
-        />
+        android:paddingEnd="@dimen/listView_start_end_padding"
+        android:paddingStart="@dimen/listView_start_end_padding"
+        android:paddingTop="@dimen/listView_top_bottom_padding"
+        android:scrollbars="vertical" />
 
 </LinearLayout>

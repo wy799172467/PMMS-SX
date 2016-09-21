@@ -11,34 +11,6 @@
   <component name="ChangeListManager">
     <list default="true" id="3b911835-1714-422b-8bfb-97f5ee771031" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/geno/pm/pmms_sx/activity/LoginActivity.java" afterPath="$PROJECT_DIR$/src/main/java/com/geno/pm/pmms_sx/activity/LoginActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/geno/pm/pmms_sx/activity/MainActivity.java" afterPath="$PROJECT_DIR$/src/main/java/com/geno/pm/pmms_sx/activity/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/geno/pm/pmms_sx/activity/SettingActivity.java" afterPath="$PROJECT_DIR$/src/main/java/com/geno/pm/pmms_sx/activity/SettingActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/geno/pm/pmms_sx/activity/SpecificsActivity.java" afterPath="$PROJECT_DIR$/src/main/java/com/geno/pm/pmms_sx/activity/SpecificsActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/geno/pm/pmms_sx/adapter/MyListViewAdapter.java" afterPath="$PROJECT_DIR$/src/main/java/com/geno/pm/pmms_sx/adapter/MyListViewAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/geno/pm/pmms_sx/adapter/MyRecyclerViewAdapter.java" afterPath="$PROJECT_DIR$/src/main/java/com/geno/pm/pmms_sx/adapter/MyRecyclerViewAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/geno/pm/pmms_sx/adapter/SettingListViewAdapter.java" afterPath="$PROJECT_DIR$/src/main/java/com/geno/pm/pmms_sx/adapter/SettingListViewAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/geno/pm/pmms_sx/manager/MainManager.java" afterPath="$PROJECT_DIR$/src/main/java/com/geno/pm/pmms_sx/manager/MainManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/geno/pm/pmms_sx/manager/SettingManager.java" afterPath="$PROJECT_DIR$/src/main/java/com/geno/pm/pmms_sx/manager/SettingManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/geno/pm/pmms_sx/manager/SpecificsManager.java" afterPath="$PROJECT_DIR$/src/main/java/com/geno/pm/pmms_sx/manager/SpecificsManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/geno/pm/pmms_sx/receiver/MyReceiver.java" afterPath="$PROJECT_DIR$/src/main/java/com/geno/pm/pmms_sx/receiver/MyReceiver.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/geno/pm/pmms_sx/util/SortableField.java" afterPath="$PROJECT_DIR$/src/main/java/com/geno/pm/pmms_sx/util/SortableField.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/res/color/project_filter_selector.xml" afterPath="$PROJECT_DIR$/src/main/res/color/project_filter_selector.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/res/color/project_list_content_selector.xml" afterPath="$PROJECT_DIR$/src/main/res/color/project_list_content_selector.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/res/color/project_list_status_selector.xml" afterPath="$PROJECT_DIR$/src/main/res/color/project_list_status_selector.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/res/color/quit_selector.xml" afterPath="$PROJECT_DIR$/src/main/res/color/quit_selector.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/res/drawable/back_selector.xml" afterPath="$PROJECT_DIR$/src/main/res/drawable/back_selector.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/res/drawable/setting_selector.xml" afterPath="$PROJECT_DIR$/src/main/res/drawable/setting_selector.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/res/layout/activity_main.xml" afterPath="$PROJECT_DIR$/src/main/res/layout/activity_main.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/res/layout/filter.xml" afterPath="$PROJECT_DIR$/src/main/res/layout/filter.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/res/layout/filter_list.xml" afterPath="$PROJECT_DIR$/src/main/res/layout/filter_list.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/res/layout/filter_list_item.xml" afterPath="$PROJECT_DIR$/src/main/res/layout/filter_list_item.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/res/layout/login.xml" afterPath="$PROJECT_DIR$/src/main/res/layout/login.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/res/layout/main_project_list_content.xml" afterPath="$PROJECT_DIR$/src/main/res/layout/main_project_list_content.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/res/layout/main_toolbar.xml" afterPath="$PROJECT_DIR$/src/main/res/layout/main_toolbar.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/res/layout/setting_layout.xml" afterPath="$PROJECT_DIR$/src/main/res/layout/setting_layout.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/res/layout/setting_layout_check.xml" afterPath="$PROJECT_DIR$/src/main/res/layout/setting_layout_check.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/res/layout/setting_person_list_item.xml" afterPath="$PROJECT_DIR$/src/main/res/layout/setting_person_list_item.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/res/layout/specifics.xml" afterPath="$PROJECT_DIR$/src/main/res/layout/specifics.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/res/layout/specifics_tablayout_recycler.xml" afterPath="$PROJECT_DIR$/src/main/res/layout/specifics_tablayout_recycler.xml" />
@@ -1900,38 +1872,6 @@
               <option name="myItemId" value="app" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="values" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PMMS-SX" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PMMS-SX" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
@@ -1942,7 +1882,7 @@
     <property name="settings.editor.selected.configurable" value="preferences.updates" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="last_opened_file_path" value="$USER_HOME$/android-library/GeoneAppSample" />
-    <property name="device.picker.selection" value="VFNDU16810008880" />
+    <property name="device.picker.selection" value="192.168.57.101:5555" />
     <property name="extract.method.default.visibility" value="private" />
     <property name="UI_DESIGNER_EDITOR_MODE.NlPaletteManager-NlPreviewForm.SHOW" value="false" />
   </component>
@@ -2254,7 +2194,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1280" height="709" extended-state="6" />
+    <frame x="0" y="23" width="1280" height="709" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
