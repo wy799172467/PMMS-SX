@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.geno.pm.pmms_sx.Bean.Project;
 import com.geno.pm.pmms_sx.R;
@@ -32,17 +33,18 @@ public class MainActivity extends AppCompatActivity implements MainManager.Proje
 
     private LayoutInflater mInflater;
 
-    private static String YEAR = "all";
-    private static String STATUS = "all";
-    private static String TYPE = "all";
+    private String YEAR = "all";
+    private String STATUS = "all";
+    private String TYPE = "all";
 
-    private TextView textView1;
-    private TextView textView2;
-    private TextView textView3;
+    private TextView mTextView1;
+    private TextView mTextView2;
+    private TextView mTextView3;
 
     private ListView mListView;
     private ProgressBar mProgressBar;
 
+    @SuppressLint("StaticFieldLeak")
     public static MainActivity mInstance;
 
     private MainManager mMainManager;
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements MainManager.Proje
 
         mInstance = this;//用于别的activity操作本activity
 
+        //初始化数据控制器
         mMainManager=MainManager.getInstance();
         mMainManager.init(this);
 
@@ -137,19 +140,19 @@ public class MainActivity extends AppCompatActivity implements MainManager.Proje
         LinearLayout linearLayout3 = (LinearLayout) findViewById(R.id.main_linear3);
         @SuppressLint("InflateParams")
         ViewGroup view1 = (ViewGroup) mInflater.inflate(R.layout.filter, null);
-        textView1 = (TextView) view1.findViewById(R.id.filter_text);
+        mTextView1 = (TextView) view1.findViewById(R.id.filter_text);
         final ImageView image1 = (ImageView) view1.findViewById(R.id.filter_image);
-        textView1.setText(mMainManager.getFilter()[0]);
+        mTextView1.setText(mMainManager.getFilter()[0]);
         @SuppressLint("InflateParams")
         ViewGroup view2 = (ViewGroup) mInflater.inflate(R.layout.filter, null);
-        textView2 = (TextView) view2.findViewById(R.id.filter_text);
+        mTextView2 = (TextView) view2.findViewById(R.id.filter_text);
         final ImageView image2 = (ImageView) view2.findViewById(R.id.filter_image);
-        textView2.setText(mMainManager.getFilter()[1]);
+        mTextView2.setText(mMainManager.getFilter()[1]);
         @SuppressLint("InflateParams")
         ViewGroup view3 = (ViewGroup) mInflater.inflate(R.layout.filter, null);
-        textView3 = (TextView) view3.findViewById(R.id.filter_text);
+        mTextView3 = (TextView) view3.findViewById(R.id.filter_text);
         final ImageView image3 = (ImageView) view3.findViewById(R.id.filter_image);
-        textView3.setText(mMainManager.getFilter()[2]);
+        mTextView3.setText(mMainManager.getFilter()[2]);
         linearLayout1.addView(view1);
         linearLayout2.addView(view2);
         linearLayout3.addView(view3);
@@ -159,7 +162,6 @@ public class MainActivity extends AppCompatActivity implements MainManager.Proje
         final PopupWindow popupWindow = initPopupWindow(inflate, image1, image2, image3);
         //设置下拉框的联动监听
         setLinkListen(linearLayout1, linearLayout2, linearLayout3, image1, image2, image3, popupWindow, inflate);
-
         //获取筛选条件
         setFilterItem(image1, image2, image3, inflate, popupWindow);
     }
@@ -180,10 +182,10 @@ public class MainActivity extends AppCompatActivity implements MainManager.Proje
                         equals(getResources().getDrawable(R.drawable.icon_up).getConstantState())) {
                     if (filter.equals("全部类型")) {
                         TYPE = "all";
-                        textView1.setText(mMainManager.getFilter()[0]);
+                        mTextView1.setText(mMainManager.getFilter()[0]);
                     } else {
                         TYPE = mMainManager.getFilterTypeSharePreferences().getString(filter, "");
-                        textView1.setText(filter);
+                        mTextView1.setText(filter);
                     }
                     image1.setImageResource(R.drawable.icon_drop);
                     showWaiting();
@@ -193,10 +195,10 @@ public class MainActivity extends AppCompatActivity implements MainManager.Proje
                             equals(getResources().getDrawable(R.drawable.icon_up).getConstantState())) {
                         if (filter.equals("全部年度")) {
                             YEAR = "all";
-                            textView2.setText(mMainManager.getFilter()[1]);
+                            mTextView2.setText(mMainManager.getFilter()[1]);
                         } else {
                             YEAR = mMainManager.getFilterYearSharePreferences().getString(filter, "");
-                            textView2.setText(filter);
+                            mTextView2.setText(filter);
                         }
                         image2.setImageResource(R.drawable.icon_drop);
                         showWaiting();
@@ -204,10 +206,10 @@ public class MainActivity extends AppCompatActivity implements MainManager.Proje
                     } else {//noinspection ConstantConditions,deprecation
                         if (filter.equals("全部状态")) {
                             STATUS = "all";
-                            textView3.setText(mMainManager.getFilter()[2]);
+                            mTextView3.setText(mMainManager.getFilter()[2]);
                         } else {
                             STATUS = mMainManager.getFilterStatusSharePreferences().getString(filter, "");
-                            textView3.setText(filter);
+                            mTextView3.setText(filter);
                         }
                         image3.setImageResource(R.drawable.icon_drop);
                         showWaiting();
@@ -374,6 +376,12 @@ public class MainActivity extends AppCompatActivity implements MainManager.Proje
 //                findViewById(R.id.listView).setEnabled(true);
 //            }
 //        });
+        popupWindowDismiss(image1, image2, image3, popupWindow);//设置popupWindow消失
+        return popupWindow;
+    }
+
+    //设置popupWindow消失
+    private void popupWindowDismiss(final ImageView image1, final ImageView image2, final ImageView image3, final PopupWindow popupWindow) {
         findViewById(R.id.ll_popup_hide).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -393,7 +401,6 @@ public class MainActivity extends AppCompatActivity implements MainManager.Proje
                 findViewById(R.id.main_project_listView).setEnabled(true);
             }
         });
-        return popupWindow;
     }
 
     //装载PopWindow的数据
@@ -427,7 +434,10 @@ public class MainActivity extends AppCompatActivity implements MainManager.Proje
 
     @Override
     public void onProjectSuccess(List<Project> projects) {
-        initListView(projects);
+        if(projects.size()==0) {
+            Toast.makeText(this, "暂无数据", Toast.LENGTH_SHORT).show();
+        }
+            initListView(projects);
     }
 
     @Override

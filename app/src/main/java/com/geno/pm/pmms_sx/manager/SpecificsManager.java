@@ -1,5 +1,6 @@
 package com.geno.pm.pmms_sx.manager;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +15,7 @@ import rx.schedulers.Schedulers;
 
 public class SpecificsManager {
 
-    private Context mContext;
+    @SuppressLint("StaticFieldLeak")
     private static SpecificsManager sInstance=new SpecificsManager();
 
     private String mProjectNo;
@@ -24,8 +25,7 @@ public class SpecificsManager {
 
 
     public void init(Context context){
-        mContext=context;
-        Intent intent = ((Activity)mContext).getIntent();
+        Intent intent = ((Activity) context).getIntent();
         mProjectNo = intent.getStringExtra("ProjectNo");
         mProjectName = intent.getStringExtra("ProjectName");
     }

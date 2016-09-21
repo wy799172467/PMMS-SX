@@ -1,5 +1,6 @@
 package com.geno.pm.pmms_sx.manager;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -23,14 +24,15 @@ public class MainManager {
 
     private static final String[] FILTER = new String[]{"全部类型", "年度计划", "项目状态"};
 
-    private static String[] mFILTER_YEAR;
-    private static String[] mFILTER_STATUS;
-    private static String[] mFILTER_TYPE;
+    private String[] mFILTER_YEAR;
+    private String[] mFILTER_STATUS;
+    private String[] mFILTER_TYPE;
 
     private SharedPreferences mFilterYear;
     private SharedPreferences mFilterStatus;
     private SharedPreferences mFilterType;
 
+    @SuppressLint("StaticFieldLeak")
     private static MainManager sInstance = new MainManager();
 
     private MainManager() {
@@ -47,10 +49,12 @@ public class MainManager {
     }
 
     private void initFilterArray() {
-        Intent intent = ((Activity) mContext).getIntent();
-        mFILTER_YEAR = ArrayUtils.add(intent.getStringArrayExtra("YEAR"), "全部年度");
-        mFILTER_STATUS = ArrayUtils.add(intent.getStringArrayExtra("STATUS"), "全部状态");
-        mFILTER_TYPE = ArrayUtils.add(intent.getStringArrayExtra("TYPE"), "全部类型");
+        if(mFILTER_YEAR==null){
+            Intent intent = ((Activity) mContext).getIntent();
+            mFILTER_YEAR = ArrayUtils.add(intent.getStringArrayExtra("YEAR"), "全部年度");
+            mFILTER_STATUS = ArrayUtils.add(intent.getStringArrayExtra("STATUS"), "全部状态");
+            mFILTER_TYPE = ArrayUtils.add(intent.getStringArrayExtra("TYPE"), "全部类型");
+        }
     }
 
     public String[] getFILTER_YEAR(){

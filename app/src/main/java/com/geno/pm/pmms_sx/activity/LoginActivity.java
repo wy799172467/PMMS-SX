@@ -33,8 +33,12 @@ import com.geno.pm.pmms_sx.util.Util;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -133,6 +137,8 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
         }
 
         Util.setToolBarClear(LoginActivity.this);
+
+
     }
 
     //设置hint
@@ -241,6 +247,11 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
 
                         setData(login);
 
+                        JPushInterface.setDebugMode(true);
+                        JPushInterface.init(LoginActivity.this);
+
+                        setAliasAndTags(login);
+
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 //                        intent.putExtra("Data", login.getData());
                         intent.putExtra("YEAR", YEAR);
@@ -250,6 +261,23 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
                         finish();
                     }
                 });
+    }
+
+    //设置标签别名
+    private void setAliasAndTags(Login login) {
+        Set<String> label = new HashSet<>(); //添加标签
+        label.add(login.getData().getDepartment());
+        JPushInterface.setAliasAndTags(LoginActivity.this, null, label, new TagAliasCallback() {
+            @Override
+            public void gotResult(int arg0, String s, Set<String> set) {
+                Log.i("JPush", "Jpush status: " + arg0);//状态  为 0 时标示成功
+                if(arg0==0){
+                    Toast.makeText(LoginActivity.this,"推送身份验证成功",Toast.LENGTH_LONG).show();
+                }else {
+                    Toast.makeText(LoginActivity.this,"推送身份验证失败",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     //存储数据
@@ -287,4 +315,6 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
         STATUS = sta;
         TYPE = project;
     }
+
+
 }

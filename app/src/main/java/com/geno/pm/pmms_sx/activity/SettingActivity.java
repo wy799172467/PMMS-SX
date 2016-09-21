@@ -2,7 +2,6 @@ package com.geno.pm.pmms_sx.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,6 +21,7 @@ public class SettingActivity extends AppCompatActivity {
     private static final String NAME="姓名";
     private static final String USER_ACCOUNT="账号";
     private static final String DEPARTMENT="部门";
+    private SettingManager settingManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,17 +31,16 @@ public class SettingActivity extends AppCompatActivity {
         inflater = LayoutInflater.from(SettingActivity.this);
 
         //获取上个activity的数据
-        SettingManager settingManager=SettingManager.getInstance();
+        settingManager=SettingManager.getInstance();
         settingManager.init(this);
-        SharedPreferences userData = settingManager.getUserData();
 
         initToolbar();//设置导航栏
-        initUserInfo(userData);//初始化用户信息
+        initUserInfo();//初始化用户信息
         initCheck();//初始化待审核标签
         initQuit();//设置系统退出登录
     }
 
-    private void initUserInfo(SharedPreferences userData) {
+    private void initUserInfo() {
         /*ListView listView = (ListView) findViewById(R.id.setting_listView);
         SettingListViewAdapter settingListViewAdapter = new SettingListViewAdapter(SettingActivity.this, data);
         listView.setAdapter(settingListViewAdapter);*/
@@ -50,7 +49,7 @@ public class SettingActivity extends AppCompatActivity {
         TextView key1 = (TextView) view1.findViewById(R.id.setting_person_list_key);
         TextView value1 = (TextView) view1.findViewById(R.id.setting_person_list_value);
         key1.setText(USER_ACCOUNT);
-        value1.setText(userData.getString("userAccount",""));
+        value1.setText(settingManager.getUserAccount());
         LinearLayout linear1= (LinearLayout) findViewById(R.id.userAccount);
         linear1.addView(view1);
         @SuppressLint("InflateParams")
@@ -58,7 +57,7 @@ public class SettingActivity extends AppCompatActivity {
         TextView key2 = (TextView) view2.findViewById(R.id.setting_person_list_key);
         TextView value2 = (TextView) view2.findViewById(R.id.setting_person_list_value);
         key2.setText(NAME);
-        value2.setText(userData.getString("name",""));
+        value2.setText(settingManager.getName());
         LinearLayout linear2= (LinearLayout) findViewById(R.id.name);
         linear2.addView(view2);
         @SuppressLint("InflateParams")
@@ -66,7 +65,7 @@ public class SettingActivity extends AppCompatActivity {
         TextView key3 = (TextView) view3.findViewById(R.id.setting_person_list_key);
         TextView value3 = (TextView) view3.findViewById(R.id.setting_person_list_value);
         key3.setText(DEPARTMENT);
-        value3.setText(userData.getString("Department",""));
+        value3.setText(settingManager.getDepartment());
         LinearLayout linear3= (LinearLayout) findViewById(R.id.Department);
         linear3.addView(view3);
     }

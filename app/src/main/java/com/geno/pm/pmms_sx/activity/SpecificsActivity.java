@@ -37,7 +37,7 @@ public class SpecificsActivity extends AppCompatActivity implements SpecificsMan
     private View mView1, mView2;
     private List<View> mViewList = new ArrayList<>();//页卡视图集合
     private List<String> mTitleList = new ArrayList<>();//页卡标题集合
-    private String[] mTabTitle=new String[]{"基本信息","项目流程"};
+    private final static String[] mTabTitle=new String[]{"基本信息","项目流程"};
 
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
