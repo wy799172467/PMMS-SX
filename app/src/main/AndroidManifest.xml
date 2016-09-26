@@ -129,7 +129,7 @@
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false"/>
         <!-- Required SDK核心功能-->
         <receiver android:name="cn.jpush.android.service.AlarmReceiver" />
 
@@ -138,7 +138,7 @@
             android:name=".receiver.MyReceiver"
             android:enabled="true">
             <intent-filter>
-                <!--Required 用户注册SDK的intent-->
+                <!--Required 用户接收SDK消息的intent-->
                 <action android:name="cn.jpush.android.intent.REGISTRATION" />
                 <!--Required 用户接收SDK消息的intent-->
                 <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
@@ -148,11 +148,25 @@
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
                 <!--Optional 用户接受Rich Push Javascript 回调函数的intent-->
                 <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" />
-                <!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <!--接收网络变化 连接/断开 since 1.6.3-->
                 <action android:name="cn.jpush.android.intent.CONNECTION" />
                 <category android:name="com.geno.pm.pmms_sx" />
             </intent-filter>
         </receiver>
+        <!--<receiver
+            android:name=".activity.MainActivity$MyReceiver"
+            android:enabled="true"
+            tools:ignore="ExportedReceiver">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTRATION" />
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+                <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" />
+                <action android:name="cn.jpush.android.intent.CONNECTION" />
+                <category android:name="com.geno.pm.pmms_sx" />
+            </intent-filter>
+        </receiver>-->
 
         <!-- Required. For publish channel feature -->
         <!-- JPUSH_CHANNEL 是为了方便开发者统计APK分发渠道。-->

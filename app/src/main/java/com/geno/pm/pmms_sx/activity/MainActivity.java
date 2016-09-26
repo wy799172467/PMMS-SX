@@ -6,9 +6,11 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -19,16 +21,19 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.geno.pm.pmms_sx.Bean.Information;
 import com.geno.pm.pmms_sx.Bean.Project;
 import com.geno.pm.pmms_sx.R;
+import com.geno.pm.pmms_sx.adapter.MyInformationListAdapter;
 import com.geno.pm.pmms_sx.adapter.MyListViewAdapter;
 import com.geno.pm.pmms_sx.manager.MainManager;
+import com.geno.pm.pmms_sx.receiver.MyReceiver;
 import com.geno.pm.pmms_sx.util.Util;
 
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements MainManager.ProjectResult {
+public class MainActivity extends AppCompatActivity implements MainManager.ProjectResult, MyReceiver.InformationIcon {
 
     private LayoutInflater mInflater;
 
@@ -43,10 +48,19 @@ public class MainActivity extends AppCompatActivity implements MainManager.Proje
     private ListView mListView;
     private ProgressBar mProgressBar;
 
+    /*private static final String ACTION1 = "cn.jpush.android.intent.REGISTRATION";
+    private static final String ACTION2 = "cn.jpush.android.intent.MESSAGE_RECEIVED";
+//    private static final String ACTION2 = "cn.jpush.android.intent.MESSAGE_OPENED";
+    private static final String ACTION3 = "cn.jpush.android.intent.NOTIFICATION_RECEIVED";
+    private static final String ACTION4 = "cn.jpush.android.intent.NOTIFICATION_OPENED";
+    private static final String ACTION5 = "cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK";
+    private static final String ACTION6 = "cn.jpush.android.intent.CONNECTION";*/
+
     @SuppressLint("StaticFieldLeak")
-    public static MainActivity mInstance;
+    public static MainActivity mInstance;//用于别的activity操作本activity
 
     private MainManager mMainManager;
+    private ImageView icon_information;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +84,74 @@ public class MainActivity extends AppCompatActivity implements MainManager.Proje
         showWaiting();
         mMainManager.getAllProject(this);//获取数据
 
+//        setBroadcastReceiver();
     }
 
+    /*private void setBroadcastReceiver() {
+
+        BroadcastReceiver myReceiver=new MyReceiver();
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ACTION1);
+        filter.addAction(ACTION2);
+        filter.addAction(ACTION3);
+        filter.addAction(ACTION4);
+        filter.addAction(ACTION5);
+        filter.addAction(ACTION6);
+        filter.addCategory("com.geno.pm.pmms_sx");
+        registerReceiver(myReceiver, filter);
+    }*/
+
+    /*public class MyReceiver extends BroadcastReceiver{
+
+        public MyReceiver(){}
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
+                if (LoginActivity.IsLogin) {
+                    Intent i = new Intent(context, LoginActivity.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(i);
+                } else {
+                    Intent i = new Intent(context, MainActivity.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(i);
+                }
+            }
+
+            if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
+                Bundle bundle = intent.getExtras();
+                String title = bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE);
+                Log.i("JPush--------title", title);
+                String message = bundle.getString(JPushInterface.EXTRA_ALERT);
+                Log.i("JPush--------message", message);
+                String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
+
+                DatabaseHelper database = new DatabaseHelper(context);//这段代码放到Activity类中才用this
+                SQLiteDatabase db = database.getWritableDatabase();
+                @SuppressLint("Recycle")
+                Cursor cursor = db.query("information", null, null, null, null, null, null);//查询并获得游标
+                int count = cursor.getCount();
+                if (count < 10) {
+                    Util.insertData(db, extras);
+                } else {
+                    Util.deleteFirstLine(db);
+                    Util.insertData(db, extras);
+                }
+
+
+                if(icon_information!=null){
+                    //noinspection deprecation
+                    icon_information.setImageDrawable(getResources().
+                            getDrawable(R.drawable.icon_information_new));
+                }
+                onResume();
+
+            }
+        }
+    }
+*/
     private void showWaiting() {
         mProgressBar.setVisibility(View.VISIBLE);
         mListView.setVisibility(View.GONE);
@@ -110,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements MainManager.Proje
 
     }*/
 
+
     //设置导航栏
     private void initToolbar() {
 
@@ -118,8 +199,8 @@ public class MainActivity extends AppCompatActivity implements MainManager.Proje
 
         @SuppressLint("InflateParams")
         ViewGroup customView = (ViewGroup) mInflater.inflate(R.layout.main_toolbar, null);
-        ImageView imageView = (ImageView) customView.findViewById(R.id.main_toolbar_image);
-        imageView.setOnClickListener(new View.OnClickListener() {
+        ImageView icon_setting = (ImageView) customView.findViewById(R.id.main_toolbar_image);
+        icon_setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, SettingActivity.class);
@@ -127,9 +208,76 @@ public class MainActivity extends AppCompatActivity implements MainManager.Proje
             }
         });
 
+        icon_information = (ImageView) customView.findViewById(R.id.main_icon_information);
+        @SuppressLint("InflateParams") final
+        ViewGroup inflate = (ViewGroup) mInflater.inflate(R.layout.information_list, null);
+        final PopupWindow popupWindow = getInformationPopupWindow(inflate);
+        icon_information.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //noinspection deprecation
+                icon_information.setImageDrawable(getResources().getDrawable(R.drawable.icon_information));
+                if (!popupWindow.isShowing()) {
+                    popupWindow.showAsDropDown(findViewById(R.id.toolbar), 40, 0, Gravity.CENTER);
+                }
+                showInformationData(inflate);
+                findViewById(R.id.window_hide).setVisibility(View.VISIBLE);
+                findViewById(R.id.window_hide).getBackground().setAlpha(153);
+                findViewById(R.id.main_project_listView).setEnabled(false);
+            }
+        });
+
+        closeInformationPopupWindow(inflate, popupWindow);
+
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.addView(customView);
         setSupportActionBar(mToolbar);
+    }
+
+    //关闭InformationPopupWindow
+    private void closeInformationPopupWindow(ViewGroup inflate, final PopupWindow popupWindow) {
+        inflate.findViewById(R.id.information_list_close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+                findViewById(R.id.window_hide).setVisibility(View.INVISIBLE);
+                findViewById(R.id.main_project_listView).setEnabled(true);
+            }
+        });
+    }
+
+    //生成InformationPopupWindow
+    @NonNull
+    private PopupWindow getInformationPopupWindow(ViewGroup inflate) {
+        /*final PopupWindow popupWindow = new PopupWindow(inflate, LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);*/
+        WindowManager wm = this.getWindowManager();
+        //noinspection deprecation
+        int width = wm.getDefaultDisplay().getWidth();
+//        int height = wm.getDefaultDisplay().getHeight();
+        final PopupWindow popupWindow = new PopupWindow(inflate, width-80,
+                1200);
+        popupWindow.setTouchable(true);
+        popupWindow.setOutsideTouchable(false);
+
+        findViewById(R.id.window_hide).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+                findViewById(R.id.window_hide).setVisibility(View.INVISIBLE);
+                findViewById(R.id.main_project_listView).setEnabled(true);
+            }
+        });
+        return popupWindow;
+    }
+
+    //展示消息数据
+    private void showInformationData(ViewGroup inflate) {
+
+        List<Information> informations = mMainManager.getInformationData(MainActivity.this);
+        ListView list = (ListView) inflate.findViewById(R.id.information_list);
+        MyInformationListAdapter adapter = new MyInformationListAdapter(MainActivity.this, informations);
+        list.setAdapter(adapter);
     }
 
     //初始化Filter
@@ -441,5 +589,15 @@ public class MainActivity extends AppCompatActivity implements MainManager.Proje
     @Override
     public void onProjectFailed() {
 
+    }
+
+    @Override
+    public void setInformationIcon() {
+        if (icon_information != null) {
+            //noinspection deprecation
+            icon_information.setImageDrawable(getResources().
+                    getDrawable(R.drawable.icon_information_new));
+        }
+        onResume();
     }
 }

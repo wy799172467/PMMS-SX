@@ -5,12 +5,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
+import com.geno.pm.pmms_sx.Bean.Information;
 import com.geno.pm.pmms_sx.Bean.Project;
+import com.geno.pm.pmms_sx.util.DatabaseHelper;
 import com.geno.pm.pmms_sx.util.Util;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
@@ -114,6 +119,22 @@ public class MainManager {
                         callback.onProjectSuccess(projects);
                     }
                 });
+    }
+
+    public List<Information> getInformationData(Context context) {
+        DatabaseHelper database = new DatabaseHelper(context);//这段代码放到Activity类中才用this
+        SQLiteDatabase db = database.getWritableDatabase();
+        @SuppressLint("Recycle")
+        Cursor mCursor = db.query("information", null, null, null, null, null, null);//查询并获得游标
+        List<Information> informations = new ArrayList<>();
+        while (mCursor.moveToNext()) {
+            Information information = new Information();
+            information.setProjectName(mCursor.getString(mCursor.getColumnIndex("ProjectName")));
+            information.setProjectNo(mCursor.getString(mCursor.getColumnIndex("ProjectNo")));
+            information.setProjectDetail(mCursor.getString(mCursor.getColumnIndex("ProjectDetail")));
+            informations.add(information);
+        }
+        return informations;
     }
 
     //得到筛选的工程项目

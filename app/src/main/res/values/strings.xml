@@ -20,6 +20,7 @@
     <string name="filter_image">过滤图片</string>
     <string name="account_null">帐号或密码不能为空！</string>
     <string name="no_network">请联网后重试！</string>
-    <string name="back">退后！</string>
+    <string name="back">退后</string>
+    <string name="close">关闭</string>
 
 </resources>

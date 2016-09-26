@@ -36,4 +36,15 @@
     <!--android:layout_alignBottom="@id/mainText"-->
     <!--android:layout_alignParentLeft="true"/>-->
 
+    <ImageView
+        android:id="@+id/main_icon_information"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/main_toolbar_text"
+        android:layout_alignParentStart="true"
+        android:contentDescription="@string/setting"
+        android:src="@drawable/icon_information"
+        tools:ignore="RtlSymmetry"
+        />
+
 </RelativeLayout>
