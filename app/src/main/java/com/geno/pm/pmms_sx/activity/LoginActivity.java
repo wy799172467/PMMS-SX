@@ -37,9 +37,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 import retrofit2.adapter.rxjava.HttpException;
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -47,12 +50,18 @@ import rx.schedulers.Schedulers;
 public class LoginActivity extends AppCompatActivity implements OnClickListener,
         OnCheckedChangeListener {
 
-    private Button mLoginButton;
-    private EditText mUsernameEditText;
-    private EditText mPasswordEditText;
-    private ProgressBar mProgressBar;
-    private CheckBox mRememberMe;
-    private CheckBox mAutoLogin;
+    @Bind(R.id.pb_loading)
+    ProgressBar mProgressBar;
+    @Bind(R.id.ckBox_remember)
+    CheckBox mRememberMe;
+    @Bind(R.id.btnLogin)
+    Button mLoginButton;
+    @Bind(R.id.ckBox_auto)
+    CheckBox mAutoLogin;
+    @Bind(R.id.etPassword)
+    EditText mPasswordEditText;
+    @Bind(R.id.etUser)
+    EditText mUsernameEditText;
 
     private String mUserId;
     private String mPassword;
@@ -76,9 +85,8 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
         Log.d("ldz", "------------------------------------------------------");
 
         setContentView(R.layout.login);
+        ButterKnife.bind(this);
 
-        mUsernameEditText = (EditText) findViewById(R.id.etUser);
-        mPasswordEditText = (EditText) findViewById(R.id.etPassword);
         setHintText(mUsernameEditText, R.string.username);//设置hint
         setHintText(mPasswordEditText, R.string.password);//设置hint
 
@@ -112,11 +120,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
 //                }
 //            }
 //        });
-        mProgressBar = (ProgressBar) findViewById(R.id.pb_loading);
-        mLoginButton = (Button) findViewById(R.id.btnLogin);
         mLoginButton.setOnClickListener(this);
-        mRememberMe = (CheckBox) findViewById(R.id.ckBox_remember);
-        mAutoLogin = (CheckBox) findViewById(R.id.ckBox_auto);
         mAutoLogin.setOnCheckedChangeListener(this);
 
         mDefaultPrefs = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
@@ -211,7 +215,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
 
         @SuppressWarnings("ConstantConditions")
         String md5Password = MD5.stringMD5(password).toLowerCase();
-        rx.Observable<Login> observable = Util.getInstance().login(username, md5Password);
+        Observable<Login> observable = Util.getInstance().login(username, md5Password);
         observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Login>() {
                     @Override

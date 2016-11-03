@@ -23,7 +23,7 @@ public class MyReceiver extends BroadcastReceiver {
         if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             if (LoginActivity.IsLogin) {
                 Intent i = new Intent(context, MainActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(i);
             } else {
                 Intent i = new Intent(context, LoginActivity.class);
@@ -46,10 +46,10 @@ public class MyReceiver extends BroadcastReceiver {
             Cursor cursor = db.query("information", null, null, null, null, null, null);//查询并获得游标
             int count = cursor.getCount();
             cursor.moveToNext();
-            int firstID = cursor.getInt(cursor.getColumnIndex("ID"));
             if (count < 10) {
                 Util.insertData(db, extras);
             } else {
+                int firstID = cursor.getInt(cursor.getColumnIndex("ID"));
                 Util.deleteFirstLine(db, count, firstID);
                 Util.insertData(db, extras);
             }

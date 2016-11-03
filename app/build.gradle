@@ -50,4 +50,6 @@ dependencies {
     compile files('libs/commons-lang3-3.0.1.jar')
     //极光推送
     compile 'cn.jiguang:jpush:2.1.8'  // 此处以SDK 2.1.8版本为例
+    //
+    compile 'com.jakewharton:butterknife:7.0.1'
 }
