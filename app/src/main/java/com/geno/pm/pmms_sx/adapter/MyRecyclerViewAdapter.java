@@ -42,7 +42,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter {
     //建立显示映射
     private void setMap() {
         mMap=new HashMap<>();
-        mMap.put("ProjectName","项目名称");
+        mMap.put("mProjectName","项目名称");
         mMap.put("ProjectType","计划类别");
         mMap.put("ProjectNo","项目编号");
         mMap.put("ProjectCategory","所属类别");

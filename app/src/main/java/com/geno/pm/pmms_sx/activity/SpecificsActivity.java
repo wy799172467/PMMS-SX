@@ -24,26 +24,25 @@ import com.geno.pm.pmms_sx.Bean.Project_Detail;
 import com.geno.pm.pmms_sx.R;
 import com.geno.pm.pmms_sx.adapter.MyPagerAdapter;
 import com.geno.pm.pmms_sx.adapter.MyRecyclerViewAdapter;
-import com.geno.pm.pmms_sx.http.ApiService;
-import com.geno.pm.pmms_sx.manager.SpecificsManager;
+import com.geno.pm.pmms_sx.presenter.ISpecificsPresenter;
+import com.geno.pm.pmms_sx.presenter.SpecificsPresenter;
 import com.geno.pm.pmms_sx.util.Util;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class SpecificsActivity extends AppCompatActivity implements SpecificsManager.ProjectDetailResult {
+public class SpecificsActivity extends AppCompatActivity implements ISpecificsView {
 
     private View mView1, mView2;
     private List<View> mViewList = new ArrayList<>();//页卡视图集合
     private List<String> mTitleList = new ArrayList<>();//页卡标题集合
-    private final static String[] mTabTitle = new String[]{"基本信息", "项目流程"};
 
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
     private WebView mWebView;
     private ProgressDialog dialog;
-    private SpecificsManager mSpecificsManager;
 
     @SuppressLint("InflateParams")
     @Override
@@ -51,44 +50,37 @@ public class SpecificsActivity extends AppCompatActivity implements SpecificsMan
         super.onCreate(savedInstanceState);
         setContentView(R.layout.specifics);
 
-        mSpecificsManager = SpecificsManager.getInstance();
-        mSpecificsManager.init(this);
-        initShowView();//初始化需要网络操作的控件
-        showWaiting();
-        mSpecificsManager.getProjectDetail(this);//通过服务获取相信信息
-
-        initToolbar();//初始化导航栏
-
-        //初始化页卡
-        initTabLayout();
-
-        initView2();//初始化View2
-    }
-
-    //初始化需要网络操作的控件
-    @SuppressLint("InflateParams")
-    private void initShowView() {
         LayoutInflater mInflater = LayoutInflater.from(SpecificsActivity.this);
         mView1 = mInflater.inflate(R.layout.specifics_tablayout_recycler, null);
         mRecyclerView = (RecyclerView) mView1.findViewById(R.id.specifics_recycler);
         mProgressBar = (ProgressBar) mView1.findViewById(R.id.specifics_load_progressbar);
         mView2 = mInflater.inflate(R.layout.specifics_tablayout_webview, null);
         mWebView = (WebView) mView2.findViewById(R.id.specifics_webView);
+
+        ISpecificsPresenter mISpecificsPresenter = SpecificsPresenter.getInstance();
+        mISpecificsPresenter.init(this);
+
+        mISpecificsPresenter.setToolbar();//初始化导航栏
+        mISpecificsPresenter.setTabLayout();//初始化页卡
+        mISpecificsPresenter.setView1();//初始化List
+        mISpecificsPresenter.setView2();//初始化WebView
     }
 
-    private void showWaiting() {
+    @Override
+    public void showWaiting() {
         mProgressBar.setVisibility(View.VISIBLE);
         mRecyclerView.setVisibility(View.GONE);
     }
 
-    private void hideWaiting() {
+    @Override
+    public void hideWaiting() {
         mProgressBar.setVisibility(View.GONE);
         mRecyclerView.setVisibility(View.VISIBLE);
     }
 
     //初始化View1
-    private void initView1(Project_Detail mProjectDetail) {
-        hideWaiting();
+    @Override
+    public void initProjectDetailList(Project_Detail mProjectDetail) {
         //获取屏幕的宽
         DisplayMetrics metric = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metric);
@@ -101,8 +93,8 @@ public class SpecificsActivity extends AppCompatActivity implements SpecificsMan
 
     //初始化View2
     @SuppressLint("SetJavaScriptEnabled")
-    private void initView2() {
-        String url = ApiService.PROJECT_PROGRESS + mSpecificsManager.getProjectNo();
+    @Override
+    public void initProjectStatusWebView(String url) {
         if (mWebView != null) {
             mWebView.getSettings().setJavaScriptEnabled(true);
             mWebView.setWebViewClient(new WebViewClient() {
@@ -120,7 +112,8 @@ public class SpecificsActivity extends AppCompatActivity implements SpecificsMan
     }
 
     @SuppressLint("InflateParams")
-    private void initTabLayout() {
+    @Override
+    public void initTabLayout(String[] tabTitle) {
         TabLayout mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
         ViewPager mViewPager = (ViewPager) findViewById(R.id.view_pager);
 //        mView1 =  mInflater.inflate(R.layout.specifics_tablayout_recycler, null);
@@ -129,8 +122,9 @@ public class SpecificsActivity extends AppCompatActivity implements SpecificsMan
         mViewList.add(mView1);
         mViewList.add(mView2);
         //添加页卡标题
-        mTitleList.add(mTabTitle[0]);
-        mTitleList.add(mTabTitle[1]);
+        Collections.addAll(mTitleList, tabTitle);
+        /*mTitleList.add(mTabTitle[0]);
+        mTitleList.add(mTabTitle[1]);*/
         mTabLayout.setTabMode(TabLayout.MODE_FIXED);//设置tab模式，当前为系统默认模式
 //        mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(0)));//添加tab选项卡
 //        mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(1)));
@@ -167,15 +161,16 @@ public class SpecificsActivity extends AppCompatActivity implements SpecificsMan
     }
 
     //设置导航栏
-    private void initToolbar() {
+    @Override
+    public void initToolbar(String title) {
         //设置状态栏透明
         Util.setToolBarClear(this);
 
         Toolbar mToolbar = (Toolbar) findViewById(R.id.specifics_toolbar);
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
-        TextView textview = (TextView) findViewById(R.id.specifics_title_text);
-        textview.setText(mSpecificsManager.getProjectName());
+        TextView titleText = (TextView) findViewById(R.id.specifics_title_text);
+        titleText.setText(title);
         mToolbar.setNavigationIcon(R.drawable.icon_back);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,15 +178,5 @@ public class SpecificsActivity extends AppCompatActivity implements SpecificsMan
                 SpecificsActivity.this.finish();
             }
         });
-    }
-
-    @Override
-    public void onProjectDetailSuccess(Project_Detail project_detail) {
-        initView1(project_detail);//初始化View1
-    }
-
-    @Override
-    public void onProjectDetailFailed() {
-
     }
 }

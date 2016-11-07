@@ -12,18 +12,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.geno.pm.pmms_sx.R;
-import com.geno.pm.pmms_sx.manager.SettingManager;
+import com.geno.pm.pmms_sx.presenter.ISettingPresenter;
+import com.geno.pm.pmms_sx.presenter.SettingPresenter;
 import com.geno.pm.pmms_sx.util.Util;
 
 import cn.jpush.android.api.JPushInterface;
 
-public class SettingActivity extends AppCompatActivity {
+public class SettingActivity extends AppCompatActivity implements ISettingView{
 
     private LayoutInflater inflater;
-    private static final String NAME = "姓名";
-    private static final String USER_ACCOUNT = "账号";
-    private static final String DEPARTMENT = "部门";
-    private SettingManager settingManager;
+    private TextView key1;
+    private TextView key2;
+    private TextView key3;
+    private TextView value1;
+    private TextView value2;
+    private TextView value3;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,44 +36,67 @@ public class SettingActivity extends AppCompatActivity {
 
         inflater = LayoutInflater.from(SettingActivity.this);
 
-        //获取上个activity的数据
-        settingManager = SettingManager.getInstance();
-        settingManager.init(this);
-
+        ISettingPresenter mISettingPresenter = SettingPresenter.getInstance();
+        mISettingPresenter.init(this);
+        mISettingPresenter.setUserInfo();//初始化用户信息
         initToolbar();//设置导航栏
-        initUserInfo();//初始化用户信息
         initCheck();//初始化待审核标签
         initQuit();//设置系统退出登录
     }
 
-    private void initUserInfo() {
+    @Override
+    public void initUserInfo() {
         /*ListView listView = (ListView) findViewById(R.id.setting_listView);
         SettingListViewAdapter settingListViewAdapter = new SettingListViewAdapter(SettingActivity.this, data);
         listView.setAdapter(settingListViewAdapter);*/
         @SuppressLint("InflateParams")
         View view1 = inflater.inflate(R.layout.setting_person_list_item, null);
-        TextView key1 = (TextView) view1.findViewById(R.id.setting_person_list_key);
-        TextView value1 = (TextView) view1.findViewById(R.id.setting_person_list_value);
-        key1.setText(USER_ACCOUNT);
-        value1.setText(settingManager.getUserAccount());
+        key1 = (TextView) view1.findViewById(R.id.setting_person_list_key);
+        value1 = (TextView) view1.findViewById(R.id.setting_person_list_value);
         LinearLayout linear1 = (LinearLayout) findViewById(R.id.userAccount);
         linear1.addView(view1);
         @SuppressLint("InflateParams")
         View view2 = inflater.inflate(R.layout.setting_person_list_item, null);
-        TextView key2 = (TextView) view2.findViewById(R.id.setting_person_list_key);
-        TextView value2 = (TextView) view2.findViewById(R.id.setting_person_list_value);
-        key2.setText(NAME);
-        value2.setText(settingManager.getName());
+        key2 = (TextView) view2.findViewById(R.id.setting_person_list_key);
+        value2 = (TextView) view2.findViewById(R.id.setting_person_list_value);
         LinearLayout linear2 = (LinearLayout) findViewById(R.id.name);
         linear2.addView(view2);
         @SuppressLint("InflateParams")
         View view3 = inflater.inflate(R.layout.setting_person_list_item, null);
-        TextView key3 = (TextView) view3.findViewById(R.id.setting_person_list_key);
-        TextView value3 = (TextView) view3.findViewById(R.id.setting_person_list_value);
-        key3.setText(DEPARTMENT);
-        value3.setText(settingManager.getDepartment());
+        key3 = (TextView) view3.findViewById(R.id.setting_person_list_key);
+        value3 = (TextView) view3.findViewById(R.id.setting_person_list_value);
         LinearLayout linear3 = (LinearLayout) findViewById(R.id.Department);
         linear3.addView(view3);
+    }
+
+    @Override
+    public void setDepartmentValue(String departmentValue) {
+        value3.setText(departmentValue);
+    }
+
+    @Override
+    public void setDepartmentLabel(String departmentLabel) {
+        key3.setText(departmentLabel);
+    }
+
+    @Override
+    public void setUserNameValue(String userNameValue) {
+        value2.setText(userNameValue);
+    }
+
+    @Override
+    public void setUserNameLabel(String userNameLabel) {
+        key2.setText(userNameLabel);
+    }
+
+    @Override
+    public void setUserAccountValue(String userAccountValue) {
+        value1.setText(userAccountValue);
+    }
+
+    @Override
+    public void setUserAccountLabel(String userAccountLabel) {
+        key1.setText(userAccountLabel);
     }
 
     //设置系统退出登录
@@ -106,8 +133,8 @@ public class SettingActivity extends AppCompatActivity {
         Toolbar mToolbar = (Toolbar) findViewById(R.id.setting_toolbar);
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
-//        TextView textview = (TextView) findViewById(R.id.title_text);
-//        textview.setText("我的设置");
+//        TextView textView = (TextView) findViewById(R.id.title_text);
+//        textView.setText("我的设置");
 //        mToolbar.setNavigationIcon(R.drawable.icon_back);
 //        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
 //            @Override

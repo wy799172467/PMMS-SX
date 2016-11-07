@@ -23,4 +23,10 @@
     <string name="back">退后</string>
     <string name="close">关闭</string>
 
+    <string-array name="filter">
+        <item>全部类型</item>
+        <item>年度计划</item>
+        <item>项目状态</item>
+    </string-array>
+
 </resources>
