@@ -6,6 +6,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class Reflect {
+
+    private Reflect() {
+    }
+
     public static String fieldReflect(Object model, Field field) throws NoSuchMethodException,
             IllegalAccessException, IllegalArgumentException,
             InvocationTargetException {
@@ -15,7 +19,7 @@ public class Reflect {
         String name = field.getName();
         // 获取属性的类型
         String type = field.getGenericType().toString();
-        name = name.substring(0, 1).toUpperCase() + name.substring(1);//将属性的首字符大写，方便构造get，set方法
+        name = name.substring(0, 1).toUpperCase() + name.substring(1); //将属性的首字符大写，方便构造get，set方法
         // 如果type是类类型，则前面包含"class "，后面跟类名
 //        System.out.println("属性为：" + name);
         if (type.equals("class java.lang.String")) {

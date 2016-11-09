@@ -14,7 +14,7 @@ public interface ILoginView {
 
     void hideWaiting();
 
-    void toToast(int rsID);//检查填写内容
+    void toToast(int rsID); //检查填写内容
 
     void loginSuccess(Login login);
 

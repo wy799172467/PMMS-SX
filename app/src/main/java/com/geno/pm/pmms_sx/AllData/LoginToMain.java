@@ -6,4 +6,8 @@ public class LoginToMain {
     public static String[] mStatus;
     public static String[] mProjects;
 
+    private LoginToMain() {
+
+    }
+
 }

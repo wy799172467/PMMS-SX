@@ -65,11 +65,11 @@ public class MyListViewAdapter extends BaseAdapter {
         } else {
             listViewItem = (ListViewItem) view.getTag();
         }
-        String project_content = "";
+        String projectContent = "";
         if (project.getYearNo() == null || Objects.equals(project.getYearNo(), "")) {
-            project_content = project_content + "[XXXX]";
+            projectContent = projectContent + "[XXXX]";
         } else {
-            project_content = project_content + "[" + project.getYearNo() + "]";
+            projectContent = projectContent + "[" + project.getYearNo() + "]";
         }
         listViewItem.project_status.setText(project.getActivityName());
         String projectType = project.getProjectType();
@@ -89,8 +89,8 @@ public class MyListViewAdapter extends BaseAdapter {
         } else {
             listViewItem.over_time.setVisibility(View.VISIBLE);
         }
-        project_content = project_content + project.getProjectName();
-        SpannableString ss = new SpannableString(project_content);//定义hint的值
+        projectContent = projectContent + project.getProjectName();
+        SpannableString ss = new SpannableString(projectContent); //定义hint的值
         ss.setSpan(new AbsoluteSizeSpan((int) MainActivity.mInstance.getResources().getDimension(R.dimen.listView_item_size)), 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         //noinspection deprecation
         ss.setSpan(new ForegroundColorSpan(MainActivity.mInstance.getResources().getColor(R.color.deep_text)),

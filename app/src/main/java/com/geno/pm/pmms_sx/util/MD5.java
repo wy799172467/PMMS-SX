@@ -8,11 +8,14 @@ import java.security.NoSuchAlgorithmException;
  */
 public class MD5 {
 
+    private MD5() {
+    }
+
     /**
      * 获取加密后的字符串
      *
      * @param pw 输入值
-     * @return
+     * @return 输出值
      */
     public static String stringMD5(String pw) {
         try {
@@ -32,7 +35,7 @@ public class MD5 {
         }
     }
 
-    public static String byteArrayToHex(byte[] byteArray) {
+    private static String byteArrayToHex(byte[] byteArray) {
 
         // 首先初始化一个字符数组，用来存放每个16进制字符
         char[] hexDigits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
@@ -47,4 +50,5 @@ public class MD5 {
         // 字符数组组合成字符串返回
         return new String(resultCharArray);
     }
+
 }

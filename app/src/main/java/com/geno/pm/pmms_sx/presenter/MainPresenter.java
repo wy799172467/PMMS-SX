@@ -10,38 +10,39 @@ import com.geno.pm.pmms_sx.model.MainModel;
 
 import java.util.List;
 
-public class MainPresenter implements IMainPresenter,IMainModel.ProjectResult{
+public class MainPresenter implements IMainPresenter, IMainModel.ProjectResult {
 
-    private static MainPresenter mInstance=new MainPresenter();
+    private static MainPresenter mInstance = new MainPresenter();
     private IMainView mIMainView;
     private IMainModel mIMainModel;
 
-    private MainPresenter(){}
+    private MainPresenter() {
+    }
 
-    public static MainPresenter getInstance(){
+    public static MainPresenter getInstance() {
         return mInstance;
     }
 
     @Override
     public void init(IMainView iMainView) {
-        mIMainView=iMainView;
-        mIMainModel= MainModel.getInstance();
+        mIMainView = iMainView;
+        mIMainModel = MainModel.getInstance();
         mIMainModel.init();
     }
 
     @Override
     public void showProjectChangeInformation() {
         mIMainView.showInformationPopupWindow();
-        mIMainView.setBackViewAction();
-        mIMainView.showInformationData(mIMainModel.getInformation((Activity)mIMainView));
+        mIMainView.setBackWindowAction();
+        mIMainView.showInformationData(mIMainModel.getInformation((Activity) mIMainView));
         mIMainView.setInformationPopupWindowCloseListen();
     }
 
     @Override
     public void initFilter() {
-        mIMainView.initFilterTitle(mIMainModel.getFilterTitle((Context)mIMainView));
+        mIMainView.initFilterTitle(mIMainModel.getFilterTitle((Context) mIMainView));
         mIMainView.initFilterPopupWindow();
-        mIMainView.setLinkListen();//设置下拉框的联动监听
+        mIMainView.setLinkListen(); //设置下拉框的联动监听
         mIMainView.setFilterItem();
         mIMainView.setFilterPopupWindowDismiss();
     }
@@ -55,7 +56,7 @@ public class MainPresenter implements IMainPresenter,IMainModel.ProjectResult{
                 mIMainModel.setFilterType("all");
                 mIMainView.setFilterTextView1(mIMainModel.getFilterTitle((Context) mIMainView)[0]);
             } else {
-                mIMainModel.setFilterType(mIMainModel.getFilterTypeSharedPreferences((Context)mIMainView,filter));
+                mIMainModel.setFilterType(mIMainModel.getFilterTypeSharedPreferences((Context) mIMainView, filter));
                 mIMainView.setFilterTextView1(filter);
             }
             mIMainView.setFilterImage1Down();
@@ -70,7 +71,7 @@ public class MainPresenter implements IMainPresenter,IMainModel.ProjectResult{
                     mIMainModel.setFilterYear("all");
                     mIMainView.setFilterTextView2(mIMainModel.getFilterTitle((Context) mIMainView)[1]);
                 } else {
-                    mIMainModel.setFilterYear(mIMainModel.getFilterYearSharedPreferences((Context)mIMainView,filter));
+                    mIMainModel.setFilterYear(mIMainModel.getFilterYearSharedPreferences((Context) mIMainView, filter));
                     mIMainView.setFilterTextView2(filter);
                 }
                 mIMainView.setFilterImage2Down();
@@ -79,12 +80,12 @@ public class MainPresenter implements IMainPresenter,IMainModel.ProjectResult{
                         mIMainModel.getFilterYear(),
                         mIMainModel.getFilterStatus(),
                         this);
-            } else {//noinspection ConstantConditions,deprecation
+            } else { //noinspection ConstantConditions,deprecation
                 if (filter.equals("全部状态")) {
                     mIMainModel.setFilterStatus("all");
                     mIMainView.setFilterTextView3(mIMainModel.getFilterTitle((Context) mIMainView)[2]);
                 } else {
-                    mIMainModel.setFilterStatus(mIMainModel.getFilterStatusSharedPreferences((Context)mIMainView,filter));
+                    mIMainModel.setFilterStatus(mIMainModel.getFilterStatusSharedPreferences((Context) mIMainView, filter));
                     mIMainView.setFilterTextView3(filter);
                 }
                 mIMainView.setFilterImage3Down();
@@ -132,7 +133,7 @@ public class MainPresenter implements IMainPresenter,IMainModel.ProjectResult{
     }
 
     @Override
-    public void setFilter2LinkListen(){
+    public void setFilter2LinkListen() {
         if (mIMainView.isFilterPopupWindowShowing()) {
             //noinspection ConstantConditions,ConstantConditions
             if (mIMainView.isFilterImage2Down()) {

@@ -53,8 +53,8 @@ public class MyInformationListAdapter extends BaseAdapter {
         } else {
             listViewItem = (ListViewItem) view.getTag();
         }
-        listViewItem.projectName.setText(information.getProjectName()+":有更新");
-        listViewItem.projectNo.setText("项目ID:"+information.getProjectNo());
+        listViewItem.projectName.setText(information.getProjectName() + ":有更新");
+        listViewItem.projectNo.setText("项目ID:" + information.getProjectNo());
 //        listViewItem.projectDetail.setText(information.getProjectDetail());
         return view;
     }

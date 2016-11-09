@@ -24,34 +24,34 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter {
 
     private Project_Detail mProjectDetail;
     private Field[] mFields;
-    private List<SortableField> init;
-    private HashMap<String,String> mMap;
+    private List<SortableField> mInit;
+    private HashMap<String, String> mMap;
     private int mWidth;
 
-    public MyRecyclerViewAdapter(Project_Detail project_detail, int width) {
-        mProjectDetail = project_detail;
+    public MyRecyclerViewAdapter(Project_Detail projectDetail, int width) {
+        mProjectDetail = projectDetail;
         mFields = mProjectDetail.getClass().getDeclaredFields();
-        mWidth=width;
-        Parent parent= new Child();
+        mWidth = width;
+        Parent parent = new Child();
         //noinspection unchecked
-        init = parent.init();//为javabean中字段排序
+        mInit = parent.init(); //为javabean中字段排序
         //建立显示映射
         setMap();
     }
 
     //建立显示映射
     private void setMap() {
-        mMap=new HashMap<>();
-        mMap.put("mProjectName","项目名称");
-        mMap.put("ProjectType","计划类别");
-        mMap.put("ProjectNo","项目编号");
-        mMap.put("ProjectCategory","所属类别");
-        mMap.put("YearNo","建设计划年度");
-        mMap.put("Invest","投资金额");
-        mMap.put("FundsSourceName","金额来源");
-        mMap.put("Scale","工程规模");
-        mMap.put("StartTime","计划开工时间");
-        mMap.put("FinishTime","计划竣工设计");
+        mMap = new HashMap<>();
+        mMap.put("ProjectName", "项目名称");
+        mMap.put("ProjectType", "计划类别");
+        mMap.put("ProjectNo", "项目编号");
+        mMap.put("ProjectCategory", "所属类别");
+        mMap.put("YearNo", "建设计划年度");
+        mMap.put("Invest", "投资金额");
+        mMap.put("FundsSourceName", "金额来源");
+        mMap.put("Scale", "工程规模");
+        mMap.put("StartTime", "计划开工时间");
+        mMap.put("FinishTime", "计划竣工设计");
     }
 
     @Override
@@ -65,7 +65,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 //        Field field = mFields[position];
-        Field field=init.get(position).getField();
+        Field field = mInit.get(position).getField();
         field.setAccessible(true);
         String key = field.getName();
         String value = null;
@@ -79,12 +79,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter {
 //        mHolder.keyView.setText(key);
         mHolder.keyView.setText(mMap.get(key));
         if (value != null) {
-            if(value.equals("null")||value.equals("")){
+            if (value.equals("null") || value.equals("")) {
                 mHolder.valueView.setText("暂无数据");
-            }else {
+            } else {
                 mHolder.valueView.setText(value);
             }
-        }else {
+        } else {
             mHolder.valueView.setText("暂无数据");
         }
 //        if(mHolder.valueView.getLineCount()>1){
@@ -95,7 +95,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return mFields.length;//序列化之后会多一个字段,处理方式如下
+        return mFields.length; //序列化之后会多一个字段,处理方式如下
     }
 
     //持有者类
@@ -108,7 +108,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter {
             super(itemView);
             keyView = (TextView) itemView.findViewById(R.id.specifics_recycler_key);
             valueView = (TextView) itemView.findViewById(R.id.specifics_recycler_value);
-            valueView.setWidth(2*mWidth/5);
+            valueView.setWidth(2 * mWidth / 5);
         }
     }
 }

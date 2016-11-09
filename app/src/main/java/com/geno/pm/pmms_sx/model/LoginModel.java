@@ -25,23 +25,25 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
-public class LoginModel implements ILoginModel{
+public class LoginModel implements ILoginModel {
 
     private SharedPreferences mDefaultPrefs;
-    private SharedPreferences userData;
+    private SharedPreferences mUserData;
 
-    private static LoginModel mInstance=new LoginModel();
+    private static LoginModel mInstance = new LoginModel();
 
-    private LoginModel(){}
+    private LoginModel() {
 
-    public static LoginModel getInstance(){
+    }
+
+    public static LoginModel getInstance() {
         return mInstance;
     }
 
     @Override
     public void init(Context context) {
         mDefaultPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        userData=context.getSharedPreferences("UserData", Context.MODE_PRIVATE);
+        mUserData = context.getSharedPreferences("UserData", Context.MODE_PRIVATE);
     }
 
     @Override
@@ -115,53 +117,53 @@ public class LoginModel implements ILoginModel{
 
     @Override
     public void saveName(Login login) {
-        userData.edit().putString("name", login.getData().getName()).apply();
+        mUserData.edit().putString("name", login.getData().getName()).apply();
     }
 
     @Override
     public void saveUserAccount(Login login) {
-        userData.edit().putString("userAccount", login.getData().getUserAccount()).apply();
+        mUserData.edit().putString("userAccount", login.getData().getUserAccount()).apply();
     }
 
     @Override
     public void saveDepartment(Login login) {
-        userData.edit().putString("Department", login.getData().getDepartment()).apply();
+        mUserData.edit().putString("Department", login.getData().getDepartment()).apply();
     }
 
     @Override
-    public void setFilterYear(Context context,Login login) {
-        SharedPreferences filter_year = context.getSharedPreferences("filter_year", Context.MODE_PRIVATE); //私有数据
+    public void setFilterYear(Context context, Login login) {
+        SharedPreferences filterYear = context.getSharedPreferences("filter_year", Context.MODE_PRIVATE); //私有数据
         List<Filter_Year> years = login.getFilter().getYear();
         String[] year = new String[years.size()];
         for (int i = 0; i < years.size(); i++) {
-            filter_year.edit().putString(years.get(i).getKey(), years.get(i).getValue()).apply();
+            filterYear.edit().putString(years.get(i).getKey(), years.get(i).getValue()).apply();
             year[i] = years.get(i).getKey();
         }
-        LoginToMain.mYears=year;
+        LoginToMain.mYears = year;
     }
 
     @Override
-    public void setFilterStatus(Context context,Login login) {
-        SharedPreferences filter_status = context.getSharedPreferences("filter_status", Context.MODE_PRIVATE);
+    public void setFilterStatus(Context context, Login login) {
+        SharedPreferences filterStatus = context.getSharedPreferences("filter_status", Context.MODE_PRIVATE);
         List<Filter_Status> status = login.getFilter().getStatus();
         String[] sta = new String[status.size()];
         for (int i = 0; i < status.size(); i++) {
-            filter_status.edit().putString(status.get(i).getKey(), "" + status.get(i).getValue()).apply();
+            filterStatus.edit().putString(status.get(i).getKey(), "" + status.get(i).getValue()).apply();
             sta[i] = status.get(i).getKey();
         }
-        LoginToMain.mStatus=sta;
+        LoginToMain.mStatus = sta;
     }
 
     @Override
     public void setFilterType(Context context, Login login) {
-        SharedPreferences filter_project = context.getSharedPreferences("filter_type", Context.MODE_PRIVATE);
+        SharedPreferences filterProject = context.getSharedPreferences("filter_type", Context.MODE_PRIVATE);
         List<Filter_Project> projects = login.getFilter().getProject_type();
         String[] project = new String[projects.size()];
         for (int i = 0; i < projects.size(); i++) {
-            filter_project.edit().putString(projects.get(i).getKey(), projects.get(i).getValue()).apply();
+            filterProject.edit().putString(projects.get(i).getKey(), projects.get(i).getValue()).apply();
             project[i] = projects.get(i).getKey();
         }
-        LoginToMain.mProjects=project;
+        LoginToMain.mProjects = project;
     }
 
     @Override

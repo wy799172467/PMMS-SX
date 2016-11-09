@@ -20,8 +20,8 @@ public interface ILoginModel {
     void saveName(Login login);
     void saveUserAccount(Login login);
     void saveDepartment(Login login);
-    void setFilterYear(Context context,Login login);
-    void setFilterStatus(Context context,Login login);
+    void setFilterYear(Context context, Login login);
+    void setFilterStatus(Context context, Login login);
     void setFilterType(Context context, Login login);
     String[] getFilterYear();
     String[] getFilterStatus();

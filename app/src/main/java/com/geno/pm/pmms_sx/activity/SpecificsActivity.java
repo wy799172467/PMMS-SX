@@ -33,22 +33,25 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import butterknife.ButterKnife;
+
 public class SpecificsActivity extends AppCompatActivity implements ISpecificsView {
 
     private View mView1, mView2;
-    private List<View> mViewList = new ArrayList<>();//页卡视图集合
-    private List<String> mTitleList = new ArrayList<>();//页卡标题集合
+    private List<View> mViewList = new ArrayList<>(); //页卡视图集合
+    private List<String> mTitleList = new ArrayList<>(); //页卡标题集合
 
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
     private WebView mWebView;
-    private ProgressDialog dialog;
+    private ProgressDialog mDialog;
 
     @SuppressLint("InflateParams")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.specifics);
+        ButterKnife.bind(this);
 
         LayoutInflater mInflater = LayoutInflater.from(SpecificsActivity.this);
         mView1 = mInflater.inflate(R.layout.specifics_tablayout_recycler, null);
@@ -60,10 +63,10 @@ public class SpecificsActivity extends AppCompatActivity implements ISpecificsVi
         ISpecificsPresenter mISpecificsPresenter = SpecificsPresenter.getInstance();
         mISpecificsPresenter.init(this);
 
-        mISpecificsPresenter.setToolbar();//初始化导航栏
-        mISpecificsPresenter.setTabLayout();//初始化页卡
-        mISpecificsPresenter.setView1();//初始化List
-        mISpecificsPresenter.setView2();//初始化WebView
+        mISpecificsPresenter.setToolbar(); //初始化导航栏
+        mISpecificsPresenter.setTabLayout(); //初始化页卡
+        mISpecificsPresenter.setView1(); //初始化List
+        mISpecificsPresenter.setView2(); //初始化WebView
     }
 
     @Override
@@ -86,7 +89,7 @@ public class SpecificsActivity extends AppCompatActivity implements ISpecificsVi
         getWindowManager().getDefaultDisplay().getMetrics(metric);
         int width = metric.widthPixels;
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(SpecificsActivity.this));//设置线性布局
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(SpecificsActivity.this)); //设置线性布局
         MyRecyclerViewAdapter myAdapter = new MyRecyclerViewAdapter(mProjectDetail, width);
         mRecyclerView.setAdapter(myAdapter);
     }
@@ -100,11 +103,11 @@ public class SpecificsActivity extends AppCompatActivity implements ISpecificsVi
             mWebView.setWebViewClient(new WebViewClient() {
                 @Override
                 public void onPageFinished(WebView view, String url) {
-                    dialog.dismiss();
+                    mDialog.dismiss();
                 }
             });
             mWebView.loadUrl(url);
-            dialog = ProgressDialog.show(this, null, "页面加载中，请稍后..");
+            mDialog = ProgressDialog.show(this, null, "页面加载中，请稍后..");
             mWebView.reload();
         } else {
             Toast.makeText(SpecificsActivity.this, "页面加载失败", Toast.LENGTH_LONG).show();
@@ -125,15 +128,15 @@ public class SpecificsActivity extends AppCompatActivity implements ISpecificsVi
         Collections.addAll(mTitleList, tabTitle);
         /*mTitleList.add(mTabTitle[0]);
         mTitleList.add(mTabTitle[1]);*/
-        mTabLayout.setTabMode(TabLayout.MODE_FIXED);//设置tab模式，当前为系统默认模式
+        mTabLayout.setTabMode(TabLayout.MODE_FIXED); //设置tab模式，当前为系统默认模式
 //        mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(0)));//添加tab选项卡
 //        mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(1)));
         MyPagerAdapter mAdapter = new MyPagerAdapter(mViewList, mTitleList);
-        mViewPager.setAdapter(mAdapter);//给ViewPager设置适配器
-        mTabLayout.setupWithViewPager(mViewPager);//将TabLayout和ViewPager关联起来。
+        mViewPager.setAdapter(mAdapter); //给ViewPager设置适配器
+        mTabLayout.setupWithViewPager(mViewPager); //将TabLayout和ViewPager关联起来。
         //noinspection deprecation
-        mTabLayout.setTabsFromPagerAdapter(mAdapter);//给Tabs设置适配器
-        setIndicator(mTabLayout);//设置tabLayout的indicator的宽度
+        mTabLayout.setTabsFromPagerAdapter(mAdapter); //给Tabs设置适配器
+        setIndicator(mTabLayout); //设置tabLayout的indicator的宽度
     }
 
     //设置tabLayout的indicator的宽度
@@ -142,9 +145,9 @@ public class SpecificsActivity extends AppCompatActivity implements ISpecificsVi
         try {
             Field tabStrip = tabLayout.getDeclaredField("mTabStrip");
             tabStrip.setAccessible(true);
-            LinearLayout ll_tab = (LinearLayout) tabStrip.get(mTabLayout);
-            for (int i = 0; i < ll_tab.getChildCount(); i++) {
-                View child = ll_tab.getChildAt(i);
+            LinearLayout llTab = (LinearLayout) tabStrip.get(mTabLayout);
+            for (int i = 0; i < llTab.getChildCount(); i++) {
+                View child = llTab.getChildAt(i);
                 child.setPadding(0, 0, 0, 0);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1);
                 params.setMarginStart(140);

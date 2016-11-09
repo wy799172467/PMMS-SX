@@ -10,14 +10,17 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class SpecificsModel implements ISpecificsModel{
+public class SpecificsModel implements ISpecificsModel {
 
-    private final static String[] mTabTitle = new String[]{"基本信息", "项目流程"};
+    private static final String[] mTabTitle = new String[]{"基本信息", "项目流程"};
 
-    private static SpecificsModel mInstance=new SpecificsModel();
-    private SpecificsModel(){}
+    private static SpecificsModel mInstance = new SpecificsModel();
 
-    public static SpecificsModel getInstance(){
+    private SpecificsModel() {
+
+    }
+
+    public static SpecificsModel getInstance() {
         return mInstance;
     }
 
@@ -47,8 +50,8 @@ public class SpecificsModel implements ISpecificsModel{
                     }
 
                     @Override
-                    public void onNext(Project_Detail project_detail) {
-                        callback.onProjectDetailSuccess(project_detail);
+                    public void onNext(Project_Detail projectDetail) {
+                        callback.onProjectDetailSuccess(projectDetail);
 
                     }
                 });

@@ -21,9 +21,9 @@ public class MyReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
-            if (LoginActivity.IsLogin) {
+            if (LoginActivity.isLogin) {
                 Intent i = new Intent(context, MainActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(i);
             } else {
                 Intent i = new Intent(context, LoginActivity.class);
@@ -40,10 +40,10 @@ public class MyReceiver extends BroadcastReceiver {
             Log.i("JPush--------message", message);
             String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
 
-            DatabaseHelper database = new DatabaseHelper(context);//这段代码放到Activity类中才用this
+            DatabaseHelper database = new DatabaseHelper(context); //这段代码放到Activity类中才用this
             SQLiteDatabase db = database.getWritableDatabase();
             @SuppressLint("Recycle")
-            Cursor cursor = db.query("information", null, null, null, null, null, null);//查询并获得游标
+            Cursor cursor = db.query("information", null, null, null, null, null, null); //查询并获得游标
             int count = cursor.getCount();
             cursor.moveToNext();
             if (count < 10) {

@@ -10,6 +10,7 @@ import java.util.List;
 public interface IMainModel {
 
     void init();
+
     //toolbar
     List<Information> getInformation(Context context);
 
@@ -18,15 +19,25 @@ public interface IMainModel {
 
     //FilterItem    获取过滤信息
     void setFilterYear(String year);
+
     String getFilterYear();
+
     void setFilterStatus(String status);
+
     String getFilterStatus();
+
     void setFilterType(String type);
+
     String getFilterType();
-    String getFilterTypeSharedPreferences(Context context,String filter);
-    String getFilterYearSharedPreferences(Context context,String filter);
-    String getFilterStatusSharedPreferences(Context context,String filter);
-    void getFilterProjects(String TYPE, String YEAR, String STATUS, ProjectResult callback);
+
+    String getFilterTypeSharedPreferences(Context context, String filter);
+
+    String getFilterYearSharedPreferences(Context context, String filter);
+
+    String getFilterStatusSharedPreferences(Context context, String filter);
+
+    void getFilterProjects(String type, String year, String status, ProjectResult callback);
+
     interface ProjectResult {
         void onProjectSuccess(List<Project> projects);
 
@@ -35,7 +46,9 @@ public interface IMainModel {
 
     //设置联动
     String[] getAllFilterYear();
+
     String[] getAllFilterStatus();
+
     String[] getAllFilterType();
 
     //获取全部工程

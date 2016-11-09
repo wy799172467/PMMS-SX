@@ -52,7 +52,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
     /**
      * 模拟登陆标志
      */
-    public static boolean IsLogin = false;
+    public static boolean isLogin = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,8 +65,8 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
         setContentView(R.layout.login);
         ButterKnife.bind(this);
 
-        setHintText(mUsernameEditText, R.string.username);//设置hint
-        setHintText(mPasswordEditText, R.string.password);//设置hint
+        setHintText(mUsernameEditText, R.string.username); //设置hint
+        setHintText(mPasswordEditText, R.string.password); //设置hint
 
         //设置布局文件上移
 //        mUsernameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -124,12 +124,12 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
 
     //设置hint
     private void setHintText(EditText editText, int resources) {
-        SpannableString ss = new SpannableString(getResources().getString(resources));//定义hint的值
-        AbsoluteSizeSpan ass = new AbsoluteSizeSpan(14, true);//设置字体大小 true表示单位是sp
-        ss.setSpan(ass, 0, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);//设置字体大小
+        SpannableString ss = new SpannableString(getResources().getString(resources)); //定义hint的值
+        AbsoluteSizeSpan ass = new AbsoluteSizeSpan(14, true); //设置字体大小 true表示单位是sp
+        ss.setSpan(ass, 0, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); //设置字体大小
         //noinspection deprecation
         ss.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.hint_bg)), 0, ss.length(),
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);//设置字体颜色
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); //设置字体颜色
         editText.setHint(new SpannedString(ss));
     }
 
@@ -166,9 +166,9 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
     @Override
     public void loginSuccess(Login login) {
 
-        IsLogin = true;//监听登陆状态
-        setPush();//设置推送
-        setAliasAndTags(login);//设置推送标签
+        isLogin = true; //监听登陆状态
+        setPush(); //设置推送
+        setAliasAndTags(login); //设置推送标签
 
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
@@ -226,7 +226,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
         JPushInterface.setAliasAndTags(LoginActivity.this, null, label, new TagAliasCallback() {
             @Override
             public void gotResult(int arg0, String s, Set<String> set) {
-                Log.i("JPush", "Jpush status: " + arg0);//状态  为 0 时标示成功
+                Log.i("JPush", "Jpush status: " + arg0); //状态  为 0 时标示成功
                 if (arg0 == 0) {
                     Toast.makeText(LoginActivity.this, "推送身份验证成功", Toast.LENGTH_LONG).show();
                 } else {

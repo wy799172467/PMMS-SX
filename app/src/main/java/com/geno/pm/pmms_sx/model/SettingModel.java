@@ -3,22 +3,25 @@ package com.geno.pm.pmms_sx.model;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class SettingModel implements ISettingModel{
+public class SettingModel implements ISettingModel {
 
     private static final String NAME = "姓名";
     private static final String USER_ACCOUNT = "账号";
     private static final String DEPARTMENT = "部门";
-    private SharedPreferences userData;
+    private SharedPreferences mUserData;
 
-    private static SettingModel mInstance=new SettingModel();
-    private SettingModel(){}
-    public static SettingModel getInstance(){
+    private static SettingModel mInstance = new SettingModel();
+
+    private SettingModel() {
+    }
+
+    public static SettingModel getInstance() {
         return mInstance;
     }
 
     @Override
     public void init(Context context) {
-        userData = context.getSharedPreferences("UserData", Context.MODE_PRIVATE);
+        mUserData = context.getSharedPreferences("UserData", Context.MODE_PRIVATE);
     }
 
     @Override
@@ -28,7 +31,7 @@ public class SettingModel implements ISettingModel{
 
     @Override
     public String getUserAccountValue() {
-        return userData.getString("userAccount", "");
+        return mUserData.getString("userAccount", "");
     }
 
     @Override
@@ -38,7 +41,7 @@ public class SettingModel implements ISettingModel{
 
     @Override
     public String getUserNameValue() {
-        return userData.getString("name", "");
+        return mUserData.getString("name", "");
     }
 
     @Override
@@ -48,6 +51,6 @@ public class SettingModel implements ISettingModel{
 
     @Override
     public String getDepartmentValue() {
-        return userData.getString("Department", "");
+        return mUserData.getString("Department", "");
     }
 }

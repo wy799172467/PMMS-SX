@@ -37,7 +37,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-public class MainActivity extends AppCompatActivity implements  MyReceiver.InformationIcon,IMainView {
+public class MainActivity extends AppCompatActivity implements MyReceiver.InformationIcon, IMainView {
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -65,13 +65,13 @@ public class MainActivity extends AppCompatActivity implements  MyReceiver.Infor
     private TextView mTextView1;
     private TextView mTextView2;
     private TextView mTextView3;
-    private ViewGroup informationInflate;
-    private PopupWindow informationPopupWindow ;
-    private View filterListInflate;
-    private PopupWindow filterPopupWindow;
-    private ImageView filterImage1;
-    private ImageView filterImage2;
-    private ImageView filterImage3;
+    private ViewGroup mInformationInflate;
+    private PopupWindow mInformationPopupWindow;
+    private View mFilterListInflate;
+    private PopupWindow mFilterPopupWindow;
+    private ImageView mFilterImage1;
+    private ImageView mFilterImage2;
+    private ImageView mFilterImage3;
 
 
     /*private static final String ACTION1 = "cn.jpush.android.intent.REGISTRATION";
@@ -83,9 +83,9 @@ public class MainActivity extends AppCompatActivity implements  MyReceiver.Infor
     private static final String ACTION6 = "cn.jpush.android.intent.CONNECTION";*/
 
     @SuppressLint("StaticFieldLeak")
-    public static MainActivity mInstance;//用于别的activity操作本activity
+    public static MainActivity mInstance; //用于别的activity操作本activity
 
-    private ImageView icon_information;
+    private ImageView mIconInformation;
     private IMainPresenter mMainPresenter;
 
     @Override
@@ -94,10 +94,10 @@ public class MainActivity extends AppCompatActivity implements  MyReceiver.Infor
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        mInstance = this;//用于别的activity操作本activity
+        mInstance = this; //用于别的activity操作本activity
         mInflater = LayoutInflater.from(this);
 
-        mMainPresenter= MainPresenter.getInstance();
+        mMainPresenter = MainPresenter.getInstance();
         mMainPresenter.init(this);
         initToolBar();
 
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements  MyReceiver.Infor
     public void filterDismiss() {
         mLPopupHide.setVisibility(View.INVISIBLE);
         mListView.setEnabled(true);
-        filterPopupWindow.dismiss();
+        mFilterPopupWindow.dismiss();
     }
 
     /*private void setBroadcastReceiver() {
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements  MyReceiver.Infor
         @Override
         public void onReceive(Context context, Intent intent) {
             if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
-                if (LoginActivity.IsLogin) {
+                if (LoginActivity.isLogin) {
                     Intent i = new Intent(context, LoginActivity.class);
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(i);
@@ -169,9 +169,9 @@ public class MainActivity extends AppCompatActivity implements  MyReceiver.Infor
                 }
 
 
-                if(icon_information!=null){
+                if(mIconInformation!=null){
                     //noinspection deprecation
-                    icon_information.setImageDrawable(getResources().
+                    mIconInformation.setImageDrawable(getResources().
                             getDrawable(R.drawable.icon_information_new));
                 }
                 onResume();
@@ -200,8 +200,8 @@ public class MainActivity extends AppCompatActivity implements  MyReceiver.Infor
 
         @SuppressLint("InflateParams")
         ViewGroup customView = (ViewGroup) mInflater.inflate(R.layout.main_toolbar, null);
-        ImageView icon_setting = (ImageView) customView.findViewById(R.id.main_toolbar_image);
-        icon_setting.setOnClickListener(new View.OnClickListener() {
+        ImageView iconSetting = (ImageView) customView.findViewById(R.id.main_toolbar_image);
+        iconSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, SettingActivity.class);
@@ -209,9 +209,9 @@ public class MainActivity extends AppCompatActivity implements  MyReceiver.Infor
             }
         });
 
-        icon_information = (ImageView) customView.findViewById(R.id.main_icon_information);
-        informationInflate = (ViewGroup) mInflater.inflate(R.layout.information_list, null);
-        icon_information.setOnClickListener(new View.OnClickListener() {
+        mIconInformation = (ImageView) customView.findViewById(R.id.main_icon_information);
+        mInformationInflate = (ViewGroup) mInflater.inflate(R.layout.information_list, null);
+        mIconInformation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //noinspection deprecation
@@ -254,10 +254,10 @@ public class MainActivity extends AppCompatActivity implements  MyReceiver.Infor
     //关闭InformationPopupWindow
     @Override
     public void setInformationPopupWindowCloseListen() {
-        informationInflate.findViewById(R.id.information_list_close).setOnClickListener(new View.OnClickListener() {
+        mInformationInflate.findViewById(R.id.information_list_close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                informationPopupWindow.dismiss();
+                mInformationPopupWindow.dismiss();
                 mWindowHide.setVisibility(View.INVISIBLE);
                 mListView.setEnabled(true);
             }
@@ -273,7 +273,7 @@ public class MainActivity extends AppCompatActivity implements  MyReceiver.Infor
         //noinspection deprecation
         int width = wm.getDefaultDisplay().getWidth();
 //        int height = wm.getDefaultDisplay().getHeight();
-        final PopupWindow popupWindow = new PopupWindow(informationInflate, width - 80,
+        final PopupWindow popupWindow = new PopupWindow(mInformationInflate, width - 80,
                 1200);
         popupWindow.setTouchable(true);
         popupWindow.setOutsideTouchable(false);
@@ -286,18 +286,18 @@ public class MainActivity extends AppCompatActivity implements  MyReceiver.Infor
                 mListView.setEnabled(true);
             }
         });
-        informationPopupWindow=popupWindow;
+        mInformationPopupWindow = popupWindow;
         //noinspection deprecation
-        icon_information.setImageDrawable(getResources().getDrawable(R.drawable.icon_information));
-        if (!informationPopupWindow.isShowing()) {
-            informationPopupWindow.showAsDropDown(findViewById(R.id.toolbar), 40, 0, Gravity.CENTER);
+        mIconInformation.setImageDrawable(getResources().getDrawable(R.drawable.icon_information));
+        if (!mInformationPopupWindow.isShowing()) {
+            mInformationPopupWindow.showAsDropDown(findViewById(R.id.toolbar), 40, 0, Gravity.CENTER);
         }
     }
 
     //展示消息数据
     @Override
     public void showInformationData(List<Information> information) {
-        ListView list = (ListView) informationInflate.findViewById(R.id.information_list);
+        ListView list = (ListView) mInformationInflate.findViewById(R.id.information_list);
         MyInformationListAdapter adapter = new MyInformationListAdapter(MainActivity.this, information);
         list.setAdapter(adapter);
     }
@@ -309,17 +309,17 @@ public class MainActivity extends AppCompatActivity implements  MyReceiver.Infor
         @SuppressLint("InflateParams")
         ViewGroup view1 = (ViewGroup) mInflater.inflate(R.layout.filter, null);
         mTextView1 = (TextView) view1.findViewById(R.id.filter_text);
-        filterImage1 = (ImageView) view1.findViewById(R.id.filter_image);
+        mFilterImage1 = (ImageView) view1.findViewById(R.id.filter_image);
         mTextView1.setText(filter[0]);
         @SuppressLint("InflateParams")
         ViewGroup view2 = (ViewGroup) mInflater.inflate(R.layout.filter, null);
         mTextView2 = (TextView) view2.findViewById(R.id.filter_text);
-        filterImage2 = (ImageView) view2.findViewById(R.id.filter_image);
+        mFilterImage2 = (ImageView) view2.findViewById(R.id.filter_image);
         mTextView2.setText(filter[1]);
         @SuppressLint("InflateParams")
         ViewGroup view3 = (ViewGroup) mInflater.inflate(R.layout.filter, null);
         mTextView3 = (TextView) view3.findViewById(R.id.filter_text);
-        filterImage3 = (ImageView) view3.findViewById(R.id.filter_image);
+        mFilterImage3 = (ImageView) view3.findViewById(R.id.filter_image);
         mTextView3.setText(filter[2]);
         mLinearLayout1.addView(view1);
         mLinearLayout2.addView(view2);
@@ -327,8 +327,8 @@ public class MainActivity extends AppCompatActivity implements  MyReceiver.Infor
     }
 
     @Override
-    public void setFilterItem(){
-        ListView filterList = (ListView) filterListInflate.findViewById(R.id.filter_list);
+    public void setFilterItem() {
+        ListView filterList = (ListView) mFilterListInflate.findViewById(R.id.filter_list);
         filterList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -342,7 +342,7 @@ public class MainActivity extends AppCompatActivity implements  MyReceiver.Infor
     @Override
     public boolean isFilterImage2Up() {
         //noinspection ConstantConditions,deprecation
-        return filterImage2.getDrawable().getConstantState().
+        return mFilterImage2.getDrawable().getConstantState().
                 equals(getResources().getDrawable(R.drawable.icon_up).getConstantState());
     }
 
@@ -363,23 +363,23 @@ public class MainActivity extends AppCompatActivity implements  MyReceiver.Infor
 
     @Override
     public void setFilterImage1Up() {
-        filterImage1.setImageResource(R.drawable.icon_up);
+        mFilterImage1.setImageResource(R.drawable.icon_up);
     }
 
     @Override
     public void setFilterImage2Up() {
-        filterImage2.setImageResource(R.drawable.icon_up);
+        mFilterImage2.setImageResource(R.drawable.icon_up);
     }
 
     @Override
     public void setFilterImage3Up() {
-        filterImage3.setImageResource(R.drawable.icon_up);
+        mFilterImage3.setImageResource(R.drawable.icon_up);
     }
 
     @Override
     public boolean isFilterImage1Up() {
         //noinspection ConstantConditions,deprecation
-        return filterImage1.getDrawable().getConstantState().
+        return mFilterImage1.getDrawable().getConstantState().
                 equals(getResources().getDrawable(R.drawable.icon_up).getConstantState());
     }
 
@@ -420,57 +420,64 @@ public class MainActivity extends AppCompatActivity implements  MyReceiver.Infor
     }
 
     @Override
+    public void setBackWindowAction() {
+        mWindowHide.setVisibility(View.VISIBLE);
+        mWindowHide.getBackground().setAlpha(153);
+        mListView.setEnabled(false);
+    }
+
+    @Override
     public void showFilterPopWindow() {
-        filterPopupWindow.showAsDropDown(mBottomLine);
+        mFilterPopupWindow.showAsDropDown(mBottomLine);
     }
 
     @Override
     public boolean isFilterImage3Down() {
         //noinspection ConstantConditions,deprecation
-        return filterImage3.getDrawable().getConstantState().
+        return mFilterImage3.getDrawable().getConstantState().
                 equals(getResources().getDrawable(R.drawable.icon_drop).getConstantState());
     }
 
     @Override
     public void setFilterImage1Down() {
-        filterImage1.setImageResource(R.drawable.icon_drop);
+        mFilterImage1.setImageResource(R.drawable.icon_drop);
     }
 
     @Override
     public void setFilterImage2Down() {
-        filterImage2.setImageResource(R.drawable.icon_drop);
+        mFilterImage2.setImageResource(R.drawable.icon_drop);
     }
 
     @Override
     public void setFilterImage3Down() {
-        filterImage3.setImageResource(R.drawable.icon_drop);
+        mFilterImage3.setImageResource(R.drawable.icon_drop);
     }
 
     @Override
     public boolean isFilterImage1Down() {
         //noinspection ConstantConditions,deprecation
-        return filterImage1.getDrawable().getConstantState().
+        return mFilterImage1.getDrawable().getConstantState().
                 equals(getResources().getDrawable(R.drawable.icon_drop).getConstantState());
     }
 
     @Override
     public boolean isFilterImage2Down() {
         //noinspection ConstantConditions,deprecation
-        return filterImage2.getDrawable().getConstantState().
+        return mFilterImage2.getDrawable().getConstantState().
                 equals(getResources().getDrawable(R.drawable.icon_drop).getConstantState());
     }
 
     @Override
     public boolean isFilterPopupWindowShowing() {
-        return filterPopupWindow.isShowing();
+        return mFilterPopupWindow.isShowing();
     }
 
     //初始化PopWindow
     @SuppressLint("InflateParams")
     @Override
     public void initFilterPopupWindow() {
-        filterListInflate = mInflater.inflate(R.layout.filter_list, null);
-        final PopupWindow popupWindow = new PopupWindow(filterListInflate, LinearLayout.LayoutParams.MATCH_PARENT,
+        mFilterListInflate = mInflater.inflate(R.layout.filter_list, null);
+        final PopupWindow popupWindow = new PopupWindow(mFilterListInflate, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         popupWindow.setTouchable(true);
         popupWindow.setOutsideTouchable(false);
@@ -492,7 +499,7 @@ public class MainActivity extends AppCompatActivity implements  MyReceiver.Infor
 //                findViewById(R.id.listView).setEnabled(true);
 //            }
 //        });
-        filterPopupWindow = popupWindow;
+        mFilterPopupWindow = popupWindow;
     }
 
     //设置popupWindow消失
@@ -502,17 +509,17 @@ public class MainActivity extends AppCompatActivity implements  MyReceiver.Infor
             @Override
             public void onClick(View view) {
                 //noinspection ConstantConditions,deprecation
-                if (filterImage1.getDrawable().getConstantState().
+                if (mFilterImage1.getDrawable().getConstantState().
                         equals(getResources().getDrawable(R.drawable.icon_up).getConstantState())) {
-                    filterImage1.setImageResource(R.drawable.icon_drop);
+                    mFilterImage1.setImageResource(R.drawable.icon_drop);
                 } else //noinspection ConstantConditions,deprecation
-                    if (filterImage2.getDrawable().getConstantState().
+                    if (mFilterImage2.getDrawable().getConstantState().
                             equals(getResources().getDrawable(R.drawable.icon_up).getConstantState())) {
-                        filterImage2.setImageResource(R.drawable.icon_drop);
+                        mFilterImage2.setImageResource(R.drawable.icon_drop);
                     } else {
-                        filterImage3.setImageResource(R.drawable.icon_drop);
+                        mFilterImage3.setImageResource(R.drawable.icon_drop);
                     }
-                filterPopupWindow.dismiss();
+                mFilterPopupWindow.dismiss();
                 mLPopupHide.setVisibility(View.INVISIBLE);
                 mListView.setEnabled(true);
             }
@@ -521,8 +528,8 @@ public class MainActivity extends AppCompatActivity implements  MyReceiver.Infor
 
     //装载PopWindow的数据
     @Override
-    public void setPopData( String[] data) {
-        ListView popListView = (ListView) filterListInflate
+    public void setPopData(String[] data) {
+        ListView popListView = (ListView) mFilterListInflate
                 .findViewById(R.id.filter_list);
         ArrayAdapter adapter = new ArrayAdapter<>(this,
                 R.layout.filter_list_item, data);
@@ -540,8 +547,8 @@ public class MainActivity extends AppCompatActivity implements  MyReceiver.Infor
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Project project = projects.get(i);
                 Intent intent = new Intent(MainActivity.this, SpecificsActivity.class);
-                MainToSpecifics.mProjectNo=project.getProjectNo();
-                MainToSpecifics.mProjectName=project.getProjectName();
+                MainToSpecifics.mProjectNo = project.getProjectNo();
+                MainToSpecifics.mProjectName = project.getProjectName();
                 startActivity(intent);
             }
         });
@@ -555,9 +562,9 @@ public class MainActivity extends AppCompatActivity implements  MyReceiver.Infor
 
     @Override
     public void setInformationIcon() {
-        if (icon_information != null) {
+        if (mIconInformation != null) {
             //noinspection deprecation
-            icon_information.setImageDrawable(getResources().
+            mIconInformation.setImageDrawable(getResources().
                     getDrawable(R.drawable.icon_information_new));
         }
         onResume();

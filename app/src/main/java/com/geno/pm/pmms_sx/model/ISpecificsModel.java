@@ -15,7 +15,7 @@ public interface ISpecificsModel {
     //view1
     void getProjectDetail(ProjectDetailResult callback);
     interface ProjectDetailResult {
-        void onProjectDetailSuccess(Project_Detail project_detail);
+        void onProjectDetailSuccess(Project_Detail projectDetail);
 
         void onProjectDetailFailed();
     }

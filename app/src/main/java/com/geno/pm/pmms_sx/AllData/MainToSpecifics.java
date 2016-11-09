@@ -5,4 +5,8 @@ public class MainToSpecifics {
     public static String mProjectNo;
 
     public static String mProjectName;
+
+    private MainToSpecifics() {
+
+    }
 }

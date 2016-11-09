@@ -22,15 +22,18 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class MainModel implements IMainModel{
+public class MainModel implements IMainModel {
 
     private String YEAR = "all";
     private String STATUS = "all";
     private String TYPE = "all";
 
-    private static MainModel mInstance=new MainModel();
-    private MainModel(){}
-    public static MainModel getInstance(){
+    private static MainModel mInstance = new MainModel();
+
+    private MainModel() {
+    }
+
+    public static MainModel getInstance() {
         return mInstance;
     }
 
@@ -42,10 +45,10 @@ public class MainModel implements IMainModel{
 
     @Override
     public List<Information> getInformation(Context context) {
-        DatabaseHelper database = new DatabaseHelper(context);//这段代码放到Activity类中才用this
+        DatabaseHelper database = new DatabaseHelper(context); //这段代码放到Activity类中才用this
         SQLiteDatabase db = database.getWritableDatabase();
         @SuppressLint("Recycle")
-        Cursor mCursor = db.query("information", null, null, null, null, null, null);//查询并获得游标
+        Cursor mCursor = db.query("information", null, null, null, null, null, null); //查询并获得游标
         List<Information> informations = new ArrayList<>();
         while (mCursor.moveToNext()) {
             Information information = new Information();
@@ -64,7 +67,7 @@ public class MainModel implements IMainModel{
 
     @Override
     public void setFilterYear(String year) {
-        YEAR=year;
+        YEAR = year;
     }
 
     @Override
@@ -74,7 +77,7 @@ public class MainModel implements IMainModel{
 
     @Override
     public void setFilterStatus(String status) {
-        STATUS=status;
+        STATUS = status;
     }
 
     @Override
@@ -84,7 +87,7 @@ public class MainModel implements IMainModel{
 
     @Override
     public void setFilterType(String type) {
-        TYPE=type;
+        TYPE = type;
     }
 
     @Override
@@ -108,10 +111,10 @@ public class MainModel implements IMainModel{
     }
 
     @Override
-    public void getFilterProjects(String TYPE, String YEAR, String STATUS,
+    public void getFilterProjects(String type, String year, String status,
                                   final ProjectResult callback) {
         Observable<List<Project>> filterProject = Util.getInstance().
-                getFilterProject(TYPE, YEAR, STATUS);
+                getFilterProject(type, year, status);
         filterProject.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<Project>>() {
                     @Override

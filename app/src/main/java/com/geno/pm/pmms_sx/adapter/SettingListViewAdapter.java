@@ -28,7 +28,7 @@ public class SettingListViewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return mFields.length - 1;//序列化之后会多一个字段,处理方式如下
+        return mFields.length - 1; //序列化之后会多一个字段,处理方式如下
     }
 
     @Override

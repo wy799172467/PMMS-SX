@@ -36,7 +36,9 @@ public class LoginPresenter implements ILoginPresenter {
     @Override
     public void login() {
 
-        if (checkFillContent()) return;
+        if (checkFillContent()) {
+            return;
+        }
 
         saveLoginInformation();
 
@@ -49,9 +51,9 @@ public class LoginPresenter implements ILoginPresenter {
                 mILoginModel.saveName(login);
                 mILoginModel.saveUserAccount(login);
                 mILoginModel.saveDepartment(login);
-                mILoginModel.setFilterYear((Context)mILoginView, login);
-                mILoginModel.setFilterStatus((Context)mILoginView,login);
-                mILoginModel.setFilterType((Context)mILoginView,login);
+                mILoginModel.setFilterYear((Context) mILoginView, login);
+                mILoginModel.setFilterStatus((Context) mILoginView, login);
+                mILoginModel.setFilterType((Context) mILoginView, login);
                 mILoginView.loginSuccess(login);
             }
 

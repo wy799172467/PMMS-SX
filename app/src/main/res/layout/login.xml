@@ -106,7 +106,6 @@
         android:imeOptions="actionNext"
         android:paddingBottom="@dimen/input_size"
         android:paddingStart="@dimen/input_padding"
-        android:singleLine="true"
         tools:ignore="RtlSymmetry" />
 
     <ImageView

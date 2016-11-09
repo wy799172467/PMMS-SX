@@ -6,22 +6,24 @@ import com.geno.pm.pmms_sx.activity.ISpecificsView;
 import com.geno.pm.pmms_sx.model.ISpecificsModel;
 import com.geno.pm.pmms_sx.model.SpecificsModel;
 
-public class SpecificsPresenter implements ISpecificsPresenter{
+public class SpecificsPresenter implements ISpecificsPresenter {
 
     private ISpecificsView mISpecificsView;
     private ISpecificsModel mISpecificsModel;
 
-    private static SpecificsPresenter mInstance =new SpecificsPresenter();
-    private SpecificsPresenter(){}
+    private static SpecificsPresenter mInstance = new SpecificsPresenter();
 
-    public static SpecificsPresenter getInstance(){
+    private SpecificsPresenter() {
+    }
+
+    public static SpecificsPresenter getInstance() {
         return mInstance;
     }
 
     @Override
     public void init(ISpecificsView iSpecificsView) {
-        mISpecificsView=iSpecificsView;
-        mISpecificsModel= SpecificsModel.getInstance();
+        mISpecificsView = iSpecificsView;
+        mISpecificsModel = SpecificsModel.getInstance();
         mISpecificsModel.init();
     }
 
@@ -40,9 +42,9 @@ public class SpecificsPresenter implements ISpecificsPresenter{
         mISpecificsView.showWaiting();
         mISpecificsModel.getProjectDetail(new ISpecificsModel.ProjectDetailResult() {
             @Override
-            public void onProjectDetailSuccess(Project_Detail project_detail) {
+            public void onProjectDetailSuccess(Project_Detail projectDetail) {
                 mISpecificsView.hideWaiting();
-                mISpecificsView.initProjectDetailList(project_detail);
+                mISpecificsView.initProjectDetailList(projectDetail);
             }
 
             @Override

@@ -30,7 +30,7 @@ public interface IMainView {
     void setFilterImage3Up();
     void filterDismiss();
     void projectCallToast(String message);
-    void initListView(final List<Project> projects);
+    void initListView(List<Project> projects);
 
     //设置联动
     boolean isFilterPopupWindowShowing();
@@ -50,4 +50,5 @@ public interface IMainView {
 
 
     void setBackViewAction();
+    void setBackWindowAction();
 }
