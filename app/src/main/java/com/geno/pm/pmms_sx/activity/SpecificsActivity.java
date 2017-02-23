@@ -137,6 +137,7 @@ public class SpecificsActivity extends AppCompatActivity implements ISpecificsVi
         //noinspection deprecation
         mTabLayout.setTabsFromPagerAdapter(mAdapter); //给Tabs设置适配器
         setIndicator(mTabLayout); //设置tabLayout的indicator的宽度
+
     }
 
     //设置tabLayout的indicator的宽度
