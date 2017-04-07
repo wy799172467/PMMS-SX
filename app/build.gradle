@@ -28,6 +28,7 @@ android {
             if(rootProject.file("local.properties").exists()) {
                 properties.load(rootProject.file("local.properties").newDataInputStream())
             }
+            
             storeFile System.getenv("FLOW_CERTIFICATE_FILE")
             storePassword  System.getenv("FLOW_KEYSTORE_PASS")
             keyAlias System.getenv("FLOW_ALIAS_NAME")
