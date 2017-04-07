@@ -22,17 +22,10 @@ android {
     }
     signingConfigs {
         release {
-            // default keystore file, PLZ config file path in local.properties
-            Properties properties = new Properties()
-            //加载本地local.properties文件
-            if(rootProject.file("local.properties").exists()) {
-                properties.load(rootProject.file("local.properties").newDataInputStream())
-            }
-            
-            storeFile System.getenv("FLOW_CERTIFICATE_FILE")
-            storePassword  System.getenv("FLOW_KEYSTORE_PASS")
-            keyAlias System.getenv("FLOW_ALIAS_NAME")
-            keyPassword System.getenv("FLOW_ALIAS_PASS")
+            storeFile file("PMMS.keystore")
+            storePassword "Sipsd@pmms123"
+            keyAlias "pmms"
+            keyPassword "Sipsd@pmms123"
         }
     }
     buildTypes {
